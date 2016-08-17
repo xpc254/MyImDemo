@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="black">#000</color>
     <color name="blue">#009be0</color>
+    <!-- 深半透明 -->
+    <color name="dark_translucent">#e0000000</color>
 </resources>

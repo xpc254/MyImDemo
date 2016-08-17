@@ -9,6 +9,10 @@ public class KeyValuePair {
     /**值*/
     private String value;
 
+    public KeyValuePair(String key,String value){
+        this.key = key;
+        this.value = value;
+    }
     public String getValue() {
         return value;
     }

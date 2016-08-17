@@ -1,5 +1,6 @@
 package com.xpc.myimdemo.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -20,6 +21,7 @@ import java.util.List;
  */
 public class BaseHttpActivity extends BaseActivity{
     private RequestQueue requestQueue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +33,7 @@ public class BaseHttpActivity extends BaseActivity{
      * @param request
      * @param listener
      */
-    protected void httpPost(int what, Request<String> request, final OnHttpResponseListener listener) {
+    protected void httpPostAsync(int what, Request<String> request, final OnHttpResponseListener listener) {
         requestQueue.add(what, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -40,8 +42,12 @@ public class BaseHttpActivity extends BaseActivity{
             }
             @Override
             public void onSucceed(int what, Response<String> response) {
-                Log.i(Constant.TAG, "onSucceed: " + response.get());
-                listener.onSucceed(what, response);
+                if (response.isSucceed()) {
+                    Log.i(Constant.TAG, "response---- " + response.get());
+                    listener.onSucceed(what, response);
+                }else{
+                    Log.i(Constant.TAG, "response: --- failed");
+                }
             }
             @Override
             public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
@@ -62,7 +68,7 @@ public class BaseHttpActivity extends BaseActivity{
      * @param parmaValues 参数键值对集合 (没有参数传入null)
      * @param listener 自定义监听回调
      */
-    protected void httpPost(int what, String url, List<KeyValuePair> parmaValues, final OnHttpResponseListener listener) {
+    protected void httpPostAsync(int what, String url, List<KeyValuePair> parmaValues, final OnHttpResponseListener listener) {
         // String 请求对象
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         Log.i(Constant.TAG, "url-----" + url);
@@ -72,7 +78,7 @@ public class BaseHttpActivity extends BaseActivity{
                 request.add(keyValue.getKey(), keyValue.getValue());
             }
         }
-        httpPost(what,request,listener);
+        httpPostAsync(what,request,listener);
     }
 
     /**
@@ -82,7 +88,7 @@ public class BaseHttpActivity extends BaseActivity{
      * @param parmaValues 参数键值对集合 (没有参数传入null)
      * @param listener 回调监听
      */
-    protected void httpPost(int what, String url, List<KeyValuePair> parmaValues,OnResponseListener listener) {
+    protected void httpPostAsync(int what, String url, List<KeyValuePair> parmaValues,OnResponseListener listener) {
         // String 请求对象
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         Log.i(Constant.TAG, "url-----" + url);
@@ -92,9 +98,9 @@ public class BaseHttpActivity extends BaseActivity{
                 request.add(keyValue.getKey(), keyValue.getValue());
             }
         }
-        httpPost(what,request,listener);
+        httpPostAsync(what,request,listener);
     }
-    protected void httpPost(int what, Request<String> request, OnResponseListener listener) {
+    protected void httpPostAsync(int what, Request<String> request, OnResponseListener listener) {
         requestQueue.add(what, request, listener);
     }
 
