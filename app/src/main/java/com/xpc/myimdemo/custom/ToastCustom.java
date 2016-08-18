@@ -34,7 +34,7 @@ public class ToastCustom {
 
 	LayoutInflater inflater = (LayoutInflater) context
 		.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	mView = inflater.inflate(R.layout.view_custom_toast, null);
+	mView = inflater.inflate(R.layout.toast_view_custom, null);
 	TextView textView = (TextView) mView.findViewById(R.id.toast_content);
 	textView.setText(text);
 	// toast.setView(layout);
@@ -63,7 +63,7 @@ public class ToastCustom {
 	LayoutInflater inflater = (LayoutInflater) context
 		.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	// 由layout文件创建一个View对象
-	mView = inflater.inflate(R.layout.view_custom_toast, null);
+	mView = inflater.inflate(R.layout.toast_view_custom, null);
 
 	// 实例化ImageView和TextView对象
 	ImageView imageView = (ImageView) mView.findViewById(R.id.img_toast);

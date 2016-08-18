@@ -1,15 +1,15 @@
 package com.xpc.myimdemo;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.xpc.myimdemo.model.User;
 import com.xpc.myimdemo.base.BaseHttpActivity;
 import com.xpc.myimdemo.config.ActionConfigs;
 import com.xpc.myimdemo.data.UserPrefs;
 import com.xpc.myimdemo.http.KeyValuePair;
-import com.xpc.myimdemo.http.OnHttpResponseListener;
+import com.xpc.myimdemo.http.OnHttpListener;
 import com.xpc.myimdemo.util.JsonUtils;
 import com.xpc.myimdemo.util.MyLog;
 import com.yolanda.nohttp.rest.Response;
@@ -56,6 +56,7 @@ public class MainActivity extends BaseHttpActivity {
             return;
         }
         MyLog.i("用户名："+ userAccount+",密码："+ userPwd);
+        getUserInfo();
     }
     /**
      * 获取用户信息
@@ -67,42 +68,42 @@ public class MainActivity extends BaseHttpActivity {
         params.add(new KeyValuePair("password", userPwd));
         httpPostAsync(0,ActionConfigs.GET_MY_INFO, params, onResponseListener);
     }
-   OnHttpResponseListener onResponseListener = new OnHttpResponseListener<String>() {
-       @Override
-       public void onSucceed(int what, Response<String> response) {
-           try {
-               JSONObject loginObject = new JSONObject(response.get());
-               if (JsonUtils.isExistObj(loginObject, "isExist")) {
-                   if (loginObject.optString("isExist").equals("1")) {// 帐号存在
-                       if (JsonUtils.isExistObj(loginObject, "msg")) {
-                           if (loginObject.optString("msg").equals( "success")) {// 登录成功
-                           } else {
-                               showToast(mContext,loginObject.optString("reason"));
-                               loginFail();
-                           }
-                       } else {
-//                           UserPrefs.setUserAccount(userAccount);
-//                           UserPrefs.setUserPwd(userPwd);
-//                           UserPrefs.setUser(new User(loginObject));
+    OnHttpListener onResponseListener = new OnHttpListener<String>() {
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            try {
+                JSONObject loginObject = new JSONObject(response.get());
+                if (JsonUtils.isExistObj(loginObject, "isExist")) {
+                    if (loginObject.optString("isExist").equals("1")) {// 帐号存在
+                        if (JsonUtils.isExistObj(loginObject, "msg")) {
+                            if (loginObject.optString("msg").equals( "success")) {// 登录成功
+                            } else {
+                                showToast(mContext,loginObject.optString("reason"));
+                                loginFail();
+                            }
+                        } else {
+                           UserPrefs.setUserAccount(userAccount);
+                           UserPrefs.setUserPwd(userPwd);
+                           UserPrefs.setUser(new User(loginObject));
 //                           LoginSocketTask connectSocketTask = new LoginSocketTask( mContext);
 //                           connectSocketTask.execute();
-                       }
-                   } else {
-                       showToast(mContext, loginObject.optString("reason"));
-                       loginFail();
-                   }
-               } else {
-                   loginFail();
-               }
-           } catch (JSONException e) {
-               e.printStackTrace();
-           }
-       }
-       @Override
-       public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-           MyLog.i("请求失败："+ exception.getMessage());
-       }
-   };
+                        }
+                    } else {
+                        showToast(mContext, loginObject.optString("reason"));
+                        loginFail();
+                    }
+                } else {
+                    loginFail();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        @Override
+        public void onFailed(int what, String url, Object tag, CharSequence error, int resCode, long ms) {
+            MyLog.i("请求失败："+ error);
+        }
+    };
 
     private void  loginFail(){
         showToast(MainActivity.this,"登录失败");
