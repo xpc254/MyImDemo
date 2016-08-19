@@ -7,13 +7,12 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.hhxh.make.R;
-import com.hhxh.make.data.UserPrefs;
-import com.hhxh.make.im.chat.ui.ChatActivity;
-import com.hhxh.make.system.MyApplication;
-import com.hhxh.make.util.DateTimeUtil;
-import com.hhxh.make.util.StringUtil;
-
+import com.xpc.myimdemo.R;
+import com.xpc.myimdemo.app.MyApplication;
+import com.xpc.myimdemo.data.UserPrefs;
+import com.xpc.myimdemo.im.activity.ChatActivity;
+import com.xpc.myimdemo.util.DateTimeUtil;
+import com.xpc.myimdemo.util.StringUtil;
 
 
 /**
@@ -116,8 +115,7 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 				notice.setContent(MyApplication.getInstance().getString(
 						R.string.voice));
 			} else if (recItem.getMsgType() == SendMessageItem.TYPE_LOCATION) {// 位置
-				notice.setContent(MyApplication.getInstance().getString(
-						R.string.chat_location));
+				notice.setContent(MyApplication.getInstance().getString(R.string.chat_location));
 			} else {
 				notice.setContent(recItem.getContent());
 			}
@@ -195,8 +193,6 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 
 	/**
 	 * 根据聊天场景类型获取聊天场景名称
-	 * 
-	 * @param operateTypeInt
 	 * @return
 	 */
 	public static String getSceneName(Context context, int scene) {
@@ -208,24 +204,24 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 		case SendMessageItem.CHAT_GROUP:
 			sceneName = context.getString(R.string.chat_group);
 			break;
-		case SendMessageItem.CHAT_UPCOMING:
-			sceneName = context.getString(R.string.chat_upcoming);
-			break;
-		case SendMessageItem.CHAT_REMIND:
-			sceneName = context.getString(R.string.chat_remind);
-			break;
-		case SendMessageItem.CHAT_NOTICE:
-			sceneName = context.getString(R.string.chat_notice);
-			break;
-		case SendMessageItem.CHAT_REMINDERS:
-			sceneName = context.getString(R.string.chat_reminders);
-			break;
-		case SendMessageItem.CHAT_SUPERVISION:
-			sceneName = context.getString(R.string.chat_supervision);
-			break;
-		case SendMessageItem.CHAT_URGENT_TASK:
-			sceneName = context.getString(R.string.chat_urgent_task);
-			break;
+//		case SendMessageItem.CHAT_UPCOMING:
+//			sceneName = context.getString(R.string.chat_upcoming);
+//			break;
+//		case SendMessageItem.CHAT_REMIND:
+//			sceneName = context.getString(R.string.chat_remind);
+//			break;
+//		case SendMessageItem.CHAT_NOTICE:
+//			sceneName = context.getString(R.string.chat_notice);
+//			break;
+//		case SendMessageItem.CHAT_REMINDERS:
+//			sceneName = context.getString(R.string.chat_reminders);
+//			break;
+//		case SendMessageItem.CHAT_SUPERVISION:
+//			sceneName = context.getString(R.string.chat_supervision);
+//			break;
+//		case SendMessageItem.CHAT_URGENT_TASK:
+//			sceneName = context.getString(R.string.chat_urgent_task);
+//			break;
 		// case SendMessageItem.CHAT_COMPANY_NEW:
 		// sceneName = context.getString(R.string.chat_company_new);
 		// break;
@@ -245,93 +241,92 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 	 * 根据消息类型id获取消息类型名称
 	 * 
 	 * @param context
-	 * @param msgScene
 	 * @return
 	 */
-	public static String getMsgTypeName(Context context, int operateType) {
-		String operateTypeName = "";
-		switch (operateType) {
-		case SendMessageItem.TYPE_ATTENDANCE:
-			operateTypeName = context.getString(R.string.chat_attendance);
-			break;
-		case SendMessageItem.TYPE_PROJECT:
-			operateTypeName = context.getString(R.string.chat_project);
-			break;
-		case SendMessageItem.TYPE_TASK:
-			operateTypeName = context.getString(R.string.chat_task);
-			break;
-		case SendMessageItem.TYPE_JOURNAL:
-			operateTypeName = context.getString(R.string.chat_journal);
-			break;
-		case SendMessageItem.TYPE_REQUEST_INSTRUCTION:
-			operateTypeName = context
-					.getString(R.string.chat_request_instruction);
-			break;
-		case SendMessageItem.TYPE_INSTRUCTION:
-			operateTypeName = context.getString(R.string.chat_instruction);
-			break;
-		case SendMessageItem.TYPE_WEEK_PLAN:
-			operateTypeName = context.getString(R.string.chat_week_plan);
-			break;
-		case SendMessageItem.TYPE_MONTH_PLAN:
-			operateTypeName = context.getString(R.string.chat_month_plan);
-			break;
-		case SendMessageItem.TYPE_SCHEDULE:
-			operateTypeName = context.getString(R.string.chat_schedule);
-			break;
-		case SendMessageItem.TYPE_EXEPNSE_APPLY:
-			operateTypeName = context.getString(R.string.chat_exepnse_apply);
-			break;
-		case SendMessageItem.TYPE_EXEPNSE_APPROVE:
-			operateTypeName = context.getString(R.string.chat_exepnse_approve);
-			break;
-		case SendMessageItem.TYPE_PAYMENT:
-			operateTypeName = context.getString(R.string.chat_payment);
-			break;
-		case SendMessageItem.TYPE_MEETING:
-			operateTypeName = context.getString(R.string.chat_meeting);
-			break;
-		case SendMessageItem.TYPE_COMPANY_NEW:
-			operateTypeName = context.getString(R.string.chat_company_new);
-			break;
-		case SendMessageItem.TYPE_ANNOUNCEMENT:
-			operateTypeName = context.getString(R.string.chat_announcement);
-			break;
-		case SendMessageItem.TYPE_DYNAMIC:
-			operateTypeName = context.getString(R.string.chat_dynamic);
-			break;
-		case SendMessageItem.TYPE_TEAM_CHANGE:
-			operateTypeName = context.getString(R.string.chat_team_change);
-			break;
-		case SendMessageItem.TYPE_REWARDS_AND_PUNISHMENT:
-			operateTypeName = context.getString(R.string.chat_rewards_and_punishment);
-			break;
-		case SendMessageItem.TYPE_PROGRESS:
-			operateTypeName = context.getString(R.string.chat_progress);
-			break;
-		case SendMessageItem.TYPE_EARLYWARNING:
-			operateTypeName = context.getString(R.string.chat_earlywarning);
-			break;
-		case SendMessageItem.TYPE_AT:
-			operateTypeName = context.getString(R.string.chat_at);
-			break;
-		case SendMessageItem.TYPE_NODE_REVIEW:
-			operateTypeName = context.getString(R.string.chat_review);
-			break;
-		case SendMessageItem.TYPE_DESIGNATE_PRINCIPA:
-			operateTypeName = context.getString(R.string.chat_designate_principa);
-			break;
-		case SendMessageItem.TYPE_NODE_CONNECT:
-			operateTypeName = context.getString(R.string.chat_node_connect);
-			break;
-		case SendMessageItem.TYPE_COMPLETE:
-			operateTypeName = context.getString(R.string.chat_complete);
-			break;
-		default:
-			break;
-		}
-		return operateTypeName;
-	}
+//	public static String getMsgTypeName(Context context, int operateType) {
+//		String operateTypeName = "";
+//		switch (operateType) {
+//		case SendMessageItem.TYPE_ATTENDANCE:
+//			operateTypeName = context.getString(R.string.chat_attendance);
+//			break;
+//		case SendMessageItem.TYPE_PROJECT:
+//			operateTypeName = context.getString(R.string.chat_project);
+//			break;
+//		case SendMessageItem.TYPE_TASK:
+//			operateTypeName = context.getString(R.string.chat_task);
+//			break;
+//		case SendMessageItem.TYPE_JOURNAL:
+//			operateTypeName = context.getString(R.string.chat_journal);
+//			break;
+//		case SendMessageItem.TYPE_REQUEST_INSTRUCTION:
+//			operateTypeName = context
+//					.getString(R.string.chat_request_instruction);
+//			break;
+//		case SendMessageItem.TYPE_INSTRUCTION:
+//			operateTypeName = context.getString(R.string.chat_instruction);
+//			break;
+//		case SendMessageItem.TYPE_WEEK_PLAN:
+//			operateTypeName = context.getString(R.string.chat_week_plan);
+//			break;
+//		case SendMessageItem.TYPE_MONTH_PLAN:
+//			operateTypeName = context.getString(R.string.chat_month_plan);
+//			break;
+//		case SendMessageItem.TYPE_SCHEDULE:
+//			operateTypeName = context.getString(R.string.chat_schedule);
+//			break;
+//		case SendMessageItem.TYPE_EXEPNSE_APPLY:
+//			operateTypeName = context.getString(R.string.chat_exepnse_apply);
+//			break;
+//		case SendMessageItem.TYPE_EXEPNSE_APPROVE:
+//			operateTypeName = context.getString(R.string.chat_exepnse_approve);
+//			break;
+//		case SendMessageItem.TYPE_PAYMENT:
+//			operateTypeName = context.getString(R.string.chat_payment);
+//			break;
+//		case SendMessageItem.TYPE_MEETING:
+//			operateTypeName = context.getString(R.string.chat_meeting);
+//			break;
+//		case SendMessageItem.TYPE_COMPANY_NEW:
+//			operateTypeName = context.getString(R.string.chat_company_new);
+//			break;
+//		case SendMessageItem.TYPE_ANNOUNCEMENT:
+//			operateTypeName = context.getString(R.string.chat_announcement);
+//			break;
+//		case SendMessageItem.TYPE_DYNAMIC:
+//			operateTypeName = context.getString(R.string.chat_dynamic);
+//			break;
+//		case SendMessageItem.TYPE_TEAM_CHANGE:
+//			operateTypeName = context.getString(R.string.chat_team_change);
+//			break;
+//		case SendMessageItem.TYPE_REWARDS_AND_PUNISHMENT:
+//			operateTypeName = context.getString(R.string.chat_rewards_and_punishment);
+//			break;
+//		case SendMessageItem.TYPE_PROGRESS:
+//			operateTypeName = context.getString(R.string.chat_progress);
+//			break;
+//		case SendMessageItem.TYPE_EARLYWARNING:
+//			operateTypeName = context.getString(R.string.chat_earlywarning);
+//			break;
+//		case SendMessageItem.TYPE_AT:
+//			operateTypeName = context.getString(R.string.chat_at);
+//			break;
+//		case SendMessageItem.TYPE_NODE_REVIEW:
+//			operateTypeName = context.getString(R.string.chat_review);
+//			break;
+//		case SendMessageItem.TYPE_DESIGNATE_PRINCIPA:
+//			operateTypeName = context.getString(R.string.chat_designate_principa);
+//			break;
+//		case SendMessageItem.TYPE_NODE_CONNECT:
+//			operateTypeName = context.getString(R.string.chat_node_connect);
+//			break;
+//		case SendMessageItem.TYPE_COMPLETE:
+//			operateTypeName = context.getString(R.string.chat_complete);
+//			break;
+//		default:
+//			break;
+//		}
+//		return operateTypeName;
+//	}
 
 	/**
 	 * @return the primaryId

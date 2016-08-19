@@ -330,4 +330,57 @@ public class UserPrefs {
     public static void setMsgUserID(String msgUserID) {
         getInstance().getEditor().putString(MSG_USERID, msgUserID).commit();
     }
+
+    /**
+     * 获取欢迎消息内容
+     *
+     * @return
+     */
+    public static String getMsgContent() {
+        return getInstance().getStringValue(MSG_CONTENT, "");
+    }
+
+    /**
+     * 保存欢迎消息内容
+     *
+     * @return
+     */
+    public static void setMsgContent(String msgContent) {
+        getInstance().getEditor().putString(MSG_CONTENT, msgContent).commit();
+    }
+    /**
+     * 获取欢迎消息内容
+     *
+     * @return
+     */
+    public static String getMsgName() {
+        return getInstance().getStringValue(MSG_USERNAME, "");
+    }
+
+    /**
+     * 保存欢迎消息内容
+     *
+     * @return
+     */
+    public static void setMsgName(String msgName) {
+        getInstance().getEditor().putString(MSG_USERNAME, msgName).commit();
+    }
+    /**
+     * 获取客服人员头像地址
+     *
+     * @return
+     */
+    public static String getMsgHeadImage() {
+        return getInstance().getStringValue(MSG_HEADIMAGE, "");
+    }
+
+    /**
+     * 保存客服人员头像地址
+     *
+     * @return
+     */
+    public static void setMsgHeadImage(String msgHeadImage) {
+        getInstance().getEditor().putString(MSG_HEADIMAGE, msgHeadImage)
+                .commit();
+    }
 }

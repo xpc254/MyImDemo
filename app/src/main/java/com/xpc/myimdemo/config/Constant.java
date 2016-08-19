@@ -9,6 +9,10 @@ public class Constant {
     /**是否为调试状态，打印日志*/
     public static final boolean DEBUG = true;
 
+    /** 服务端心跳包内容 */
+    public static final String HEART_BEAT_REQUEST = "HEARTBEATREQUEST";
+    /** 回写给服务端心跳包内容 */
+    public static final String HEART_BEAT_RESPONSE = "HEARTBEATRESPONSE";
     /** 云消息服务器IP(测试库) */
     public static final String IM_IP = "www.szhhxh.com";
     /** 云消息服务器PORT(测试库) */

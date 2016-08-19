@@ -1,33 +1,35 @@
+/*
+ * Copyright 2015 Yan Zhenjie
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.xpc.myimdemo.custom;
 
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.view.Gravity;
-
-import com.xpc.myimdemo.R;
+import android.view.Window;
 
 /**
- * Created by xiepc on 2016/8/18 0018 下午 4:32
+ * xiepc 2016-8-19
  */
-public class WaitDialog extends Dialog {
-    private Context context;
-    private static WaitDialog waitDialog;
-    public WaitDialog(Context context){
-       super(context);
-        this.context =context;
-    }
-    public WaitDialog(Context context, int theme) {
-        super(context, theme);
-        this.context = context;
+public class WaitDialog extends ProgressDialog {
+
+    public WaitDialog(Context context) {
+        super(context);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setCanceledOnTouchOutside(false);
+        setProgressStyle(STYLE_SPINNER);
+       // setMessage(context.getText(R.string.wait_dialog_title));
     }
 
-    public static WaitDialog createDialog(Context context) {
-        waitDialog = new WaitDialog(context, R.style.progressDialog);
-        waitDialog.setContentView(R.layout.dialog_wait);
-        waitDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
-        waitDialog.getWindow().getAttributes().dimAmount = 0f;
-        waitDialog.setCancelable(true);
-        waitDialog.setCanceledOnTouchOutside(false);
-        return waitDialog;
-    }
 }

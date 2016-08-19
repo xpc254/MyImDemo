@@ -1,23 +1,20 @@
 package com.xpc.myimdemo.im.manager;
 
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.hhxh.make.data.UserPrefs;
-import com.hhxh.make.db.DBManager;
-import com.hhxh.make.db.SQLiteTemplate;
-import com.hhxh.make.db.SQLiteTemplate.RowMapper;
-import com.hhxh.make.im.model.MessageHistoryItem;
-import com.hhxh.make.im.model.NoticeItem;
-import com.hhxh.make.im.model.RecMessageItem;
-import com.hhxh.make.im.model.SendMessageItem;
-import com.hhxh.make.util.StringUtil;
+
+import com.xpc.myimdemo.data.UserPrefs;
 import com.xpc.myimdemo.db.DBManager;
 import com.xpc.myimdemo.db.SQLiteTemplate;
+import com.xpc.myimdemo.im.model.MessageHistoryItem;
+import com.xpc.myimdemo.im.model.NoticeItem;
 import com.xpc.myimdemo.im.model.RecMessageItem;
+import com.xpc.myimdemo.im.model.SendMessageItem;
+import com.xpc.myimdemo.util.StringUtil;
+
+import java.util.List;
 
 
 /**
@@ -68,7 +65,6 @@ public class MessageManager {
 
 	/**
 	 * 根据消息id判断是否存在该条消息记录
-	 * @param msgid
 	 *            消息id
 	 * @return
 	 */
@@ -123,8 +119,6 @@ public class MessageManager {
 	
 	/**
 	 * 根据消息id更新消息内容
-	 * 
-	 * @param status
 	 */
 	public void updateContentByMsgId(String msgId, String content) {
 		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
@@ -136,8 +130,6 @@ public class MessageManager {
 	
 	/**
 	 * 根据消息id更新param
-	 * 
-	 * @param status
 	 */
 	public void updateFileIdByMsgId(String msgId, String param) {
 		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
@@ -149,9 +141,6 @@ public class MessageManager {
 
 	/**
 	 * 根据消息id更新消息发送时间及状态
-	 * 
-	 * @param msgId
-	 * @param status
 	 */
 	public int updateStatusAndDataByMsgId(RecMessageItem recItem) {
 		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
@@ -164,8 +153,6 @@ public class MessageManager {
 	
 	/**
 	 * 设置所有发送中的消息为失败状态
-	 * 
-	 * @param status
 	 */
 	public void updateAllSendingMsgToFail() {
 		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
@@ -177,9 +164,6 @@ public class MessageManager {
 
 	/**
 	 * 修改和某人发送中的消息为失败消息
-	 * 
-	 * @param msgId
-	 * @param status
 	 */
 	public int updateFailStatusBySendId(String sendId) {
 		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
@@ -212,7 +196,7 @@ public class MessageManager {
 		List<RecMessageItem> list = null;
 		if (msgScene == SendMessageItem.CHAT_GROUP) {// 群聊
 			list = st.queryForList(
-					new RowMapper<RecMessageItem>() {
+					new SQLiteTemplate.RowMapper<RecMessageItem>() {
 						@Override
 						public RecMessageItem mapRow(Cursor cursor, int index) {
 							RecMessageItem msg = new RecMessageItem();
@@ -248,7 +232,7 @@ public class MessageManager {
 							"" + fromIndex, "" + pageSize });
 		} else {// 单聊
 			list = st.queryForList(
-					new RowMapper<RecMessageItem>() {
+					new SQLiteTemplate.RowMapper<RecMessageItem>() {
 						@Override
 						public RecMessageItem mapRow(Cursor cursor, int index) {
 							RecMessageItem msg = new RecMessageItem();
@@ -290,7 +274,6 @@ public class MessageManager {
 	 * 
 	 * @param msgScene
 	 *            聊天场景
-	 * @param toUser
 	 *            当前登录人userid
 	 * @return
 	 */
@@ -308,8 +291,6 @@ public class MessageManager {
 
 	/**
 	 * 删除与某人的聊天记录
-	 * 
-	 * @param fromUser
 	 */
 	public int delChatHisWithSb(String sendId) {
 		if (StringUtil.isEmpty(sendId)) {
@@ -352,8 +333,6 @@ public class MessageManager {
 
 	/**
 	 * 获取聊天人聊天最后一条消息和未读消息总数
-	 * 
-	 * @param toId
 	 *            :当前用户id
 	 * @return
 	 */
@@ -362,7 +341,7 @@ public class MessageManager {
 		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
 		List<MessageHistoryItem> list = st
 				.queryForList(
-						new RowMapper<MessageHistoryItem>() {
+						new SQLiteTemplate.RowMapper<MessageHistoryItem>() {
 
 							@Override
 							public MessageHistoryItem mapRow(Cursor cursor,
@@ -423,10 +402,6 @@ public class MessageManager {
 	 * 获取工作消息和消息是否已读
 	 * 
 	 * @param context
-	 * @param toId
-	 *            当前用户userid
-	 * @param operateType
-	 *            操作类型
 	 * @return
 	 */
 	public List<MessageHistoryItem> getWorkMsgAndIsRead(Context context,
@@ -434,7 +409,7 @@ public class MessageManager {
 		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
 		List<MessageHistoryItem> list = st
 				.queryForList(
-						new RowMapper<MessageHistoryItem>() {
+						new SQLiteTemplate.RowMapper<MessageHistoryItem>() {
 							@Override
 							public MessageHistoryItem mapRow(Cursor cursor,
 									int index) {
@@ -482,7 +457,7 @@ public class MessageManager {
 		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
 		List<MessageHistoryItem> list = st
 				.queryForList(
-						new RowMapper<MessageHistoryItem>() {
+						new SQLiteTemplate.RowMapper<MessageHistoryItem>() {
 							@Override
 							public MessageHistoryItem mapRow(Cursor cursor, int index) {
 								MessageHistoryItem notice = new MessageHistoryItem();

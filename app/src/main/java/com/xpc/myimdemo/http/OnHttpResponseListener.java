@@ -1,13 +1,11 @@
 package com.xpc.myimdemo.http;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.util.Log;
 
 import com.xpc.myimdemo.config.Constant;
 import com.xpc.myimdemo.custom.WaitDialog;
 import com.yolanda.nohttp.rest.OnResponseListener;
-import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.Response;
 
 /**
@@ -67,9 +65,11 @@ public class OnHttpResponseListener<T> implements OnResponseListener<T> {
     public void onSucceed(int what, Response<T> response) {
         Object obj = response.get();
         if(obj instanceof String){
-            Log.i(Constant.TAG,"httpData-----"+(String)(obj));
+            Log.i(Constant.TAG,"httpDataStr-----"+(String)(obj));
+        }else if(obj instanceof Byte[]){
+            Log.i(Constant.TAG,"httpDataByte[]-----"+new String((byte[]) obj));
         }else{
-            Log.i(Constant.TAG,obj.toString());
+            Log.i(Constant.TAG,"httpDataObj-----"+obj.toString());
         }
         if (callback != null)
             callback.onSucceed(what, response);

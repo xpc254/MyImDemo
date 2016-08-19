@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.xpc.myimdemo.im.service.LoginSocketTask;
 import com.xpc.myimdemo.model.User;
 import com.xpc.myimdemo.base.BaseHttpActivity;
 import com.xpc.myimdemo.config.ActionConfigs;
@@ -58,6 +59,7 @@ public class MainActivity extends BaseHttpActivity {
         MyLog.i("用户名："+ userAccount+",密码："+ userPwd);
         getUserInfo();
     }
+
     /**
      * 获取用户信息
      */
@@ -72,6 +74,7 @@ public class MainActivity extends BaseHttpActivity {
         @Override
         public void onSucceed(int what, Response<String> response) {
             try {
+                //TODO 这里还需要增加判断
                 JSONObject loginObject = new JSONObject(response.get());
                 if (JsonUtils.isExistObj(loginObject, "isExist")) {
                     if (loginObject.optString("isExist").equals("1")) {// 帐号存在
@@ -85,8 +88,8 @@ public class MainActivity extends BaseHttpActivity {
                            UserPrefs.setUserAccount(userAccount);
                            UserPrefs.setUserPwd(userPwd);
                            UserPrefs.setUser(new User(loginObject));
-//                           LoginSocketTask connectSocketTask = new LoginSocketTask( mContext);
-//                           connectSocketTask.execute();
+                           LoginSocketTask connectSocketTask = new LoginSocketTask( mContext);
+                           connectSocketTask.execute();
                         }
                     } else {
                         showToast(mContext, loginObject.optString("reason"));

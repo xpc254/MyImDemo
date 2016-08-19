@@ -4,8 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.hhxh.make.data.UserPrefs;
-
+import com.xpc.myimdemo.data.UserPrefs;
 
 
 /**
@@ -62,7 +61,7 @@ public class DBManager {
 	 * @return
 	 */
 	public DataBaseHelper getDatabaseHelper() {
-		return new DataBaseHelper(mContext,UserPrefs.getUserId(), null, -1);
+		return new DataBaseHelper(mContext, UserPrefs.getUserId(), null, -1);
 	}
 
 }
