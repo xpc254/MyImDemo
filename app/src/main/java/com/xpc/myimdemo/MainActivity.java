@@ -42,6 +42,7 @@ public class MainActivity extends BaseHttpActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
+        accountsEdit.setText("13246737513");
     }
 
     @OnClick(R.id.loginBtn)

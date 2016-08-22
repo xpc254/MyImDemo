@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.xpc.myimdemo.R;
+import com.xpc.myimdemo.im.model.RecMessageItem;
 
 public class ChatActivity extends AChatActivity {
 
@@ -14,5 +15,15 @@ public class ChatActivity extends AChatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+    }
+
+    @Override
+    protected void refreshMessageAfterResend(RecMessageItem recMsg) {
+
+    }
+
+    @Override
+    protected void receiveNewMessage(RecMessageItem message) {
+
     }
 }

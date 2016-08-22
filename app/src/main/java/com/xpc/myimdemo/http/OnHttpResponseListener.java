@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.xpc.myimdemo.config.Constant;
 import com.xpc.myimdemo.custom.WaitDialog;
+import com.xpc.myimdemo.util.MyLog;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Response;
 
@@ -58,21 +59,26 @@ public class OnHttpResponseListener<T> implements OnResponseListener<T> {
         if (mWaitDialog != null && mWaitDialog.isShowing())
             mWaitDialog.dismiss();
     }
+
     /**
      * 成功回调
      */
     @Override
     public void onSucceed(int what, Response<T> response) {
-        Object obj = response.get();
-        if(obj instanceof String){
-            Log.i(Constant.TAG,"httpDataStr-----"+(String)(obj));
-        }else if(obj instanceof Byte[]){
-            Log.i(Constant.TAG,"httpDataByte[]-----"+new String((byte[]) obj));
+        int responseCode = response.getHeaders().getResponseCode();// 服务器响应码。
+        if (responseCode == 200) {
+            Object obj = response.get();
+            if (obj instanceof String) {
+                Log.i(Constant.TAG, "httpDataStr-----" + (String) (obj));
+            } else {
+                Log.i(Constant.TAG, "httpDataObj-----" + obj.toString());
+            }
+            if (callback != null) {
+                callback.onSucceed(what, response);
+            }
         }else{
-            Log.i(Constant.TAG,"httpDataObj-----"+obj.toString());
+            MyLog.i("ResponseCode-----"+responseCode);
         }
-        if (callback != null)
-            callback.onSucceed(what, response);
     }
     /**
      * 失败回调

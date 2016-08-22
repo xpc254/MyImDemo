@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.xpc.myimdemo.R;
 import com.xpc.myimdemo.model.PersonItem;
 
@@ -42,24 +43,28 @@ public class PersonListAdapter extends BaseAdapter{
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final PersonItem item = personItemList.get(position);
         ViewHolder holder = null;
          if(convertView != null){
              holder = (ViewHolder)convertView.getTag();
          }
         if(convertView == null || holder == null){
-            convertView = inflater.inflate(R.layout.item_list_friends);
-             holder = new ViewHolder();
+            convertView = inflater.inflate(R.layout.item_list_friends,null);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
          }
-        return null;
+       // holder.headImg.set
+        holder.nameText.setText(item.getName());
+        return convertView;
     }
 
     static class ViewHolder{
         @BindView(R.id.nameText)
-        private TextView nameText;
+        TextView nameText;
         @BindView(R.id.headImg)
-        private ImageView headImg;
+        ImageView headImg;
         public ViewHolder(View view){
-            ButterKnife.bind(view);
+            ButterKnife.bind(this,view);
         }
     }
 }

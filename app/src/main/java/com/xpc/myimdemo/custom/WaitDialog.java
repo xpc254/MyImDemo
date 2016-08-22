@@ -19,6 +19,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.Window;
 
+import com.xpc.myimdemo.R;
+
 /**
  * xiepc 2016-8-19
  */
@@ -29,7 +31,7 @@ public class WaitDialog extends ProgressDialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setCanceledOnTouchOutside(false);
         setProgressStyle(STYLE_SPINNER);
-       // setMessage(context.getText(R.string.wait_dialog_title));
+        setMessage(context.getText(R.string.wait_dialog_title));
     }
 
 }

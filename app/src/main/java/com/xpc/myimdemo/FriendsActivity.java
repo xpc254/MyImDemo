@@ -3,6 +3,7 @@ package com.xpc.myimdemo;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.xpc.myimdemo.adapter.PersonListAdapter;
 import com.xpc.myimdemo.app.MyApplication;
 import com.xpc.myimdemo.base.BaseHttpActivity;
 import com.xpc.myimdemo.config.ActionConfigs;
@@ -30,6 +31,7 @@ public class FriendsActivity extends BaseHttpActivity {
     @BindView(R.id.personListView)
     ListView personListView;
     List<PersonItem> personItemList = new ArrayList<>();
+    private PersonListAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,28 +41,29 @@ public class FriendsActivity extends BaseHttpActivity {
         initView();
     }
    private void initView(){
-
+       adapter = new PersonListAdapter(this,personItemList);
+       personListView.setAdapter(adapter);
    }
     private void getListData() {
         List<KeyValuePair> params = new ArrayList<KeyValuePair>();
         params.add(new KeyValuePair("operatetype", "getChildrenAdminOrgUnitList"));
         params.add(new KeyValuePair("token", UserPrefs.getToken()));
         params.add(new KeyValuePair("id", parentId));
-        httpPostAsync(0,ActionConfigs.GET_ORGANIZATIONAL_STRUCTURE_GROUP,params,onHttpListener);
+        httpPostAsync(HTTP_WHAT_ONE,ActionConfigs.GET_ORGANIZATIONAL_STRUCTURE_GROUP,params,onHttpListener);
     }
 
     OnHttpListener onHttpListener = new OnHttpListener<String>() {
         @Override
         public void onSucceed(int what, Response<String> response) {
                switch (what){
-                   case 0:
+                   case HTTP_WHAT_ONE:
                        parseHttpData(response.get());
                        break;
                }
         }
         @Override
         public void onFailed(int what, String url, Object tag, CharSequence error, int resCode, long ms) {
-
+              MyLog.i("---请求失败--"+ error);
         }
     };
     /**解析网络数据**/
@@ -78,6 +81,7 @@ public class FriendsActivity extends BaseHttpActivity {
                           // departmentItem.getList().add(item);
                        }
                    }
+                   adapter.notifyDataSetChanged();
                }
         } catch (Exception e) {
             e.printStackTrace();

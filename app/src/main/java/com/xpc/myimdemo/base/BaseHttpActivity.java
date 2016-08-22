@@ -21,13 +21,12 @@ import java.util.List;
  * Created by xiepc on 2016/8/17 0017 上午 10:15
  */
 public class BaseHttpActivity extends BaseActivity{
-    private RequestQueue requestQueue;
     private Activity mActivity;
+    protected static final int HTTP_WHAT_ONE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestQueue = NoHttp.newRequestQueue();
         mActivity = this;
     }
     /**
@@ -41,6 +40,7 @@ public class BaseHttpActivity extends BaseActivity{
     protected void httpPostAsync(int what, String url,List<KeyValuePair> parmaValues,OnHttpListener listener,boolean isLoading){
         // String 请求对象
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
+        request.setCancelSign(this);
         Log.i(Constant.TAG, "url-----" + url);
         if (parmaValues != null && parmaValues.size() > 0) {
             for (KeyValuePair keyValue : parmaValues) {
@@ -56,8 +56,7 @@ public class BaseHttpActivity extends BaseActivity{
 
     @Override
     protected void onDestroy() {
+        CallServer.getRequestInstance().cancelBySign(this);
         super.onDestroy();
-        requestQueue.cancelAll();
-        requestQueue = null;
     }
 }
