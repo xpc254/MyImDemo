@@ -8,4 +8,8 @@
     <color name="blue">#009be0</color>
     <!-- 深半透明 -->
     <color name="dark_translucent">#e0000000</color>
+    <!-- 透明 -->
+    <color name="transparent">#00000000</color>
+    <color name="gray_divide_line">#d6d6d6</color>
+    <color name="gray">#808080</color>
 </resources>

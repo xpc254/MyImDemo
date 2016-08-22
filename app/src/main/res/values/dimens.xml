@@ -4,4 +4,31 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <!-- dialog和progressDialog圆角  -->
     <dimen name="fillet_angle_dimen">10dp</dimen>
+
+    <!-- 字体大小 -->
+    <dimen name="font10">10sp</dimen>
+    <dimen name="font11">11sp</dimen>
+    <dimen name="font12">12sp</dimen>
+    <dimen name="font13">13sp</dimen>
+    <dimen name="font14">14sp</dimen>
+    <dimen name="font15">15sp</dimen>
+    <dimen name="font16">16sp</dimen>
+    <dimen name="font17">17sp</dimen>
+    <dimen name="font18">18sp</dimen>
+    <dimen name="font19">19sp</dimen>
+    <dimen name="font20">20sp</dimen>
+    <dimen name="font21">21sp</dimen>
+    <dimen name="font22">22sp</dimen>
+    <dimen name="font25">25sp</dimen>
+    <dimen name="font30">30sp</dimen>
+
+    <!--多行文本输入框允许最大字符数-->
+    <item name="multiline_edittext_maxlength" type="dimen" format="integer">900</item>
+    <!--单行文本输入框允许最大字符数-->
+    <item name="singleline_edittext_maxlength" type="dimen" format="integer">30</item>
+    <!--单行数字输入框允许最大字符数-->
+    <item name="max_number_name_edittext" type="dimen" format="integer">12</item>
+    <!--金额允许最大字符数-->
+    <item name="max_number_amount_edittext" type="dimen" format="integer">18</item>
+
 </resources>
