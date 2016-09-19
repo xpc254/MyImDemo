@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by xiepc on 2016-09-19  上午 11:45
  */
-public abstract class HttpPresenter<V extends IHttpView,T> implements IPresenter {
+public abstract class HttpPresenter<V extends IHttpView,T> implements IPresenter<V> {
     protected V impView;
     protected static final int HTTP_WHAT_ONE = 101;
     protected static final int HTTP_WHAT_TWO = 102;
@@ -81,4 +81,13 @@ public abstract class HttpPresenter<V extends IHttpView,T> implements IPresenter
         CallServer.getRequestInstance().cancelBySign(this);
         MyLog.i("---取消当前请求---");
     }
+
+//    @Override
+//    public void attachView(V view) {
+//        impView = view;
+//    }
+//    @Override
+//    public void detachView() {
+//
+//    }
 }

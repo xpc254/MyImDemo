@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.xpc.myimdemo.im.service.LoginSocketTask;
-import com.xpc.myimdemo.model.User;
 import com.xpc.myimdemo.base.BaseHttpActivity;
 import com.xpc.myimdemo.config.ActionConfigs;
 import com.xpc.myimdemo.data.UserPrefs;
 import com.xpc.myimdemo.http.KeyValuePair;
 import com.xpc.myimdemo.http.OnHttpListener;
+import com.xpc.myimdemo.im.service.LoginSocketTask;
+import com.xpc.myimdemo.model.User;
 import com.xpc.myimdemo.util.JsonUtils;
 import com.xpc.myimdemo.util.MyLog;
+import com.xpc.myimdemo.util.StatusBarCompat;
 import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONException;
@@ -25,7 +26,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-
+/**
+ * 主界面，登录界面
+ * Create by xiepc on 2016/9/17  00:27
+ */
 public class MainActivity extends BaseHttpActivity {
     @BindView(R.id.accountsEdit)
     EditText accountsEdit;
@@ -41,6 +45,7 @@ public class MainActivity extends BaseHttpActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StatusBarCompat.compat(this,getResources().getColor(R.color.white)); //设置状态栏颜色
         unbinder = ButterKnife.bind(this);
         accountsEdit.setText("13246737513");
     }

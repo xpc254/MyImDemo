@@ -10,9 +10,11 @@ import com.xpc.myimdemo.custom.WaitDialog;
 public abstract class ABaseActivityView<P extends HttpPresenter> extends BaseActivity implements IHttpView {
      protected  P presenter;
      private WaitDialog mWaitDialog;
+     protected boolean enShowProgressBar = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = createPresenter();
     }
 
     @Override
@@ -20,6 +22,7 @@ public abstract class ABaseActivityView<P extends HttpPresenter> extends BaseAct
         super.onDestroy();
         presenter.cancelHttp();
     }
+    protected abstract P createPresenter();
 
     @Override
     public void onHttpFail(int what, Object obj) {
@@ -33,7 +36,9 @@ public abstract class ABaseActivityView<P extends HttpPresenter> extends BaseAct
 
     @Override
     public void onHttpStart(int what) {
-        showProgressBar();
+        if(enShowProgressBar){
+           showProgressBar();
+        }
     }
 
     private void showProgressBar(){

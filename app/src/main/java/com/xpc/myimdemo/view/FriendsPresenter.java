@@ -41,6 +41,9 @@ public class FriendsPresenter <V extends IHttpView>extends HttpPresenter {
                     JSONObject obj = new JSONObject((String)responseBody.get());
                     if (JsonUtils.isExistObj(obj,"rows")){
                         JSONArray infoArray = obj.getJSONArray("rows");
+                        if(personItemList.size() > 0){
+                            personItemList.clear();
+                        }
                         for (int i = 0; i < infoArray.length(); i++) {
                             PersonItem item = new PersonItem(infoArray.optJSONObject(i));
                             String isUser = item.getIsUser();

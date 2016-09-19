@@ -1,17 +1,15 @@
 package com.xpc.myimdemo.base;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import com.xpc.myimdemo.R;
 import com.xpc.myimdemo.custom.ToastCustom;
 
 /**
  *
  */
-public class BaseActivity extends Activity {
+public class BaseActivity extends AppCompatActivity {
     protected Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,4 +25,5 @@ public class BaseActivity extends Activity {
     public void showToast(Context context, String content) {
         ToastCustom.makeText(context, content, 1).show();
     }
+
 }

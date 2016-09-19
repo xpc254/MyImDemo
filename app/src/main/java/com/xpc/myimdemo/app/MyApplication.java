@@ -45,4 +45,5 @@ public class MyApplication extends Application{
         Intent reConnectService = new Intent(MyApplication.getInstance(), ReConnectService.class);
         stopService(reConnectService);
     }
+
 }
