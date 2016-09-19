@@ -58,7 +58,9 @@ public class PersonListAdapter extends BaseAdapter{
          }
         holder.nameText.setText(item.getName());
         if(!StringUtil.isEmpty(item.getHeadImage())){
-           Picasso.with(context).load(item.getHeadImage()).error(R.drawable.ic_phone_contacts).into(holder.headImg);
+          // Picasso.with(context).load(item.getHeadImage()).error(R.drawable.ic_phone_contacts).into(holder.headImg);
+           Picasso.with(context).load(item.getHeadImage()).placeholder(R.drawable.ic_phone_contacts)
+                   .error(R.drawable.ic_phone_contacts).into(holder.headImg);
         }else{
             holder.headImg.setImageResource(R.drawable.ic_phone_contacts);
         }
