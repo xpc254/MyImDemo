@@ -2,7 +2,8 @@ package com.xpc.myimdemo.http;
 
 import android.app.Activity;
 
-import com.yolanda.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.okhttp.NoOkHttp;
+import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
 
@@ -18,17 +19,33 @@ public class CallServer {
     private RequestQueue requestQueue;
 
     private CallServer() {
-        requestQueue = NoHttp.newRequestQueue();
+       // requestQueue = NoHttp.newRequestQueue();
+        requestQueue = NoOkHttp.newRequestQueue(); //底层用okhttp
     }
     /**
      * 请求队列
      */
-    public synchronized static CallServer getRequestInstance() {
-        if (callServer == null)
-            callServer = new CallServer();
+    public  static CallServer getRequestInstance() {
+        if (callServer == null){
+            synchronized (CallServer.class){
+                if(callServer == null){
+                    callServer = new CallServer();
+                }
+            }
+        }
         return callServer;
     }
 
+    /**
+     * 添加一个请求到请求队列
+     *
+     * @param what      用来标志请求，在回调方法中会返回这个what，类似handler的what
+     * @param request   请求对象
+     * @param responseListener  结果回调对象
+     */
+    public <T> void add( int what, Request<T> request, OnResponseListener responseListener) {
+        requestQueue.add(what, request, responseListener);
+    }
     /**
      * 添加一个请求到请求队列
      *

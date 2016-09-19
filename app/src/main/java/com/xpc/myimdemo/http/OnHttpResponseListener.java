@@ -84,9 +84,9 @@ public class OnHttpResponseListener<T> implements OnResponseListener<T> {
      * 失败回调
      */
     @Override
-    public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+    public void onFailed(int what, Response<T> response) {
         if (callback != null){
-            callback.onFailed(what, url, tag, exception.getMessage(), responseCode, networkMillis);
+            callback.onFailed(what,response);
         }
     }
 }

@@ -104,8 +104,8 @@ public class MainActivity extends BaseHttpActivity {
             }
         }
         @Override
-        public void onFailed(int what, String url, Object tag, CharSequence error, int resCode, long ms) {
-            MyLog.i("请求失败："+ error);
+        public void onFailed(int what, Response response) {
+            MyLog.i("请求失败："+ response.get());
         }
     };
 

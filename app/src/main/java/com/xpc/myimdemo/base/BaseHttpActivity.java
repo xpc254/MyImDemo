@@ -10,10 +10,7 @@ import com.xpc.myimdemo.http.KeyValuePair;
 import com.xpc.myimdemo.http.OnHttpListener;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
-import com.yolanda.nohttp.rest.RequestQueue;
-import com.yolanda.nohttp.rest.Response;
 
 import java.util.List;
 
@@ -37,7 +34,7 @@ public class BaseHttpActivity extends BaseActivity{
      * @param listener 请求回调监听
      * @param isLoading 是否显示加载框
      */
-    protected void httpPostAsync(int what, String url,List<KeyValuePair> parmaValues,OnHttpListener listener,boolean isLoading){
+    protected void httpPostAsync(int what, String url, List<KeyValuePair> parmaValues, OnHttpListener listener, boolean isLoading){
         // String 请求对象
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.setCancelSign(this);
