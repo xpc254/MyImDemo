@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/faceLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_f0f1f1"
         android:orientation="vertical"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
@@ -20,20 +21,19 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:flipInterval="30"
-            android:persistentDrawingCache="animation"/>
+            android:persistentDrawingCache="animation" />
 
         <com.xpc.imlibrary.widget.face.CirclePageIndicator
             android:id="@+id/faceIndicator"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"/>
+            android:padding="10dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/moreFunctionLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_f0f1f1"
         android:orientation="vertical"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
@@ -46,12 +46,12 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:flipInterval="30"
-            android:persistentDrawingCache="animation"/>
+            android:persistentDrawingCache="animation" />
 
         <com.xpc.imlibrary.widget.face.CirclePageIndicator
             android:id="@+id/functionIndicator"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"/>
+            android:padding="10dp" />
     </LinearLayout>
 </LinearLayout>

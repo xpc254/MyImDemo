@@ -39,6 +39,10 @@ public class ChatExtendMenu extends LinearLayout {
     //表情指示页的几个点
     private CirclePageIndicator faceIndicator;
     private CirclePageIndicator functionIndicator;
+    //表情布局是否显示了
+    private boolean isFaceLayoutShow = false;
+    //文件，位置，照片布局是否显示了
+    private boolean isFileLayoutShow = false;
 
     public ChatExtendMenu(Context context) {
         super(context);
@@ -69,20 +73,28 @@ public class ChatExtendMenu extends LinearLayout {
     }
 
     public void showFaceLayout() {
+        setVisibility(View.VISIBLE);
+        isFaceLayoutShow = true;
+        isFileLayoutShow = false;
         faceLayout.setVisibility(View.VISIBLE);
         moreFunctionLayout.setVisibility(View.GONE);
     }
 
     public void showFileLayout() {
+        setVisibility(View.VISIBLE);
+        isFaceLayoutShow = false;
+        isFileLayoutShow = true;
         faceLayout.setVisibility(View.GONE);
         moreFunctionLayout.setVisibility(View.VISIBLE);
     }
 
-    public void hideExtendMunu() {
+    public void hideExtendMenu() {
+        setVisibility(View.GONE);
+        isFaceLayoutShow = false;
+        isFileLayoutShow = false;
         faceLayout.setVisibility(View.GONE);
         moreFunctionLayout.setVisibility(View.GONE);
     }
-
     // 添加图片表情
     private void initData() {
         // 获取聊天对象的id
@@ -192,5 +204,13 @@ public class ChatExtendMenu extends LinearLayout {
 //            }
 //        });
         return gv;
+    }
+
+    public boolean isFaceLayoutShow() {
+        return isFaceLayoutShow;
+    }
+
+    public boolean isFileLayoutShow() {
+        return isFileLayoutShow;
     }
 }
