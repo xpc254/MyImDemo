@@ -25,7 +25,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 /**
  * 主界面，登录界面
  * Create by xiepc on 2016/9/17  00:27
@@ -35,8 +34,6 @@ public class MainActivity extends BaseHttpActivity {
     EditText accountsEdit;
     @BindView(R.id.passwordEdit)
     EditText passwordEdit;
-    private String url = "https://www.baidu.com";
-    private Unbinder unbinder;
     /** 用户帐号 */
     private String userAccount;
     /** 用户密码 */
@@ -45,8 +42,8 @@ public class MainActivity extends BaseHttpActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         StatusBarCompat.compat(this,getResources().getColor(R.color.white)); //设置状态栏颜色
-        unbinder = ButterKnife.bind(this);
         accountsEdit.setText("13246737513");
     }
 
@@ -120,6 +117,5 @@ public class MainActivity extends BaseHttpActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
     }
 }

@@ -3,7 +3,6 @@ package com.xpc.myimdemo;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.xpc.myimdemo.adapter.PersonListAdapter;
 import com.xpc.myimdemo.app.MyApplication;
@@ -20,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 /**
  * 获取好友列表界面
  * @author xiepc
@@ -30,15 +30,13 @@ public class FriendsActivity extends FriendsActivityView {
     ListView personListView;
     @BindView(R.id.swipeLayout)
     SwipeRefreshLayout swipeLayout;
-    @BindView(R.id.titleText)
-    TextView titleText;
     List<PersonItem> personItemList = new ArrayList<>();
     private PersonListAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
-        StatusBarCompat.compat(this,getResources().getColor(R.color.colorPrimary)); //设置状态栏颜色
+        StatusBarCompat.compat(this,getResources().getColor(R.color.blue_main_title)); //设置状态栏颜色
         ButterKnife.bind(this);
         initView();
         enShowProgressBar = false; //设置网络不弹出进度框
@@ -48,7 +46,7 @@ public class FriendsActivity extends FriendsActivityView {
         ((FriendsPresenter)presenter).getFriends();
     }
     private void initView(){
-        titleText.setText("好友列表");
+        initTitle("好友列表");
         adapter = new PersonListAdapter(this,personItemList);
         personListView.setAdapter(adapter);
         swipeLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);

@@ -6,19 +6,11 @@ import android.os.AsyncTask;
 import android.os.Message;
 
 import com.xpc.myimdemo.FriendsActivity;
-import com.xpc.myimdemo.MainActivity;
 import com.xpc.myimdemo.app.MyApplication;
-import com.xpc.myimdemo.custom.WaitDialog;
 import com.xpc.myimdemo.data.UserPrefs;
-import com.xpc.myimdemo.im.manager.MessageManager;
-import com.xpc.myimdemo.im.manager.NoticeManager;
-import com.xpc.myimdemo.im.manager.PersonInfoManager;
 import com.xpc.myimdemo.im.manager.SocketConnectionManager;
-import com.xpc.myimdemo.im.model.RecMessageItem;
 import com.xpc.myimdemo.im.model.SendMessageItem;
-import com.xpc.myimdemo.util.DateTimeUtil;
 import com.xpc.myimdemo.util.MyLog;
-import com.xpc.myimdemo.util.StringUtil;
 
 /**
  * 登录即时通讯
@@ -27,9 +19,7 @@ import com.xpc.myimdemo.util.StringUtil;
  * @time 2016-1-5上午11:32:39
  */
 public class LoginSocketTask extends AsyncTask<String, Integer, Integer> {
-	private WaitDialog myProgressDialog = null;
 	private Context mContext;
-
 	/** 登录失败 */
 	public static final int LOGIN_FAIL = 0;
 	/** 登录成功 */
@@ -37,13 +27,11 @@ public class LoginSocketTask extends AsyncTask<String, Integer, Integer> {
 
 	public LoginSocketTask(Context context) {
 		this.mContext = context;
-		this.myProgressDialog = new WaitDialog(mContext);
 	}
 
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		myProgressDialog.show();
 	}
 
 	@Override
@@ -60,7 +48,6 @@ public class LoginSocketTask extends AsyncTask<String, Integer, Integer> {
 		// 获取离线消息
 //		GetOfflineMessageTask msgTask = new GetOfflineMessageTask(mContext);
 //		msgTask.execute();
-		myProgressDialog.dismiss();
 		switch (result) {
 		case LOGIN_FAIL:// 登录失败
 			UserPrefs.setIsAutoLogin(false);

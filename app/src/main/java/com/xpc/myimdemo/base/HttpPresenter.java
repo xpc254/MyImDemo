@@ -63,7 +63,6 @@ public abstract class HttpPresenter<V extends IHttpView,T> implements IPresenter
             }else{
                 MyLog.i("ResponseCode-----"+responseCode);
             }
-
         }
         @Override
         public void onFailed(int what, Response<T> response) {
@@ -77,9 +76,9 @@ public abstract class HttpPresenter<V extends IHttpView,T> implements IPresenter
     /**解析网络数据**/
     protected abstract void parseHttpData(int what,Response responseBody);
 
+    //取消当前界面的网络请求
     public void cancelHttp(){
         CallServer.getRequestInstance().cancelBySign(this);
-        MyLog.i("---取消当前请求---");
     }
 
 //    @Override

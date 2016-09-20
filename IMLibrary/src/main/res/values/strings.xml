@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">imlibrary</string>
+    <string name="send">发送</string>
+    <string name="press_and_hold_the_talk">按住说话</string>
+    <string name="new_loose_send">松开发送</string>
+    <string name="new_press_record">按住录音</string>
+    <string name="new_time_to_low">时间太短!</string>
+    <string name="record">录音</string>
+    <string name="new_cancel_record">取消录音!</string>
+</resources>

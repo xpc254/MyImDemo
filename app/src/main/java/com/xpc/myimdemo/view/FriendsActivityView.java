@@ -13,6 +13,7 @@ public abstract class FriendsActivityView extends ABaseActivityView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
     @Override
     protected HttpPresenter createPresenter() {

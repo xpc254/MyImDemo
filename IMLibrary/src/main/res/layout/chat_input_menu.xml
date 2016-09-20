@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="6dp">
+
+    <LinearLayout
+        android:id="@+id/chatLeftLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="4dp">
+
+        <ImageView
+            android:id="@+id/recordSwitchImg"
+            style="@style/chat_function_imageview_style"
+            android:src="@drawable/ic_chat_voice"/>
+
+        <ImageView
+            android:id="@+id/keyboardSwitchImg"
+            style="@style/chat_function_imageview_style"
+            android:src="@drawable/ic_chat_keyboard"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@+id/chatRightLayout"
+        android:layout_toRightOf="@+id/chatLeftLayout"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/messageLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/messageRtLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/messageEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/faceSwitchImg"
+                    android:background="@drawable/bg_chat_inputbox"
+                    android:gravity="center_vertical"
+                    android:maxLength="@dimen/multiline_edittext_maxlength"
+                    android:maxLines="4"
+                    android:minHeight="35dp"/>
+
+                <ImageView
+                    android:id="@+id/faceSwitchImg"
+                    style="@style/chat_function_imageview_style"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/selector_face_drawable"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/recordLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <com.xpc.imlibrary.widget.NewRecordButton
+                android:id="@+id/recordBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_weight="1.0"
+                android:background="@drawable/selector_voice_bg"
+                android:text="@string/press_and_hold_the_talk"
+                android:textColor="@color/gray_dark_time"
+                android:textSize="@dimen/font16"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chatRightLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <Button
+            android:id="@+id/messageSendBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:background="@drawable/selector_send_msg"
+            android:text="@string/send"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/font15"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/moreFunctionImg"
+            style="@style/chat_function_imageview_style"
+            android:src="@drawable/selector_more_drawable"/>
+    </LinearLayout>
+    <com.xpc.imlibrary.widget.ChatExtendMenu
+        android:id="@+id/extendMunu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
