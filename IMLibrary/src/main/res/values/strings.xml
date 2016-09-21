@@ -7,4 +7,30 @@
     <string name="new_time_to_low">时间太短!</string>
     <string name="record">录音</string>
     <string name="new_cancel_record">取消录音!</string>
+
+    <string name="sunday">星期天</string>
+    <string name="monday">星期一</string>
+    <string name="tuesday">星期二</string>
+    <string name="wednesday">星期三</string>
+    <string name="thursday">星期四</string>
+    <string name="friday">星期五</string>
+    <string name="saturday">星期六</string>
+    <string name="new_year">年</string>
+    <string name="new_month">月</string>
+    <string name="new_date">日</string>
+    <string name="new_hour">时</string>
+    <string name="new_minite">分</string>
+    <string name="today">今天</string>
+    <string name="current_month">本月</string>
+    <string name="last_month">上月</string>
+    <string name="yesterday">昨天</string>
+    <string name="years">年份</string>
+    <string name="picture">图片</string>
+    <string name="voice">语音</string>
+    <string name="mine">我</string>
+    <string name="chat_location">位置</string>
+    <string name="my_location">选择位置</string>
+    <string name="chat_single">单聊</string>
+    <string name="chat_group">群聊</string>
+    <string name="new_message">收到新消息</string>
 </resources>

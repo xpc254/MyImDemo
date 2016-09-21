@@ -1,4 +1,9 @@
-package com.xpc.myimdemo.util;
+package com.xpc.imlibrary.util;
+
+import android.content.Context;
+import android.text.TextUtils;
+
+import com.xpc.imlibrary.R;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -9,11 +14,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import android.content.Context;
-import android.text.TextUtils;
-
-import com.xpc.myimdemo.R;
 
 /**
  * 时间日期处理类
@@ -93,7 +93,7 @@ public class DateTimeUtil {
 	 * @return	true:是	false:不是
 	 */
 	public static  boolean isDateFormat(String inputTime,SimpleDateFormat format){
-		if (!StringUtil.isEmpty(inputTime)) {
+		if (!TextUtils.isEmpty(inputTime)) {
 			format.setLenient(false);
 	         try {
 	        	 format.format(format.parse(inputTime));
@@ -482,7 +482,7 @@ public class DateTimeUtil {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		if (!StringUtil.isEmpty(hourMinute)) {
+		if (!TextUtils.isEmpty(hourMinute)) {
 			return hourMinute;
 		}
 		return dateTime;
@@ -514,7 +514,7 @@ public class DateTimeUtil {
 	 */
 	public static String getIntToStringWeek(Context context, String weekInt) {
 		StringBuffer weekString = new StringBuffer();
-		if (!StringUtil.isEmpty(weekInt)) {
+		if (!TextUtils.isEmpty(weekInt)) {
 			if (weekInt.indexOf(",") != -1) {
 				String[] weeks = weekInt.split(",");
 				if (weeks.length > 0) {
@@ -599,7 +599,7 @@ public class DateTimeUtil {
 	 * @return 秒
 	 */
 	public static long getDateTimeToSecond(String curTime, String format) {
-		if (StringUtil.isEmpty(format)) {
+		if (TextUtils.isEmpty(format)) {
 			format = FORMAT_HOUR_MINUTE_SECOND;
 		}
 		long second = 0;
@@ -952,8 +952,6 @@ public class DateTimeUtil {
 	 * 
 	 * @param strDate
 	 *            指定日期
-	 * @param day
-	 *            间隔天数
 	 * @return 间隔年日期
 	 */
 	public static String getNextYear(String strDate, int year) {

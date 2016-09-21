@@ -1,11 +1,11 @@
-package com.xpc.myimdemo.im.model;
+package com.xpc.imlibrary.model;
 
-import com.xpc.myimdemo.data.UserPrefs;
-import com.xpc.myimdemo.util.StringUtil;
+
+import com.xpc.imlibrary.data.UserPrefs;
+import com.xpc.imlibrary.util.StringUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 
 /**

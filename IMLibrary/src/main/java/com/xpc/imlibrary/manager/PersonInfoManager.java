@@ -1,4 +1,4 @@
-package com.xpc.myimdemo.im.manager;
+package com.xpc.imlibrary.manager;
 
 import android.content.ContentValues;
 import android.content.Context;

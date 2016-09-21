@@ -1,7 +1,4 @@
-package com.xpc.myimdemo.im.model;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+package com.xpc.imlibrary.model;
 
 import android.content.Context;
 import android.os.Parcel;
@@ -13,6 +10,9 @@ import com.xpc.myimdemo.data.UserPrefs;
 import com.xpc.myimdemo.im.activity.ChatActivity;
 import com.xpc.myimdemo.util.DateTimeUtil;
 import com.xpc.myimdemo.util.StringUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**

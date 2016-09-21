@@ -1,21 +1,18 @@
-package com.xpc.myimdemo.im.manager;
+package com.xpc.imlibrary.manager;
 
 import com.xpc.myimdemo.config.Constant;
 import com.xpc.myimdemo.im.service.ReceiverMessageHandler;
 import com.xpc.myimdemo.util.MyLog;
-
-import java.net.InetSocketAddress;
-import java.nio.charset.Charset;
 
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
-import org.apache.mina.filter.keepalive.KeepAliveFilter;
-import org.apache.mina.filter.keepalive.KeepAliveMessageFactory;
-import org.apache.mina.filter.keepalive.KeepAliveRequestTimeoutHandler;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
+
+import java.net.InetSocketAddress;
+import java.nio.charset.Charset;
 
 
 /**

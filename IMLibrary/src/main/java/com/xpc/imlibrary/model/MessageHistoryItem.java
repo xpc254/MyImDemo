@@ -1,4 +1,4 @@
-package com.xpc.myimdemo.im.model;
+package com.xpc.imlibrary.model;
 
 
 import com.xpc.myimdemo.model.BaseItem;

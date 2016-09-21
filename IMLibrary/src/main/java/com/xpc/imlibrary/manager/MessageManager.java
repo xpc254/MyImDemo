@@ -1,9 +1,8 @@
-package com.xpc.myimdemo.im.manager;
+package com.xpc.imlibrary.manager;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-
 
 import com.xpc.myimdemo.data.UserPrefs;
 import com.xpc.myimdemo.db.DBManager;

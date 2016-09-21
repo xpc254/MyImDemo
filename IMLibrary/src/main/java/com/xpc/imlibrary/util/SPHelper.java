@@ -1,12 +1,11 @@
-package com.xpc.myimdemo.util;
-
-import java.util.Map;
-import java.util.Set;
+package com.xpc.imlibrary.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import com.xpc.myimdemo.app.MyApplication;
+
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -14,7 +13,7 @@ import com.xpc.myimdemo.app.MyApplication;
  * @author qiaocbao
  * @time 2014-10-7 上午9:27:36
  */
-public class SharedPrefsHelper {
+public class SPHelper {
 
 	private Context mContext;
 	/** sharedPrefs名称 */
@@ -23,34 +22,29 @@ public class SharedPrefsHelper {
 	private SharedPreferences sp;
 	private Editor mEditor;
 
-	public SharedPrefsHelper() {
-		this(COMMON_NAME, Context.MODE_PRIVATE);
+	public SPHelper(Context context) {
+		this(context,COMMON_NAME, Context.MODE_PRIVATE);
 	}
 
-	public SharedPrefsHelper(String name) {
-		this(name, Context.MODE_PRIVATE);
+	public SPHelper(Context context, String name) {
+		this(context,name, Context.MODE_PRIVATE);
 	}
 
 	/**
 	 * 创建一个工具类，默认打开名字为name的SharedPreferences实例
 	 * 
-	 * @param context
 	 * @param name
 	 *            唯一标识
 	 * @param mode
 	 *            权限标识
 	 */
-	public SharedPrefsHelper(String name, int mode) {
-		mContext = MyApplication.getContext();
+	public SPHelper(Context context, String name, int mode) {
+		mContext = context;
 		this.mode = mode;
 		sp = mContext.getSharedPreferences(name, mode);
 	}
-
 	/**
 	 * 添加信息到SharedPreferences
-	 * 
-	 * @param COMMON_NAME
-	 * @param map
 	 * @throws Exception
 	 */
 	public void add(Map<String, String> values) {

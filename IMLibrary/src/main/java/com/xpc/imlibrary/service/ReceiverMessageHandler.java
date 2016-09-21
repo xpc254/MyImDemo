@@ -1,4 +1,4 @@
-package com.xpc.myimdemo.im.service;
+package com.xpc.imlibrary.service;
 
 import com.xpc.myimdemo.util.MyLog;
 import com.xpc.myimdemo.util.ResolveMessageUtil;
@@ -6,7 +6,6 @@ import com.xpc.myimdemo.util.ResolveMessageUtil;
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
-
 
 
 /**

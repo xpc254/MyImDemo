@@ -1,4 +1,4 @@
-package com.xpc.myimdemo.db;
+package com.xpc.imlibrary.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;

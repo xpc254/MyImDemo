@@ -1,6 +1,4 @@
-package com.xpc.myimdemo.im.manager;
-
-import java.util.List;
+package com.xpc.imlibrary.manager;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,6 +9,8 @@ import com.xpc.myimdemo.db.DBManager;
 import com.xpc.myimdemo.db.SQLiteTemplate;
 import com.xpc.myimdemo.im.model.NoticeItem;
 import com.xpc.myimdemo.util.StringUtil;
+
+import java.util.List;
 
 
 /**

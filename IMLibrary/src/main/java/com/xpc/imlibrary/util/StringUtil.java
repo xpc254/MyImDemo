@@ -1,4 +1,4 @@
-package com.xpc.myimdemo.util;
+package com.xpc.imlibrary.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -10,8 +10,7 @@ import android.graphics.Typeface;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.xpc.myimdemo.app.MyApplication;
-import com.xpc.myimdemo.data.UserPrefs;
+import com.xpc.imlibrary.data.UserPrefs;
 
 import java.util.List;
 import java.util.Random;
@@ -140,9 +139,8 @@ public class StringUtil {
 	 * 
 	 * @return
 	 */
-	public static boolean isActivityStatcTop() {
-		ActivityManager mActivityManager = (ActivityManager) MyApplication
-				.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
+	public static boolean isActivityStatcTop(Context context) {
+		ActivityManager mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 		List<RunningTaskInfo> rti = mActivityManager.getRunningTasks(1);
 		String className = rti.get(0).topActivity.getClassName();
 		if ("com.hhxh.make.im.chat.ui.ChatActivity".equals(className)) {
@@ -291,8 +289,8 @@ public class StringUtil {
 	 * 获取设备id
 	 * @return
 	 */
-	public static String getDeviceId(){
-		TelephonyManager TelephonyMgr = (TelephonyManager)MyApplication.getContext().getSystemService(Activity.TELEPHONY_SERVICE); 
+	public static String getDeviceId(Context context){
+		TelephonyManager TelephonyMgr = (TelephonyManager)context.getSystemService(Activity.TELEPHONY_SERVICE);
 		String deviceId = TelephonyMgr.getDeviceId();
 		if(StringUtil.isEmpty(deviceId)){//如果未获取到设备号就用登录帐号
 			deviceId = UserPrefs.getUserAccount();

@@ -1,6 +1,7 @@
-package com.xpc.myimdemo.im.activity;
+package com.xpc.imlibrary;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.xpc.myimdemo.base.BaseHttpActivity;
 import com.xpc.myimdemo.data.UserPrefs;
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * Created by xiepc on 2016/8/19 0019 下午 3:20
  */
-public abstract class AChatActivity extends BaseHttpActivity{
+public abstract class AChatActivity extends AppCompatActivity{
     /** 消息 */
     private List<RecMessageItem> messageList = null;
     /** 好友id */

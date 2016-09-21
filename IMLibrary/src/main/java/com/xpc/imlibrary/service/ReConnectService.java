@@ -1,4 +1,4 @@
-package com.xpc.myimdemo.im.service;
+package com.xpc.imlibrary.service;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
