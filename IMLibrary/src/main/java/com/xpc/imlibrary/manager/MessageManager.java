@@ -4,14 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.xpc.myimdemo.data.UserPrefs;
-import com.xpc.myimdemo.db.DBManager;
-import com.xpc.myimdemo.db.SQLiteTemplate;
-import com.xpc.myimdemo.im.model.MessageHistoryItem;
-import com.xpc.myimdemo.im.model.NoticeItem;
-import com.xpc.myimdemo.im.model.RecMessageItem;
-import com.xpc.myimdemo.im.model.SendMessageItem;
-import com.xpc.myimdemo.util.StringUtil;
+import com.xpc.imlibrary.data.UserPrefs;
+import com.xpc.imlibrary.db.DBManager;
+import com.xpc.imlibrary.db.SQLiteTemplate;
+import com.xpc.imlibrary.model.MessageHistoryItem;
+import com.xpc.imlibrary.model.NoticeItem;
+import com.xpc.imlibrary.model.RecMessageItem;
+import com.xpc.imlibrary.model.SendMessageItem;
+import com.xpc.imlibrary.util.StringUtil;
 
 import java.util.List;
 
@@ -305,8 +305,8 @@ public class MessageManager {
 	 * 
 	 * @return
 	 */
-	public int delChatHisWithMe() {
-		String receiveId = UserPrefs.getUserId();
+	public int delChatHisWithMe(Context context) {
+		String receiveId = UserPrefs.getInstance(context).getUserId();
 		if (StringUtil.isEmpty(receiveId)) {
 			return 0;
 		}

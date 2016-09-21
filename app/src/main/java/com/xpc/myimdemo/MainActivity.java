@@ -6,10 +6,8 @@ import android.widget.EditText;
 
 import com.xpc.myimdemo.base.BaseHttpActivity;
 import com.xpc.myimdemo.config.ActionConfigs;
-import com.xpc.myimdemo.data.UserPrefs;
 import com.xpc.myimdemo.http.KeyValuePair;
 import com.xpc.myimdemo.http.OnHttpListener;
-import com.xpc.myimdemo.im.service.LoginSocketTask;
 import com.xpc.myimdemo.model.User;
 import com.xpc.myimdemo.util.JsonUtils;
 import com.xpc.myimdemo.util.MyLog;

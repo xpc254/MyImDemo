@@ -1,8 +1,5 @@
 package com.xpc.imlibrary.model;
 
-
-import com.xpc.myimdemo.model.BaseItem;
-
 import java.io.Serializable;
 
 /**
@@ -11,7 +8,7 @@ import java.io.Serializable;
  * @author qiaocb
  * @time 2015-11-12上午11:43:26
  */
-public class MessageHistoryItem implements Serializable,BaseItem {
+public class MessageHistoryItem implements Serializable, BaseItem {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,10 +43,10 @@ public class MessageHistoryItem implements Serializable,BaseItem {
 
 	/** 群组名称 */
 	private String groupName;
-	
+
 	/** 群组头像 */
 	private String groupUrl;
-	
+
 	/** 置顶号 */
 	private Integer topNum;
 

@@ -1,6 +1,7 @@
 package com.xpc.imlibrary.model;
 
-import com.xpc.myimdemo.util.DateTimeUtil;
+
+import com.xpc.imlibrary.util.DateTimeUtil;
 
 import java.io.Serializable;
 import java.util.Date;

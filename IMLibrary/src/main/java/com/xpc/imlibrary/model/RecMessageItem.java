@@ -4,16 +4,14 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.xpc.myimdemo.R;
-import com.xpc.myimdemo.app.MyApplication;
-import com.xpc.myimdemo.data.UserPrefs;
-import com.xpc.myimdemo.im.activity.ChatActivity;
-import com.xpc.myimdemo.util.DateTimeUtil;
-import com.xpc.myimdemo.util.StringUtil;
+import com.xpc.imlibrary.ChatActivity;
+import com.xpc.imlibrary.R;
+import com.xpc.imlibrary.data.UserPrefs;
+import com.xpc.imlibrary.util.DateTimeUtil;
+import com.xpc.imlibrary.util.StringUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 /**
  * IM界面显示item
@@ -97,7 +95,7 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 	 * @param recItem
 	 * @return
 	 */
-	public NoticeItem changeToNotice(RecMessageItem recItem) {
+	public NoticeItem changeToNotice(Context context,RecMessageItem recItem) {
 		NoticeItem notice = new NoticeItem();
 		notice.setMsgId(recItem.getMsgId());
 		notice.setMsgType(recItem.getMsgType());
@@ -109,20 +107,21 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 				|| recItem.getMsgScene() == SendMessageItem.CHAT_GROUP) {
 
 			if (recItem.getMsgType() == SendMessageItem.TYPE_IMAGE) {// 图片
-				notice.setContent(MyApplication.getInstance().getString(
+				notice.setContent(context.getString(
 						R.string.picture));
 			} else if (recItem.getMsgType() == SendMessageItem.TYPE_VOICE) {// 语音
-				notice.setContent(MyApplication.getInstance().getString(
+				notice.setContent(context.getString(
 						R.string.voice));
 			} else if (recItem.getMsgType() == SendMessageItem.TYPE_LOCATION) {// 位置
-				notice.setContent(MyApplication.getInstance().getString(R.string.chat_location));
+				notice.setContent(context.getString(
+						R.string.chat_location));
 			} else {
 				notice.setContent(recItem.getContent());
 			}
 		} else {
 			notice.setContent(recItem.getContent());
 		}
-		if (StringUtil.isActivityStatcTop()
+		if (StringUtil.isActivityStatcTop(context)
 				&& !StringUtil.isEmpty(ChatActivity.currentFriendJid)
 				&& ChatActivity.currentFriendJid.equals(recItem.getSendId())) {// 当前聊天好友在聊天界面则通知服务器消息已读
 			notice.setStatus(NoticeItem.READ);
@@ -193,6 +192,7 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 
 	/**
 	 * 根据聊天场景类型获取聊天场景名称
+	 * 
 	 * @return
 	 */
 	public static String getSceneName(Context context, int scene) {
@@ -292,35 +292,11 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 //		case SendMessageItem.TYPE_ANNOUNCEMENT:
 //			operateTypeName = context.getString(R.string.chat_announcement);
 //			break;
-//		case SendMessageItem.TYPE_DYNAMIC:
-//			operateTypeName = context.getString(R.string.chat_dynamic);
-//			break;
-//		case SendMessageItem.TYPE_TEAM_CHANGE:
-//			operateTypeName = context.getString(R.string.chat_team_change);
-//			break;
 //		case SendMessageItem.TYPE_REWARDS_AND_PUNISHMENT:
 //			operateTypeName = context.getString(R.string.chat_rewards_and_punishment);
 //			break;
-//		case SendMessageItem.TYPE_PROGRESS:
-//			operateTypeName = context.getString(R.string.chat_progress);
-//			break;
 //		case SendMessageItem.TYPE_EARLYWARNING:
 //			operateTypeName = context.getString(R.string.chat_earlywarning);
-//			break;
-//		case SendMessageItem.TYPE_AT:
-//			operateTypeName = context.getString(R.string.chat_at);
-//			break;
-//		case SendMessageItem.TYPE_NODE_REVIEW:
-//			operateTypeName = context.getString(R.string.chat_review);
-//			break;
-//		case SendMessageItem.TYPE_DESIGNATE_PRINCIPA:
-//			operateTypeName = context.getString(R.string.chat_designate_principa);
-//			break;
-//		case SendMessageItem.TYPE_NODE_CONNECT:
-//			operateTypeName = context.getString(R.string.chat_node_connect);
-//			break;
-//		case SendMessageItem.TYPE_COMPLETE:
-//			operateTypeName = context.getString(R.string.chat_complete);
 //			break;
 //		default:
 //			break;
@@ -766,7 +742,7 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 	 * @param item
 	 * @return
 	 */
-	public JSONObject changetoObj(RecMessageItem item) {
+	public JSONObject changetoObj(Context context,RecMessageItem item) {
 		JSONObject obj = new JSONObject();
 		try {
 			obj.put("iD", item.getMsgId());
@@ -775,9 +751,9 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 			obj.put("cT", item.getContent());
 			obj.put("sT", item.getSendTime());
 			obj.put("mL", item.getMsgLen());
-			obj.put("sD", UserPrefs.getUserId());
-			obj.put("sN", UserPrefs.getUserName());
-			obj.put("sU", UserPrefs.getHeadImage());
+			obj.put("sD", UserPrefs.getInstance(context).getUserId());
+			obj.put("sN", UserPrefs.getInstance(context).getUserName());
+			obj.put("sU", UserPrefs.getInstance(context).getHeadImage());
 			obj.put("rD", item.getSendId());
 			if (item.msgScene == SendMessageItem.CHAT_GROUP) {// 群聊时需把群名称和群头像传过去
 				obj.put("rN", item.getSendNickName());

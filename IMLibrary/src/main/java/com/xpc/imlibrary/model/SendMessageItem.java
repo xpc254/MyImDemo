@@ -1,12 +1,13 @@
 package com.xpc.imlibrary.model;
 
 
+import android.content.Context;
+
 import com.xpc.imlibrary.data.UserPrefs;
 import com.xpc.imlibrary.util.StringUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 /**
  * 发送消息item
@@ -30,10 +31,14 @@ public class SendMessageItem {
 	public static final int CHAT_REMINDERS = 5;
 	/** 督办 */
 	public static final int CHAT_SUPERVISION = 6;
-//	/** 微讯团队 */
-//	public static final int CHAT_MICRO_NEWS_TEAM = 7;
+	/** 微讯团队 */
+	public static final int CHAT_MICRO_NEWS_TEAM = 7;
 	/** 紧急任务 */
 	public static final int CHAT_URGENT_TASK = 8;
+	/** 公司新闻 */
+	public static final int CHAT_COMPANY_NEW = 9;
+	/** 通知公告 */
+	public static final int CHAT_ANNOUNCEMENT = 10;
 
 	// 基本消息类型
 	/** 文字 */
@@ -58,54 +63,51 @@ public class SendMessageItem {
 	public static final int TYPE_REQUEST_INSTRUCTION = 9;
 	/** 工作指示 */
 	public static final int TYPE_INSTRUCTION = 10;
-	/** 周计划 */
+	/** 周报 */
 	public static final int TYPE_WEEK_PLAN = 11;
-	/** 月计划 */
+	/** 月报 */
 	public static final int TYPE_MONTH_PLAN = 12;
 	/** 日程 */
 	public static final int TYPE_SCHEDULE = 13;
-	/** 费用申请 */
-	public static final int TYPE_EXEPNSE_APPLY = 14;
-	/** 费用报销 */
-	public static final int TYPE_EXEPNSE_APPROVE = 15;
-	/** 付款单 */
-	public static final int TYPE_PAYMENT = 16;
 	/** 会议 */
-	public static final int TYPE_MEETING = 17;
+	public static final int TYPE_MEETING = 14;
+	/** 企业微博 */
+	public static final int TYPE_COMPANY_BLOG = 15;
+	/** 微讯团队 */
+	public static final int TYPE_MICRO_NEWS_TEAM = 16;
 	/** 公司新闻 */
-	public static final int TYPE_COMPANY_NEW = 18;
+	public static final int TYPE_COMPANY_NEW = 17;
 	/** 通知公告 */
-	public static final int TYPE_ANNOUNCEMENT = 19;
-	/** 动态 */
-	public static final int TYPE_DYNAMIC = 200;
-	/** @我 */
-	public static final int TYPE_AT  = 201;
-	/** 团队 */
-	public static final int TYPE_TEAM_CHANGE  = 202;
-	/** 奖惩 */
-	public static final int TYPE_REWARDS_AND_PUNISHMENT = 203;
-	/** 进度 */
-	public static final int TYPE_PROGRESS = 204;
-	/** 预警 */
-	public static final int TYPE_EARLYWARNING = 205;
-	/** 复议 */
-	public static final int TYPE_NODE_REVIEW = 206;
-    /** 指派 */
-	public static final int TYPE_DESIGNATE_PRINCIPA  = 207;
-	/** 交接 */
-	public static final int TYPE_NODE_CONNECT  = 208;
-	/** 完成 */
-	public static final int TYPE_COMPLETE  = 209;
-//	/** 出差 */
-//	public static final int TYPE_TRAVEL = 10;
-//	/** 请假 */
-//	public static final int TYPE_LEAVE = 11;
-//	/** 加班 */
-//	public static final int TYPE_OVERTIME = 12;
-//	/** 外出 */
-//	public static final int TYPE_EGRESSION = 13;
+	public static final int TYPE_ANNOUNCEMENT = 18;
 
-	//连接消息类型
+	/** 商机管理 */
+	public static final int TYPE_BUSINESS_OPPORTUNITY_MANAGE = 50;
+	/** 客户管理 */
+	public static final int TYPE_CLIENT_MANAGE = 51;
+	/** 商务管理 */
+	public static final int TYPE_BUSINESS_AFFAIRS_MANAGE = 52;
+	
+	//工作流
+	/** 费用申请 */
+	public static final int TYPE_EXEPNSE_APPLY = 61;
+	/** 费用报销 */
+	public static final int TYPE_EXEPNSE_APPROVE = 62;
+	/** 付款单 */
+	public static final int TYPE_PAYMENT = 63;
+	/** 出差 */
+	public static final int TYPE_TRAVEL = 64;
+	/** 请假 */
+	public static final int TYPE_LEAVE = 65;
+	/** 加班 */
+	public static final int TYPE_OVERTIME = 66;
+	/** 外出 */
+	public static final int TYPE_EGRESSION = 67;
+	/** 收文 */
+	public static final int TYPE_RECEIVED_FILE = 68;
+	/** 发文 */
+	public static final int TYPE_ISSUED_FILE = 69;
+
+	// 连接消息类型
 	/** 连接 */
 	public static final int TYPE_CONNECT = 80;
 	/** 退出 */
@@ -123,43 +125,29 @@ public class SendMessageItem {
 	/** 顶号(帐号在其他设备登录) */
 	public static final int TYPE_UNIQUE_EXISTENCE = 87;
 
-	// 操作类型(int类型)
-//	/** 考勤 */
-//	public static final int OPERATE_TYPE_ATTENDANCE = 0;
-//	/** 任务 */
-//	public static final int OPERATE_TYPE_TASK = 1;
-//	/** 工作日志 */
-//	public static final int OPERATE_TYPE_JOURNAL = 2;
-//	/** 工作请示 */
-//	public static final int OPERATE_REQUEST_INSTRUCTION = 3;
-//	/** 工作指示 */
-//	public static final int OPERATE_TYPE_OPERATION = 4;
-//	/** 周计划 */
-//	public static final int OPERATE_TYPE_WEEK_PLAN = 5;
-//	/** 月计划 */
-//	public static final int OPERATE_TYPE_MONTH_PLAN = 6;
-//	/** 日程 */
-//	public static final int OPERATE_TYPE_SCHEDULE = 7;
-//	/** 费用申请 */
-//	public static final int OPERATE_TYPE_EXEPNSE_APPLY = 8;
-//	/** 费用报销 */
-//	public static final int OPERATE_TYPE_EXEPNSE_APPROVE = 9;
-//	/** 出差 */
-//	public static final int OPERATE_TYPE_TRAVEL = 10;
-//	/** 请假 */
-//	public static final int OPERATE_TYPE_LEAVE = 11;
-//	/** 加班 */
-//	public static final int OPERATE_TYPE_OVERTIME = 12;
-//	/** 外出 */
-//	public static final int OPERATE_TYPE_EGRESSION = 13;
-//	/** 项目 */
-//	public static final int OPERATE_TYPE_PROJECT = 14;
-//	/** 付款单 */
-//	public static final int OPERATE_TYPE_PAYMENT = 15;
-//	/** 会议 */
-//	public static final int OPERATE_TYPE_MEETING = 16;
-//	/** 文件转发 */
-//	public static final int OPERATE_TYPE_FORWARD_FILE = 17;
+	// 生产消息
+	/** 动态 */
+	public static final int TYPE_DYNAMIC = 200;
+	/** @我 */
+	public static final int TYPE_AT = 201;
+	/** 团队 */
+	public static final int TYPE_TEAM = 202;
+	/** 奖惩 */
+	public static final int TYPE_REWARDS_AND_PUNISHMENT = 203;
+	/** 进度 */
+	public static final int TYPE_PROGRESS = 204;
+	/** 预警 */
+	public static final int TYPE_EARLYWARNING = 205;
+	/** 复议 */
+	public static final int TYPE_RECONSIDERATION = 206;
+	/** 指派 */
+	public static final int TYPE_DESIGNATE = 207;
+	/** 交接 */
+	public static final int TYPE_HANDOVER = 208;
+	/** 完成 */
+	public static final int TYPE_COMPLETE = 209;
+
+
 
 	// 信息状态
 	/** 未读 */
@@ -305,14 +293,14 @@ public class SendMessageItem {
 	 * 
 	 * @return
 	 */
-	public static JSONObject verifyTokenObj() {
+	public static JSONObject verifyTokenObj(Context context) {
 		JSONObject obj = new JSONObject();
 		try {
 			obj.put("iD", StringUtil.getMsgId());
 			obj.put("mT", TYPE_CONNECT);
-			obj.put("sD", UserPrefs.getUserId());
-			obj.put("tK", UserPrefs.getToken());
-			obj.put("dC", StringUtil.getDeviceId());
+			obj.put("sD", UserPrefs.getInstance(context).getUserId());
+			obj.put("tK", UserPrefs.getInstance(context).getToken());
+			obj.put("dC", StringUtil.getDeviceId(context));
 			obj.put("cT", "");
 			obj.put("mC", "");
 			obj.put("mL", 1);
@@ -622,5 +610,4 @@ public class SendMessageItem {
 	public void setPlayStatus(int playStatus) {
 		this.playStatus = playStatus;
 	}
-
 }

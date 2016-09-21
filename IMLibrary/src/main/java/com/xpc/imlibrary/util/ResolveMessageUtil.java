@@ -21,8 +21,6 @@ import com.xpc.imlibrary.model.SendMessageItem;
 
 import org.json.JSONObject;
 
-import static android.R.id.message;
-
 
 /**
  * 解析消息
@@ -57,7 +55,7 @@ public class ResolveMessageUtil {
 
 			if (recMsg.getMsgType() == SendMessageItem.TYPE_UNIQUE_EXISTENCE) {// 该帐号在其他设备登录
 				SocketConnectionManager.getInstance().disconnect();
-				UserPrefs.setIsAutoLogin(false);
+				UserPrefs.getInstance(context).setIsAutoLogin(false);
 				Intent zenitIntent = new Intent();
 				zenitIntent
 						.setAction(IMConstant.OTHER_EQUIPMENT_ACCOUNT_LOGIN_ACTIVITY);
@@ -110,12 +108,12 @@ public class ResolveMessageUtil {
 					break;
 				}
 
-				recMsg.setReceiveId(UserPrefs.getUserId());
+				recMsg.setReceiveId(UserPrefs.getInstance(context).getUserId());
 				recMsg.setStatus(SendMessageItem.STATUS_READ);
 				recMsg.setDirection(SendMessageItem.RECEIVE_MSG);
 
 				if (!isOffline) {// 离线消息不回调，有专门的回调
-					if (StringUtil.isActivityStatcTop()
+					if (StringUtil.isActivityStatcTop(context)
 							&& !StringUtil
 									.isEmpty(ChatActivity.currentFriendJid)
 							&& ChatActivity.currentFriendJid.equals(recMsg
@@ -152,13 +150,13 @@ public class ResolveMessageUtil {
 				NoticeItem notice = null;
 				Integer primaryId;
 				if (recMsg.getMsgScene() == SendMessageItem.CHAT_GROUP) {
-					notice = dbRecMsg.changeToNotice(dbRecMsg);
+					notice = dbRecMsg.changeToNotice(context,dbRecMsg);
 					// 保存聊天信息
 					primaryId = (int) MessageManager.getInstance(
 							context)
 							.saveIMMessage(dbRecMsg);
 				} else {
-					notice = recMsg.changeToNotice(recMsg);
+					notice = recMsg.changeToNotice(context,recMsg);
 					// 保存聊天信息
 					primaryId = (int) MessageManager.getInstance(
 							context).saveIMMessage(recMsg);
@@ -180,7 +178,7 @@ public class ResolveMessageUtil {
 					intent.putExtra("notice", notice);
 					context.sendBroadcast(intent);
 					if (!isOffline) {
-						setNotiType(context,R.mipmap.ic_launcher,context.getResources()
+						setNotiType(context, R.mipmap.ic_launcher,context.getResources()
 										.getString(R.string.new_message),
 								notice.getContent(), recMsg);
 					}

@@ -1,19 +1,17 @@
 package com.xpc.imlibrary;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-import com.xpc.myimdemo.base.BaseHttpActivity;
-import com.xpc.myimdemo.data.UserPrefs;
-import com.xpc.myimdemo.im.manager.MessageManager;
-import com.xpc.myimdemo.im.manager.PersonInfoManager;
-import com.xpc.myimdemo.im.manager.SocketConnectionManager;
-import com.xpc.myimdemo.im.model.RecMessageItem;
-import com.xpc.myimdemo.im.model.SendMessageItem;
-import com.xpc.myimdemo.im.service.ReconnectionSocketTask;
-import com.xpc.myimdemo.util.DateTimeUtil;
-import com.xpc.myimdemo.util.MyLog;
-import com.xpc.myimdemo.util.StringUtil;
+import com.xpc.imlibrary.data.UserPrefs;
+import com.xpc.imlibrary.manager.MessageManager;
+import com.xpc.imlibrary.manager.PersonInfoManager;
+import com.xpc.imlibrary.manager.SocketConnectionManager;
+import com.xpc.imlibrary.model.RecMessageItem;
+import com.xpc.imlibrary.model.SendMessageItem;
+import com.xpc.imlibrary.service.ReconnectionSocketTask;
+import com.xpc.imlibrary.util.DateTimeUtil;
+import com.xpc.imlibrary.util.MyLog;
+import com.xpc.imlibrary.util.StringUtil;
 
 import org.json.JSONObject;
 
@@ -22,7 +20,7 @@ import java.util.List;
 /**
  * Created by xiepc on 2016/8/19 0019 下午 3:20
  */
-public abstract class AChatActivity extends AppCompatActivity{
+public abstract class AChatActivity extends BaseActivity{
     /** 消息 */
     private List<RecMessageItem> messageList = null;
     /** 好友id */
@@ -40,7 +38,7 @@ public abstract class AChatActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        receiveId = UserPrefs.getUserId();
+        receiveId = UserPrefs.getInstance(this).getUserId();
         sendId = getIntent().getStringExtra("sendId");
         sendName = getIntent().getStringExtra("sendName");
         sendUrl = getIntent().getStringExtra("sendUrl");
@@ -77,8 +75,8 @@ public abstract class AChatActivity extends AppCompatActivity{
             sendItem.setSendNickName(sendName);
             sendItem.setSendUserAvatar(sendUrl);
             sendItem.setReceiveId(receiveId);
-            sendItem.setReceiveNickName(UserPrefs.getUserName());
-            sendItem.setReceiveUserAvatar(UserPrefs.getHeadImage());
+            sendItem.setReceiveNickName(UserPrefs.getInstance(this).getUserName());
+            sendItem.setReceiveUserAvatar(UserPrefs.getInstance(this).getHeadImage());
             if (sendItem.getMsgScene() == SendMessageItem.CHAT_GROUP) {// 群聊
                 sendItem.setGroupId(sendId);
                 sendItem.setGroupName(sendName);

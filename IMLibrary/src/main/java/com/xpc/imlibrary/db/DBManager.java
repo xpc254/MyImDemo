@@ -4,8 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.xpc.myimdemo.data.UserPrefs;
-
+import com.xpc.imlibrary.data.UserPrefs;
 
 /**
  * SQLite数据库管理类 主要负责数据库资源的初始化,开启,关闭,以及获得DatabaseHelper帮助类操作
@@ -51,8 +50,8 @@ public class DBManager {
 	/**
 	 * 打开数据库 注:SQLiteDatabase资源一旦被关闭,该底层会重新产生一个新的SQLiteDatabase
 	 */
-	public SQLiteDatabase openDatabase() {
-		return getDatabaseHelper().getWritableDatabase();
+	public SQLiteDatabase openDatabase(Context context) {
+		return getDatabaseHelper(context).getWritableDatabase();
 	}
 
 	/**
@@ -60,8 +59,8 @@ public class DBManager {
 	 * 
 	 * @return
 	 */
-	public DataBaseHelper getDatabaseHelper() {
-		return new DataBaseHelper(mContext, UserPrefs.getUserId(), null, -1);
+	public DataBaseHelper getDatabaseHelper(Context context) {
+		return new DataBaseHelper(mContext, UserPrefs.getInstance(context).getUserId(), null, -1);
 	}
 
 }

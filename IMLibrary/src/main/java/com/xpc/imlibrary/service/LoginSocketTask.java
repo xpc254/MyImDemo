@@ -1,16 +1,9 @@
 package com.xpc.imlibrary.service;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Message;
 
-import com.xpc.myimdemo.FriendsActivity;
-import com.xpc.myimdemo.app.MyApplication;
-import com.xpc.myimdemo.data.UserPrefs;
-import com.xpc.myimdemo.im.manager.SocketConnectionManager;
-import com.xpc.myimdemo.im.model.SendMessageItem;
-import com.xpc.myimdemo.util.MyLog;
+import com.xpc.imlibrary.manager.SocketConnectionManager;
 
 /**
  * 登录即时通讯
@@ -24,9 +17,12 @@ public class LoginSocketTask extends AsyncTask<String, Integer, Integer> {
 	public static final int LOGIN_FAIL = 0;
 	/** 登录成功 */
 	public static final int LOGIN_SCUESS = 1;
+	/**登录结果监听*/
+	private LoginResultListener resultListener;
 
-	public LoginSocketTask(Context context) {
+	public LoginSocketTask(Context context,LoginResultListener resultListener) {
 		this.mContext = context;
+		this.resultListener = resultListener;
 	}
 
 	@Override
@@ -50,26 +46,18 @@ public class LoginSocketTask extends AsyncTask<String, Integer, Integer> {
 //		msgTask.execute();
 		switch (result) {
 		case LOGIN_FAIL:// 登录失败
-			UserPrefs.setIsAutoLogin(false);
-			Message msg = new Message();
-			msg.what = 2;
-			MyLog.i("---login failed---");
-			// 登录失败后调至登录选择界面
-			//LoginActivity.mHandler.sendMessage(msg);
+			resultListener.onLoginFailed();
 			break;
 
 		case LOGIN_SCUESS:// 登录成功
-		//	addCustomerService();
-			MyLog.i(SendMessageItem.verifyTokenObj().toString());
-			SocketConnectionManager.getIoSession().write(SendMessageItem.verifyTokenObj().toString());
-			MyApplication.getInstance().startService();
-	//		UserPrefs.setIsAutoLogin(true);
-	//		ContactsMainFragment.isUpdate = true; //是否重获取联系人
-			Intent intent = new Intent();
-			intent.setClass(mContext, FriendsActivity.class);
-			mContext.startActivity(intent);
+			resultListener.onLoginSuccess();
 			break;
 		}
+	}
+
+	public interface LoginResultListener{
+	    public void onLoginSuccess();
+	    public void onLoginFailed();
 	}
 
 //	/**

@@ -3,11 +3,7 @@ package com.xpc.imlibrary.service;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.xpc.myimdemo.app.MyApplication;
-import com.xpc.myimdemo.im.manager.SocketConnectionManager;
-import com.xpc.myimdemo.im.model.SendMessageItem;
-import com.xpc.myimdemo.util.MyLog;
-
+import com.xpc.imlibrary.manager.SocketConnectionManager;
 
 /**
  * 连接socket
@@ -22,8 +18,9 @@ public class ReconnectionSocketTask extends AsyncTask<String, Integer, Integer> 
 	public static final int CONNECT_FAIL = 0;
 	/** 连接成功 */
 	public static final int CONNECT_SCUESS = 1;
-
-	public ReconnectionSocketTask(Context context) {
+    private ReconnectListener reconnectListener;
+	public ReconnectionSocketTask(Context context,ReconnectListener reconnectListener) {
+		this.reconnectListener = reconnectListener;
 		this.mContext = context;
 	}
 
@@ -45,25 +42,20 @@ public class ReconnectionSocketTask extends AsyncTask<String, Integer, Integer> 
 		super.onPostExecute(result);
 		switch (result) {
 		case CONNECT_FAIL:// 登录失败
+			reconnectListener.onReconnectFailed();
 			break;
 
 		case CONNECT_SCUESS:// 登录成功
-			MyLog.i(SendMessageItem.verifyTokenObj().toString());
-			try {
-				MyApplication.getInstance().startService();
-				SocketConnectionManager.getIoSession().write(
-						SendMessageItem.verifyTokenObj().toString());
-			} catch (Exception e) {
-				e.printStackTrace();
-				MyLog.e("Error:" + e.getMessage());
-			}
-//			// 获取离线消息
-//			GetOfflineMessageTask msgTask = new GetOfflineMessageTask(mContext);
-//			msgTask.execute();
+			reconnectListener.onReconnectSuccess();
 			break;
 
 		default:
 			break;
 		}
+	}
+
+	public interface ReconnectListener{
+		public void onReconnectSuccess();
+		public void onReconnectFailed();
 	}
 }

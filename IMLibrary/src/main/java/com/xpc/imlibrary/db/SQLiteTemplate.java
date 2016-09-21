@@ -1,6 +1,7 @@
 package com.xpc.imlibrary.db;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -35,8 +36,10 @@ public class SQLiteTemplate {
 
 	private SQLiteTemplate() {
 	}
+	private Context mContext;
 
-	private SQLiteTemplate(DBManager dBManager, boolean isTransaction) {
+	private SQLiteTemplate(Context context,DBManager dBManager, boolean isTransaction) {
+		this.mContext = context;
 		this.dBManager = dBManager;
 		this.isTransaction = isTransaction;
 	}
@@ -47,9 +50,9 @@ public class SQLiteTemplate {
 	 * 
 	 * @return
 	 */
-	public static SQLiteTemplate getInstance(DBManager dBManager,
+	public static SQLiteTemplate getInstance(Context context,DBManager dBManager,
 			boolean isTransaction) {
-		return new SQLiteTemplate(dBManager, isTransaction);
+		return new SQLiteTemplate(context,dBManager, isTransaction);
 	}
 
 	/**
@@ -58,7 +61,7 @@ public class SQLiteTemplate {
 	 */
 	public void execSQL(String sql) {
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			dataBase.execSQL(sql);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,7 +78,7 @@ public class SQLiteTemplate {
 	 */
 	public void execSQL(String sql, Object[] bindArgs) {
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			dataBase.execSQL(sql, bindArgs);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,7 +99,7 @@ public class SQLiteTemplate {
 	 */
 	public long insert(String table, ContentValues content) {
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			// insert方法第一参数：数据库表名，第二个参数如果CONTENT为空时则向表中插入一个NULL,第三个参数为插入的内容
 			return dataBase.insert(table, null, content);
 		} catch (Exception e) {
@@ -121,7 +124,7 @@ public class SQLiteTemplate {
 					sb.append("?").append(",");
 				}
 				sb.deleteCharAt(sb.length() - 1);
-				dataBase = dBManager.openDatabase();
+				dataBase = dBManager.openDatabase(mContext);
 				dataBase.execSQL("delete from " + table + " where "
 						+ mPrimaryKey + " in(" + sb + ")",
 						(Object[]) primaryKeys);
@@ -145,7 +148,7 @@ public class SQLiteTemplate {
 	 */
 	public int deleteByField(String table, String field, String value) {
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			return dataBase.delete(table, field + "=?", new String[] { value });
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -171,7 +174,7 @@ public class SQLiteTemplate {
 	public int deleteByCondition(String table, String whereClause,
 			String[] whereArgs) {
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			return dataBase.delete(table, whereClause, whereArgs);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,7 +195,7 @@ public class SQLiteTemplate {
 	 */
 	public int deleteById(String table, String id) {
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			return deleteByField(table, mPrimaryKey, id);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -214,7 +217,7 @@ public class SQLiteTemplate {
 	 */
 	public int updateById(String table, String id, ContentValues values) {
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			return dataBase.update(table, values, mPrimaryKey + "=?",
 					new String[] { id });
 		} catch (Exception e) {
@@ -239,7 +242,7 @@ public class SQLiteTemplate {
 	public int update(String table, ContentValues values, String whereClause,
 			String[] whereArgs) {
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			return dataBase.update(table, values, whereClause, whereArgs);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -260,7 +263,7 @@ public class SQLiteTemplate {
 	 */
 	public Boolean isExistsById(String table, String id) {
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			return isExistsByField(table, mPrimaryKey, id);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -304,7 +307,7 @@ public class SQLiteTemplate {
 	public Boolean isExistsBySQL(String sql, String[] selectionArgs) {
 		Cursor cursor = null;
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			cursor = dataBase.rawQuery(sql, selectionArgs);
 			if (cursor.moveToFirst()) {
 				return (cursor.getInt(0) > 0);
@@ -334,7 +337,7 @@ public class SQLiteTemplate {
 		Cursor cursor = null;
 		T object = null;
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			cursor = dataBase.rawQuery(sql, args);
 			if (cursor.moveToFirst()) {
 				object = rowMapper.mapRow(cursor, cursor.getCount());
@@ -360,7 +363,7 @@ public class SQLiteTemplate {
 		Cursor cursor = null;
 		List<T> list = null;
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			cursor = dataBase.rawQuery(sql, selectionArgs);
 			list = new ArrayList<T>();
 			while (cursor.moveToNext()) {
@@ -390,7 +393,7 @@ public class SQLiteTemplate {
 		Cursor cursor = null;
 		List<T> list = null;
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			cursor = dataBase.rawQuery(sql + " limit ?,?", new String[] {
 					String.valueOf(startResult), String.valueOf(maxResult) });
 			list = new ArrayList<T>();
@@ -413,7 +416,7 @@ public class SQLiteTemplate {
 	public Integer getCount(String sql, String[] args) {
 		Cursor cursor = null;
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			cursor = dataBase.rawQuery("select count(*) from (" + sql + ")",
 					args);
 			if (cursor.moveToNext()) {
@@ -457,7 +460,7 @@ public class SQLiteTemplate {
 		List<T> list = null;
 		Cursor cursor = null;
 		try {
-			dataBase = dBManager.openDatabase();
+			dataBase = dBManager.openDatabase(mContext);
 			cursor = dataBase.query(table, columns, selection, selectionArgs,
 					groupBy, having, orderBy, limit);
 			list = new ArrayList<T>();

@@ -1,8 +1,9 @@
 package com.xpc.imlibrary.manager;
 
-import com.xpc.myimdemo.config.Constant;
-import com.xpc.myimdemo.im.service.ReceiverMessageHandler;
-import com.xpc.myimdemo.util.MyLog;
+
+import com.xpc.imlibrary.config.IMConstant;
+import com.xpc.imlibrary.service.ReceiverMessageHandler;
+import com.xpc.imlibrary.util.MyLog;
 
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.session.IdleStatus;
@@ -104,8 +105,8 @@ public class SocketConnectionManager {
 	 * 连接消息服务器
 	 */
 	public IoSession socketConnect() {
-		return SocketConnectionManager.getInstance().connect(Constant.IM_IP,
-				Constant.IM_PORT);
+		return SocketConnectionManager.getInstance().connect(IMConstant.IM_IP,
+				IMConstant.IM_PORT);
 	}
 
 	/**

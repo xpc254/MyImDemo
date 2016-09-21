@@ -1,11 +1,16 @@
 package com.xpc.imlibrary.service;
 
-import com.xpc.myimdemo.util.MyLog;
-import com.xpc.myimdemo.util.ResolveMessageUtil;
+
+import android.content.Context;
+
+import com.xpc.imlibrary.util.MyLog;
+import com.xpc.imlibrary.util.ResolveMessageUtil;
 
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
+
+import static android.R.id.message;
 
 
 /**
@@ -15,12 +20,13 @@ import org.apache.mina.core.session.IoSession;
  * @time 2015-12-3下午4:47:27
  */
 public class ReceiverMessageHandler implements IoHandler {
+
 	/**
 	 * 当接收到客户端的请求信息后触发此方法
 	 */
-	public void messageReceived(IoSession session, Object message)
-			throws Exception {
-		ResolveMessageUtil.resolveMessage(message.toString(), false);
+	@Override
+	public void messageReceived(IoSession ioSession, Object o) throws Exception {
+		 ResolveMessageUtil.resolveMessage(context,message.toString(), false);
 	}
 
 	/**
@@ -30,6 +36,7 @@ public class ReceiverMessageHandler implements IoHandler {
 			throws Exception {
 		MyLog.i("客户+异常："+arg1.getMessage());// 显示接收到的消息
 	}
+
 
 	/**
 	 * 当信息已经传送给客户端后触发此方法

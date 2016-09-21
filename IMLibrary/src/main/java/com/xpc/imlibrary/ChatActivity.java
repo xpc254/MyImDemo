@@ -13,6 +13,7 @@ public class ChatActivity extends AppCompatActivity {
     //录音保存地址
     public static String RECORD_ROOT_PATH = Environment.getExternalStorageDirectory().getPath() + IMConstant.HHXH_RECORD;
     private LinearLayout rootLayout;
+    public static String currentFriendJid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

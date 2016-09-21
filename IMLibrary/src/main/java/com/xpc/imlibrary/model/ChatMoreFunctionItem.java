@@ -6,7 +6,7 @@ package com.xpc.imlibrary.model;
  * @author qiaocb
  * @time 2015-11-12上午11:43:40
  */
-public class ChatMoreFunctionItem{
+public class ChatMoreFunctionItem implements BaseItem {
 	/** 功能id */
 	private int functionId;
 	

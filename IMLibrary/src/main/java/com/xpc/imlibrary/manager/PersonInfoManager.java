@@ -3,9 +3,9 @@ package com.xpc.imlibrary.manager;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.xpc.myimdemo.db.DBManager;
-import com.xpc.myimdemo.db.SQLiteTemplate;
-import com.xpc.myimdemo.im.model.RecMessageItem;
+import com.xpc.imlibrary.db.DBManager;
+import com.xpc.imlibrary.db.SQLiteTemplate;
+import com.xpc.imlibrary.model.RecMessageItem;
 
 
 /**

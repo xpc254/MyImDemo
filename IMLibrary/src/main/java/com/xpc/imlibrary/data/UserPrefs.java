@@ -106,12 +106,15 @@ public class UserPrefs {
     public static final String BARCODE = "barcode";
     /** 用户公司名称 */
     public static final String USER_SESSION = "userSession";
-
-    private static SPHelper getInstance(Context context) {
-        if (mUserPrefs == null) {
-            mUserPrefs = new SPHelper(context,USER_PREFS_NAME);
+    /**本类实例*/
+    private static UserPrefs instance;
+    private UserPrefs(){}; //私有化方法
+    public static UserPrefs getInstance(Context context) {
+        if (instance == null) {
+             instance = new UserPrefs();
+             mUserPrefs = new SPHelper(context,USER_PREFS_NAME);
         }
-        return mUserPrefs;
+        return instance;
     }
     /**
      * 获取用户帐号
@@ -143,7 +146,7 @@ public class UserPrefs {
      *
      * @return
      */
-    public static void setUserPwd(String userPwd) {
+    public  void setUserPwd(String userPwd) {
         mUserPrefs.getEditor().putString(USER_PWD, userPwd).commit();
     }
 
@@ -152,7 +155,7 @@ public class UserPrefs {
      *
      * @param user
      */
-    public static void setUser(User user) {
+    public  void setUser(User user) {
         mUserPrefs.getEditor().putString(USERNAME, user.getUserName())
                 .putString(FID, user.getFid())
                 .putString(USERID, user.getUserId())
