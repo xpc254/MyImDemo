@@ -3,7 +3,7 @@ package com.xpc.imlibrary.manager;
 
 import android.content.Context;
 
-import com.xpc.imlibrary.config.ContextManger;
+import com.xpc.imlibrary.config.ContextManager;
 import com.xpc.imlibrary.config.IMConstant;
 import com.xpc.imlibrary.service.ReceiverMessageHandler;
 import com.xpc.imlibrary.util.MyLog;
@@ -62,7 +62,7 @@ public class SocketConnectionManager {
 
 	public static void initialize(Context context){
 		 mContext  = context;
-	 	 ContextManger.getInstance().setContext(context);
+	 	 ContextManager.getInstance().setContext(context);
 		//做一些初始化工作
 	}
 

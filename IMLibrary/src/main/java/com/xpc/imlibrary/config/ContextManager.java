@@ -5,19 +5,19 @@ import android.content.Context;
 import com.xpc.imlibrary.util.MyLog;
 
 /**
+ * 上下文管理类，保存一个context供全局使用
  * Created by xiepc on 2016-09-22  下午 1:03
  */
 
-public class ContextManger {
-    private static ContextManger instance;
-    ;
+public class ContextManager {
+    private static ContextManager instance;
     private Context mContext;
 
-    public static ContextManger getInstance() {
+    public static ContextManager getInstance() {
         if (instance == null) {
-            synchronized (ContextManger.class) {
+            synchronized (ContextManager.class) {
                 if (instance == null) {
-                    instance = new ContextManger();
+                    instance = new ContextManager();
                 }
             }
         } return instance;

@@ -1,7 +1,7 @@
 package com.xpc.imlibrary.data;
 
 
-import com.xpc.imlibrary.config.ContextManger;
+import com.xpc.imlibrary.config.ContextManager;
 import com.xpc.imlibrary.model.User;
 import com.xpc.imlibrary.util.SPHelper;
 
@@ -111,13 +111,13 @@ public class UserPrefs {
 //    public static UserPrefs getInstance() {
 //        if (instance == null) {
 //             instance = new UserPrefs();
-//             mUserPrefs = new SPHelper(ContextManger.getInstance().getContext(),USER_PREFS_NAME);
+//             mUserPrefs = new SPHelper(ContextManager.getInstance().getContext(),USER_PREFS_NAME);
 //        }
 //        return instance;
 //    }
     private static SPHelper getInstance() {
         if (mUserPrefs == null) {
-            mUserPrefs = new SPHelper(ContextManger.getInstance().getContext(),USER_PREFS_NAME);
+            mUserPrefs = new SPHelper(ContextManager.getInstance().getContext(),USER_PREFS_NAME);
         }
         return mUserPrefs;
     }

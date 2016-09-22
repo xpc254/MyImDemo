@@ -22,7 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xpc.imlibrary.R;
-import com.xpc.imlibrary.config.ContextManger;
+import com.xpc.imlibrary.config.ContextManager;
 import com.xpc.imlibrary.model.RecMessageItem;
 import com.xpc.imlibrary.model.SendMessageItem;
 
@@ -167,7 +167,7 @@ public class SharedMothed {
 	 * @return
 	 */
 	public static boolean isActivityStatcTop() {
-		ActivityManager mActivityManager = (ActivityManager) ContextManger.getInstance().getContext().getSystemService(Context.ACTIVITY_SERVICE);
+		ActivityManager mActivityManager = (ActivityManager) ContextManager.getInstance().getContext().getSystemService(Context.ACTIVITY_SERVICE);
 		List<RunningTaskInfo> rti = mActivityManager.getRunningTasks(1);
 		String className = rti.get(0).topActivity.getClassName();
 		if ("com.hhxh.make.im.chat.ui.ChatActivity".equals(className)) {

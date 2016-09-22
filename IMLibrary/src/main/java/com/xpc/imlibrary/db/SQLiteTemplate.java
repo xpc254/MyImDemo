@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.xpc.imlibrary.config.ContextManger;
+import com.xpc.imlibrary.config.ContextManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class SQLiteTemplate {
 
 	public static SQLiteTemplate getInstance(DBManager dBManager,
 											 boolean isTransaction) {
-		return new SQLiteTemplate(ContextManger.getInstance().getContext(),dBManager, isTransaction);
+		return new SQLiteTemplate(ContextManager.getInstance().getContext(),dBManager, isTransaction);
 	}
 
 
