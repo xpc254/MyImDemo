@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.xpc.imlibrary.R;
 import com.xpc.imlibrary.config.ContextManger;
+import com.xpc.imlibrary.model.RecMessageItem;
+import com.xpc.imlibrary.model.SendMessageItem;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -191,24 +193,24 @@ public class SharedMothed {
 		return null;
 	}
 
-//	/**
-//	 * 根据消息类型获取消息状态名称
-//	 *
-//	 * @param context
-//	 * @param item
-//	 */
-//	public static String setWorkTypeName(Context context, RecMessageItem item) {
-//		String msgWorkType = "";
-//		if (null == item || null == context) {
-//			return msgWorkType;
-//		}
-//		switch (item.getMsgType()) {
-//		case SendMessageItem.TYPE_ATTENDANCE:// 考勤
-//			msgWorkType = context.getString(R.string.chat_attendance);
-//			break;
-//		case SendMessageItem.TYPE_TASK:// 任务
-//			msgWorkType = context.getString(R.string.send_task);
-//			break;
+	/**
+	 * 根据消息类型获取消息状态名称
+	 *
+	 * @param context
+	 * @param item
+	 */
+	public static String setWorkTypeName(Context context, RecMessageItem item) {
+		String msgWorkType = "";
+		if (null == item || null == context) {
+			return msgWorkType;
+		}
+		switch (item.getMsgType()) {
+		case SendMessageItem.TYPE_ATTENDANCE:// 考勤
+			msgWorkType = context.getString(R.string.chat_attendance);
+			break;
+		case SendMessageItem.TYPE_TASK:// 任务
+			msgWorkType = context.getString(R.string.task);
+			break;
 //		case SendMessageItem.TYPE_JOURNAL:// 工作日志
 //			msgWorkType = context.getString(R.string.send_work_log);
 //			break;
@@ -236,11 +238,11 @@ public class SharedMothed {
 //		case SendMessageItem.TYPE_COMPLETE:// 完成
 //			msgWorkType = context.getString(R.string.complete);
 //			break;
-//		default:
-//			break;
-//		}
-//		return msgWorkType;
-//	}
+		default:
+			break;
+		}
+		return msgWorkType;
+	}
 
 //	/**
 //	 * 根据消息类型获取消息状态名称

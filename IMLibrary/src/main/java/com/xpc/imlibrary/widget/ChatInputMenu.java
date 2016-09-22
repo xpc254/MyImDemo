@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xpc.imlibrary.R;
+import com.xpc.imlibrary.imp.MenuOperateListener;
+import com.xpc.imlibrary.util.StringUtil;
 
 /**
  * 输入栏按钮的布局
@@ -33,7 +35,7 @@ public class ChatInputMenu extends LinearLayout {
     private TextView messageSendText;
     //输入法
     private InputMethodManager mInputMethodManager;
-
+    private MenuOperateListener operateListener;
 
     public ChatInputMenu(Context context) {
         super(context);
@@ -48,6 +50,10 @@ public class ChatInputMenu extends LinearLayout {
     public ChatInputMenu(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
+    }
+
+    public void setMenuOperateListener(MenuOperateListener operateListener) {
+        this.operateListener = operateListener;
     }
 
     private void initView(Context context) {
@@ -67,6 +73,7 @@ public class ChatInputMenu extends LinearLayout {
         moreFunctionImg.setOnClickListener(listener);
         recordSwitchImg.setOnClickListener(listener);
         keyboardSwitchImg.setOnClickListener(listener);
+        messageSendText.setOnClickListener(listener);
         messageEdit.addTextChangedListener(watcher);
         messageEdit.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -81,11 +88,13 @@ public class ChatInputMenu extends LinearLayout {
 
     private TextWatcher watcher = new TextWatcher() {
         @Override
-        public void onTextChanged(CharSequence s, int start, int before,int count) {
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
+
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,int after) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
+
         @Override
         public void afterTextChanged(Editable s) {
             if (s.length() > 0) {// 有输入
@@ -102,7 +111,7 @@ public class ChatInputMenu extends LinearLayout {
         @Override
         public void onClick(View v) {
             //这里用if执行，在引用包中，用switch会出现常量表达式错误
-          int i = v.getId();
+            int i = v.getId();
             if (i == R.id.faceSwitchImg) {
                 if (extendMenu.isFaceLayoutShow()) {
                     extendMenu.hideExtendMenu();
@@ -140,7 +149,11 @@ public class ChatInputMenu extends LinearLayout {
                     messageSendText.setVisibility(View.VISIBLE);
                 }
                 extendMenu.hideExtendMenu();
-
+            }else if(i == R.id.messageSendText){ //发送消息
+                 String content = messageEdit.getText().toString().trim();
+                if(!StringUtil.isEmpty(content)){
+                     operateListener.sendMessage(messageEdit,content);
+                }
             }
         }
     };

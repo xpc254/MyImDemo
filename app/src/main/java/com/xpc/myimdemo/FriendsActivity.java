@@ -1,6 +1,5 @@
 package com.xpc.myimdemo;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -64,11 +63,7 @@ public class FriendsActivity extends FriendsActivityView {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PersonItem person = personItemList.get(position);
-                Intent chatIntent = new Intent(mContext,ChatActivity.class);
-                chatIntent.putExtra("sendId", person.getUserID());
-                chatIntent.putExtra("sendName", person.getName());
-                chatIntent.putExtra("sendUrl", person.getHeadImage());
-                startActivity(chatIntent);
+                ChatActivity.startChatActivity(mContext,person.getUserID(),person.getName(),person.getHeadImage()); //进入聊天界面
             }
         });
     }

@@ -1,7 +1,12 @@
 package com.xpc.imlibrary;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
+import com.xpc.imlibrary.config.IMConstant;
 import com.xpc.imlibrary.data.UserPrefs;
 import com.xpc.imlibrary.imp.ConnectionListener;
 import com.xpc.imlibrary.manager.MessageManager;
@@ -60,6 +65,21 @@ public abstract class AChatActivity extends BaseActivity {
         MyLog.i("sendId:" + sendId + ",receiveId:" + receiveId + ",msgScene:" + msgScene + ",sendName:" + sendName);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 新消息接收监听
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(IMConstant.NEW_MESSAGE_ACTION);
+        filter.addAction(IMConstant.IM_MESSAGE_SEND_SUCCESS_ACTION);
+        registerReceiver(receiver, filter);
+    }
+    @Override
+    protected void onPause() {
+        unregisterReceiver(receiver);
+        super.onPause();
+    }
+
     protected void sendMessage(String msgContent, int msgType, int voiceLen, String param) {
         SendMessageItem sendItem = null;
         RecMessageItem recMsg = null;
@@ -96,7 +116,6 @@ public abstract class AChatActivity extends BaseActivity {
                 sendItem.setGroupName(sendName);
                 sendItem.setGroupUrl(sendUrl);
             }
-
             recMsg = sendItem.changeToRec();
             saveMessage(recMsg);
 
@@ -137,6 +156,34 @@ public abstract class AChatActivity extends BaseActivity {
         // 刷新视图
         receiveNewMessage(recMsg);
     }
+
+    /**
+     * 接收消息，刷新视图
+     */
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (IMConstant.NEW_MESSAGE_ACTION.equals(action)) {// 收到新消息
+                try {
+                    RecMessageItem message = intent.getParcelableExtra(RecMessageItem.IMMESSAGE_KEY);
+                    if (messageList != null && sendId != null && (message.getSendId().equals(sendId) || (!StringUtil.isEmpty(message.getGroupId()) && message.getGroupId().equals(sendId))) && message.getMsgScene() == msgScene) {
+                        receiveNewMessage(message);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (IMConstant.IM_MESSAGE_SEND_SUCCESS_ACTION.equals(action)) {// 消息发送成功
+                try {
+                    RecMessageItem recMsg = intent.getParcelableExtra(RecMessageItem.IMMESSAGE_KEY);
+                    refreshMessageAfterResend(recMsg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
     /**
      * 更新消息并刷新界面

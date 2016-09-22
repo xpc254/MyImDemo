@@ -6,7 +6,7 @@
         android:id="@+id/dateText"
         style="@style/chat_date_style" />
 
-    <com.hhxh.make.view.custom.RoundImageView
+    <com.xpc.imlibrary.widget.RoundImageView
         android:id="@+id/avatarImg"
         style="@style/chat_avatar_style"
         android:layout_alignParentRight="true"
@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 
-                <com.hhxh.make.view.custom.RoundCornerRightImageView
+                <com.xpc.imlibrary.widget.RoundCornerRightImageView
                     android:id="@+id/msgImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

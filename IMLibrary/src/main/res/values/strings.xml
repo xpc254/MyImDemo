@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">imlibrary</string>
+    <string name="app_name">MyIM</string>
     <string name="send">发送</string>
+    <string name="confirm">确定</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
     <string name="press_and_hold_the_talk">按住说话</string>
     <string name="new_loose_send">松开发送</string>
     <string name="new_press_record">按住录音</string>
@@ -33,6 +36,11 @@
     <string name="chat_single">单聊</string>
     <string name="chat_group">群聊</string>
     <string name="new_message">收到新消息</string>
+    <string name="delete">删除</string>
+    <string name="top_msg">置顶</string>
+    <string name="cancel_top_msg">取消置顶</string>
+    <string name="copy_msg">复制消息</string>
+    <string name="save">保存</string>
 
     <string name="util_date_user">#和@模式字符不能同时使用.</string>
     <string name="util_date_no_operate">暂时还不支持的操作</string>
@@ -52,4 +60,12 @@
     <string name="message_date_type">yyyy年MM月dd日 HH:mm</string>
     <string name="upcoming_date_type">MM-dd HH:mm</string>
     <string name="message_date_typetwo">yyyy年MM月dd日HH点mm分</string>
+    <string name="chat_attendance">考勤</string>
+    <string name="task">任务</string>
+    <string name="input_content">输入内容</string>
+    <string name="limit_input_length">最多只能输入0位</string>
+    <string name="warm_prompt">温馨提示</string>
+    <string name="resend_fail_msg">消息发送失败，重新发送该条消息?</string>
+    <string name="title_alert">提示信息</string>
+    <string name="select_operation">选择操作</string>
 </resources>

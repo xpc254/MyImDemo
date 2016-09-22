@@ -15,7 +15,7 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.xpc.imlibrary.widget.ChatMessageList
+        <com.xpc.imlibrary.widget.ChatMessageListView
             android:id="@+id/messageListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

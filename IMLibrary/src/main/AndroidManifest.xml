@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".ContactsInfoActivity"></activity>
     </application>
 
 </manifest>

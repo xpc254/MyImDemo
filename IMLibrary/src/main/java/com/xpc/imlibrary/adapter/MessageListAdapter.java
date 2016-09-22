@@ -20,18 +20,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.xpc.imlibrary.ContactsInfoActivity;
 import com.xpc.imlibrary.R;
 import com.xpc.imlibrary.data.ImageCompressionSize;
 import com.xpc.imlibrary.data.UserPrefs;
 import com.xpc.imlibrary.manager.MessageManager;
 import com.xpc.imlibrary.manager.NoticeManager;
 import com.xpc.imlibrary.model.BaseItem;
+import com.xpc.imlibrary.model.ImageItem;
 import com.xpc.imlibrary.model.RecMessageItem;
 import com.xpc.imlibrary.model.SendMessageItem;
+import com.xpc.imlibrary.util.ChatVoicePlayer;
 import com.xpc.imlibrary.util.DateTimeUtil;
+import com.xpc.imlibrary.util.DialogFactory;
+import com.xpc.imlibrary.util.HttpURLTools;
 import com.xpc.imlibrary.util.ImageLoader;
 import com.xpc.imlibrary.util.ImageUtil;
+import com.xpc.imlibrary.util.JsonUtils;
+import com.xpc.imlibrary.util.OpenDialog;
 import com.xpc.imlibrary.util.PhizHelper;
 import com.xpc.imlibrary.util.PrettyDateFormat;
 import com.xpc.imlibrary.util.SharedMothed;
@@ -39,7 +47,6 @@ import com.xpc.imlibrary.util.StringUtil;
 
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -294,13 +301,12 @@ public class MessageListAdapter extends BaseAdapter {
                 holder.voiceStateImg.setVisibility(View.GONE);
                 holder.msgRecordLenText.setVisibility(View.GONE);
                 holder.workLayout.setVisibility(View.GONE);
-
                 try {
                     final ImageView temp = holder.progressImg;
                     final AnimationDrawable rotateAnimator = (AnimationDrawable) temp.getBackground();
                     String url = ImageUtil.photoSizeUrl(StringUtil.getChatPhotoSizeUrl(msgItem.getContent()), ImageCompressionSize.PHOTO_THREE);
                     if (msgItem.getDirection() == SendMessageItem.SEND_MSG) { // 发送
-                        ImageLoader.imgLoad(context, url, holder.msgImg, R.drawable.ic_loading_default, R.drawable.ic_loading_fail);
+                        ImageLoader.loadImg(context, url, holder.msgImg, R.drawable.ic_loading_default, R.drawable.ic_loading_fail);
                         if (msgItem.getStatus() == SendMessageItem.STATUS_SENDING) {
                             temp.setVisibility(View.VISIBLE);
                             rotateAnimator.start();
@@ -310,32 +316,24 @@ public class MessageListAdapter extends BaseAdapter {
                         }
 
                     } else { // 左边
-//                        ImageLoader.imgLoad(url, holder.msgImg, R.drawable.ic_loading_default, R.drawable.ic_loading_fail, new ImageLoadingListener() {
-//                            @Override
-//                            public void onLoadingStarted(String arg0, View arg1) {
-//                                temp.setVisibility(View.VISIBLE);
-//                                rotateAnimator.start();
-//                            }
-//
-//                            @Override
-//                            public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
-//                                rotateAnimator.stop();
-//                                temp.setVisibility(View.GONE);
-//                            }
-//
-//                            @Override
-//                            public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
-//                                rotateAnimator.stop();
-//                                temp.setVisibility(View.GONE);
-//                            }
-//
-//                            @Override
-//                            public void onLoadingCancelled(String arg0, View arg1) {
-//
-//                            }
-//                        });
-                        holder.msgImg.setImageResource(R.drawable);
-                        ImageLoader.loadImg(context,url,holder.msgImg,);
+                        holder.msgImg.setImageResource(R.drawable.ic_loading_default);
+                        ImageLoader.loadImg(context, url, holder.msgImg, new ImageLoader.ImageLoadCallBack() {
+                            @Override
+                            public void onStart() {
+                                temp.setVisibility(View.VISIBLE);
+                                rotateAnimator.start();
+                            }
+                            @Override
+                            public void onSuccess() {
+                                rotateAnimator.stop();
+                                temp.setVisibility(View.GONE);
+                            }
+                            @Override
+                            public void onError() {
+                                rotateAnimator.stop();
+                                temp.setVisibility(View.GONE);
+                            }
+                        });
                     }
 
                 } catch (Exception e) {
@@ -383,86 +381,86 @@ public class MessageListAdapter extends BaseAdapter {
                 break;
 
             case SendMessageItem.TYPE_ATTENDANCE:// 考勤
-                setWorkView(holder, msgItem);
-                holder.workIconImg.setImageResource(R.drawable.ic_setting);
+//                setWorkView(holder, msgItem);
+//                holder.workIconImg.setImageResource(R.drawable.ic_setting);
                 break;
-            case SendMessageItem.TYPE_PROGRESS:// 进度
-                setWorkView(holder, msgItem);
-                holder.workIconImg.setImageResource(R.drawable.ic_function_node_progress);
-                holder.workLayout.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        String param = msgItem.getParam();
-                        if (!StringUtil.isEmpty(param)) {
-                            try {
-                                JSONObject workObj = new JSONObject(param);
-                                Intent progressIntent = new Intent();
-                                progressIntent.putExtra("returnName", titleName);
-
-                                progressIntent.putExtra("workId", workObj.optString("id"));
-                                String type = workObj.optString("type");
-                                if (type.equals("0")) {// 流程进度
-                                    progressIntent.setClass(context, NewProcessDetailActivity.class);
-                                } else {// 节点进度
-                                    progressIntent.setClass(context, ProcessNodeDetailActivity.class);
-                                }
-                                context.startActivity(progressIntent);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                    }
-                });
-                break;
-            case SendMessageItem.TYPE_EARLYWARNING:// 预警
-                setWorkView(holder, msgItem);
-                holder.workIconImg.setImageResource(R.drawable.ic_function_node_warning);
-                holder.workLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String param = msgItem.getParam();
-                        if (!StringUtil.isEmpty(param)) {
-                            try {
-                                JSONObject workObj = new JSONObject(param);
-                                Intent nodeProgressIntent = new Intent();
-                                nodeProgressIntent.setClass(context, ProcessNodeDetailActivity.class);
-                                nodeProgressIntent.putExtra("workId", workObj.optString("id"));
-                                nodeProgressIntent.putExtra("returnName", titleName);
-                                context.startActivity(nodeProgressIntent);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-                });
-                break;
-            case SendMessageItem.TYPE_COMPLETE://完成
-                setWorkView(holder, msgItem);
-                holder.workIconImg.setImageResource(R.drawable.ic_function_node_complete);
-                holder.workLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String param = msgItem.getParam();
-                        if (!StringUtil.isEmpty(param)) {
-                            try {
-                                JSONObject workObj = new JSONObject(param);
-                                Intent nodeProgressIntent = new Intent();
-                                nodeProgressIntent.setClass(context, NewProcessDetailActivity.class);
-                                nodeProgressIntent.putExtra("workId", workObj.optString("id"));
-                                nodeProgressIntent.putExtra("returnName", titleName);
-                                context.startActivity(nodeProgressIntent);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-                });
-                break;
+//            case SendMessageItem.TYPE_PROGRESS:// 进度
+//                setWorkView(holder, msgItem);
+//                holder.workIconImg.setImageResource(R.drawable.ic_function_node_progress);
+//                holder.workLayout.setOnClickListener(new View.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(View v) {
+//                        String param = msgItem.getParam();
+//                        if (!StringUtil.isEmpty(param)) {
+//                            try {
+//                                JSONObject workObj = new JSONObject(param);
+//                                Intent progressIntent = new Intent();
+//                                progressIntent.putExtra("returnName", titleName);
+//
+//                                progressIntent.putExtra("workId", workObj.optString("id"));
+//                                String type = workObj.optString("type");
+//                                if (type.equals("0")) {// 流程进度
+//                                    progressIntent.setClass(context, NewProcessDetailActivity.class);
+//                                } else {// 节点进度
+//                                    progressIntent.setClass(context, ProcessNodeDetailActivity.class);
+//                                }
+//                                context.startActivity(progressIntent);
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//
+//                    }
+//                });
+//                break;
+//            case SendMessageItem.TYPE_EARLYWARNING:// 预警
+//                setWorkView(holder, msgItem);
+//                holder.workIconImg.setImageResource(R.drawable.ic_function_node_warning);
+//                holder.workLayout.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        String param = msgItem.getParam();
+//                        if (!StringUtil.isEmpty(param)) {
+//                            try {
+//                                JSONObject workObj = new JSONObject(param);
+//                                Intent nodeProgressIntent = new Intent();
+//                                nodeProgressIntent.setClass(context, ProcessNodeDetailActivity.class);
+//                                nodeProgressIntent.putExtra("workId", workObj.optString("id"));
+//                                nodeProgressIntent.putExtra("returnName", titleName);
+//                                context.startActivity(nodeProgressIntent);
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//                    }
+//                });
+//                break;
+//            case SendMessageItem.TYPE_COMPLETE://完成
+//                setWorkView(holder, msgItem);
+//                holder.workIconImg.setImageResource(R.drawable.ic_function_node_complete);
+//                holder.workLayout.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        String param = msgItem.getParam();
+//                        if (!StringUtil.isEmpty(param)) {
+//                            try {
+//                                JSONObject workObj = new JSONObject(param);
+//                                Intent nodeProgressIntent = new Intent();
+//                                nodeProgressIntent.setClass(context, NewProcessDetailActivity.class);
+//                                nodeProgressIntent.putExtra("workId", workObj.optString("id"));
+//                                nodeProgressIntent.putExtra("returnName", titleName);
+//                                context.startActivity(nodeProgressIntent);
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//                    }
+//                });
+//                break;
             default:
                 break;
         }
@@ -471,22 +469,21 @@ public class MessageListAdapter extends BaseAdapter {
             holder.contentLayout.setOnClickListener(voiceOnClickListener);
             if (msgItem.getPlayStatus() == SendMessageItem.STATUS_PLAYING) {
                 if (msgItem.getDirection() == 1) {
-                    holder.msgRecordImg.setBackgroundResource(R.drawable.chat_voice_left_anim);
+                    holder.msgRecordImg.setBackgroundResource(R.drawable.anim_chat_voice_left);
                 } else {
-                    holder.msgRecordImg.setBackgroundResource(R.drawable.chat_voice_right_anim);
+                    holder.msgRecordImg.setBackgroundResource(R.drawable.anim_chat_voice_right);
                 }
                 ((AnimationDrawable) holder.msgRecordImg.getBackground()).start();
             }
         }
 
         holder.avatarImg.setOnClickListener(new View.OnClickListener() {// 点击好友头像看详情
-
             @Override
             public void onClick(View v) {
                 //为对方头像，不是系统id,不是客服id
                 if (msgItem.getDirection() == 1 && !msgItem.getSendId().equals(SYSTEM_MSG_SENDER_ID) && !msgItem.getSendId().equals(UserPrefs.getMsgUserID())) {
                     Intent infoIntent = new Intent();
-                    infoIntent.setClass(context, NewContactsInfoActivity.class);
+                    infoIntent.setClass(context, ContactsInfoActivity.class);
                     infoIntent.putExtra("userId", msgItem.getSendId());
                     infoIntent.putExtra("userName", msgItem.getSendNickName());
                     infoIntent.putExtra("returnName", titleName);
@@ -494,7 +491,7 @@ public class MessageListAdapter extends BaseAdapter {
                     context.startActivity(infoIntent);
                 } else if (msgItem.getDirection() == 0) {
                     Intent infoIntent = new Intent();
-                    infoIntent.setClass(context, NewContactsInfoActivity.class);
+                    infoIntent.setClass(context, ContactsInfoActivity.class);
                     infoIntent.putExtra("userId", UserPrefs.getUserId());
                     infoIntent.putExtra("userName", UserPrefs.getUserName());
                     infoIntent.putExtra("returnName", titleName);
@@ -510,9 +507,7 @@ public class MessageListAdapter extends BaseAdapter {
             }
         });
         if (msgItem.getDirection() == 0) {
-
-            imageLoader.imgLoader(ImageUtil.photoSizeUrl(UserPrefs.getHeadImage(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_default_avatar, true);
-
+            ImageLoader.loadImg(context,ImageUtil.photoSizeUrl(UserPrefs.getHeadImage(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_default_avatar);
             AnimationDrawable animator = (AnimationDrawable) holder.sendProgressImg.getBackground();
             boolean isImage = msgItem.getMsgType() == SendMessageItem.TYPE_IMAGE;
             boolean isLocation = msgItem.getMsgType() == SendMessageItem.TYPE_LOCATION;
@@ -536,9 +531,9 @@ public class MessageListAdapter extends BaseAdapter {
 
         } else {
             if (msgItem.getMsgType() == SendMessageItem.TYPE_PROGRESS || msgItem.getMsgType() == SendMessageItem.TYPE_EARLYWARNING) {
-                imageLoader.imgLoader(ImageUtil.photoSizeUrl(msgItem.getSendUserAvatar(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_system_avatar, true);
+                ImageLoader.loadImg(context,ImageUtil.photoSizeUrl(msgItem.getSendUserAvatar(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_system_avatar);
             } else {
-                imageLoader.imgLoader(ImageUtil.photoSizeUrl(msgItem.getSendUserAvatar(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_default_avatar, true);
+                ImageLoader.loadImg(context,ImageUtil.photoSizeUrl(msgItem.getSendUserAvatar(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_default_avatar);
             }
         }
 
@@ -547,8 +542,6 @@ public class MessageListAdapter extends BaseAdapter {
 
     /**
      * 根据消息类型来显示工作界面
-     *
-     * @param msgType
      */
     private void setWorkView(ViewHolder holder, RecMessageItem recItem) {
         holder.contentLayout.setVisibility(View.GONE);
@@ -630,8 +623,6 @@ public class MessageListAdapter extends BaseAdapter {
 
     /**
      * 更新消息
-     *
-     * @param item
      */
     public void updateItem(RecMessageItem msgItem) {
         if (msgItem != null && messageIdSet.contains(msgItem.getMsgId())) {
@@ -675,10 +666,8 @@ public class MessageListAdapter extends BaseAdapter {
                 }
 
             } else {// SendMessageItem.RECEIVE_MSG
-
                 new AsyncTask<String, Integer, Boolean>() {
                     private byte[] temp = null;
-
                     @Override
                     protected Boolean doInBackground(String... params) {
 
@@ -690,7 +679,6 @@ public class MessageListAdapter extends BaseAdapter {
                         } catch (Exception e) {
                             e.printStackTrace();
                             return false;
-
                         }
                         return true;
                     }
@@ -823,7 +811,7 @@ public class MessageListAdapter extends BaseAdapter {
      * @Description 弹出确认重新发送对话框
      */
     private void showSureResendDialog(final RecMessageItem item, final int position) {
-        OpenDialog.getInstance().showTwoBtnListenerDialog(context, context.getResources().getString(R.string.resend_fail_msg), context.getResources().getString(R.string.my_ok), new DialogInterface.OnClickListener() {
+        OpenDialog.getInstance().showTwoBtnListenerDialog(context, context.getResources().getString(R.string.resend_fail_msg), context.getResources().getString(R.string.confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -831,7 +819,7 @@ public class MessageListAdapter extends BaseAdapter {
                     mResendMsgIfc.resendMsg(item, position);
                 }
             }
-        }, context.getResources().getString(R.string.mycancel), new DialogInterface.OnClickListener() {
+        }, context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -879,23 +867,25 @@ public class MessageListAdapter extends BaseAdapter {
                     ditem.setImgURL(StringUtil.getChatPhotoSizeUrl(recItem.getContent()));
                 }
                 mList.add(ditem);
-                Intent intent = new Intent();
-                intent.setClass(context, ShowPhotoActivity.class);
-                intent.putExtra("photoList", (Serializable) mList);
-                intent.putExtra("returnName", titleName);
-                intent.putExtra("currentItem", 0);
-                context.startActivity(intent);
+                Toast.makeText(context,"查看大图",Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent();
+//                intent.setClass(context, ShowPhotoActivity.class);
+//                intent.putExtra("photoList", (Serializable) mList);
+//                intent.putExtra("returnName", titleName);
+//                intent.putExtra("currentItem", 0);
+//                context.startActivity(intent);
             } else if (recItem.getMsgType() == SendMessageItem.TYPE_LOCATION) {
                 String param = recItem.getParam();
                 try {
                     JSONObject locationObj = new JSONObject(param);
                     if (locationObj != null) {
-                        Intent mapIntent = new Intent();
-                        mapIntent.setClass(context, ShowMapActivity.class);
-                        mapIntent.putExtra("lon", locationObj.optDouble("lon"));
-                        mapIntent.putExtra("lat", locationObj.optDouble("lat"));
-                        mapIntent.putExtra("returnName", titleName);
-                        context.startActivity(mapIntent);
+//                        Intent mapIntent = new Intent();
+//                        mapIntent.setClass(context, ShowMapActivity.class);
+//                        mapIntent.putExtra("lon", locationObj.optDouble("lon"));
+//                        mapIntent.putExtra("lat", locationObj.optDouble("lat"));
+//                        mapIntent.putExtra("returnName", titleName);
+//                        context.startActivity(mapIntent);
+                        Toast.makeText(context,"查看大图",Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -917,9 +907,9 @@ public class MessageListAdapter extends BaseAdapter {
         public boolean onLongClick(View v) {
             final RecMessageItem msgItem = findItem((String) v.getTag());
             final List<String> str = new ArrayList<String>();
-            final String del_msg = context.getString(R.string.del_msg);
+            final String del_msg = context.getString(R.string.delete);
             final String copy_msg = context.getString(R.string.copy_msg);
-            final String save_msg = context.getString(R.string.save_msg);
+            final String save_msg = context.getString(R.string.save);
             str.add(del_msg);
             if (msgItem.getMsgType() == SendMessageItem.TYPE_TEXT) {
                 // 只在文本信息才可复制
@@ -972,7 +962,7 @@ public class MessageListAdapter extends BaseAdapter {
     /**
      * 语音播放
      */
-    class VoiceOnClickListener implements View.OnClickListener, OnPlayListener {
+    class VoiceOnClickListener implements View.OnClickListener, ChatVoicePlayer.OnPlayListener {
         private RecMessageItem item = null;
         private ViewHolder viewHolder = null;
 
@@ -1026,7 +1016,7 @@ public class MessageListAdapter extends BaseAdapter {
             updateVoiceReadState(vh, item);
             item.setPlayStatus(SendMessageItem.STATUS_UNPLAYED);
             // 暂停播放其他音乐
-            OtherPlayerManagerImpl.getInstance(context).pauseOtherPlayer();
+            ChatVoicePlayer.OtherPlayerManagerImpl.getInstance(context).pauseOtherPlayer();
             ChatVoicePlayer.play(item, this, context);
         }
 
@@ -1097,9 +1087,9 @@ public class MessageListAdapter extends BaseAdapter {
             if (!check()) return;
 
             if (item.getDirection() == 1) {
-                viewHolder.msgRecordImg.setBackgroundResource(R.drawable.chat_voice_left_anim);
+                viewHolder.msgRecordImg.setBackgroundResource(R.drawable.anim_chat_voice_left);
             } else {
-                viewHolder.msgRecordImg.setBackgroundResource(R.drawable.chat_voice_right_anim);
+                viewHolder.msgRecordImg.setBackgroundResource(R.drawable.anim_chat_voice_right);
             }
             ((AnimationDrawable) viewHolder.msgRecordImg.getBackground()).start();
         }
