@@ -101,45 +101,46 @@ public class ChatInputMenu extends LinearLayout {
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.faceSwitchImg: //显示和隐藏表情
-                    if (extendMenu.isFaceLayoutShow()) {
-                        extendMenu.hideExtendMenu();
-                    } else {
-                        //隐藏键盘
-                        mInputMethodManager.hideSoftInputFromWindow(messageEdit.getWindowToken(), 0);
-                        extendMenu.showFaceLayout();
-                    }
-                    break;
-                case R.id.moreFunctionImg: //显示和隐藏文件发送视图
-                    if (extendMenu.isFileLayoutShow()) {
-                        extendMenu.hideExtendMenu();
-                    } else {
-                        //隐藏键盘
-                        mInputMethodManager.hideSoftInputFromWindow(messageEdit.getWindowToken(), 0);
-                        extendMenu.showFileLayout();
-                    }
-                    break;
-                case R.id.recordSwitchImg: //录间按钮,进入语音状态
-                    recordSwitchImg.setVisibility(View.GONE);
-                    keyboardSwitchImg.setVisibility(View.VISIBLE);
+            //这里用if执行，在引用包中，用switch会出现常量表达式错误
+          int i = v.getId();
+            if (i == R.id.faceSwitchImg) {
+                if (extendMenu.isFaceLayoutShow()) {
                     extendMenu.hideExtendMenu();
+                } else {
+                    //隐藏键盘
                     mInputMethodManager.hideSoftInputFromWindow(messageEdit.getWindowToken(), 0);
-                    messageLayout.setVisibility(View.GONE);
-                    recordLayout.setVisibility(View.VISIBLE);
-                    break;
-                case R.id.keyboardSwitchImg: //键盘按钮，返回到输入状态
-                    recordSwitchImg.setVisibility(View.VISIBLE);
-                    keyboardSwitchImg.setVisibility(View.GONE);
-                    messageLayout.setVisibility(View.VISIBLE);
-                    recordLayout.setVisibility(View.GONE);
-                    if (TextUtils.isEmpty(messageEdit.getText().toString())) {
-                        moreFunctionImg.setVisibility(View.VISIBLE);
-                    } else {
-                        messageSendText.setVisibility(View.VISIBLE);
-                    }
+                    extendMenu.showFaceLayout();
+                }
+
+            } else if (i == R.id.moreFunctionImg) {
+                if (extendMenu.isFileLayoutShow()) {
                     extendMenu.hideExtendMenu();
-                    break;
+                } else {
+                    //隐藏键盘
+                    mInputMethodManager.hideSoftInputFromWindow(messageEdit.getWindowToken(), 0);
+                    extendMenu.showFileLayout();
+                }
+
+            } else if (i == R.id.recordSwitchImg) {
+                recordSwitchImg.setVisibility(View.GONE);
+                keyboardSwitchImg.setVisibility(View.VISIBLE);
+                extendMenu.hideExtendMenu();
+                mInputMethodManager.hideSoftInputFromWindow(messageEdit.getWindowToken(), 0);
+                messageLayout.setVisibility(View.GONE);
+                recordLayout.setVisibility(View.VISIBLE);
+
+            } else if (i == R.id.keyboardSwitchImg) {
+                recordSwitchImg.setVisibility(View.VISIBLE);
+                keyboardSwitchImg.setVisibility(View.GONE);
+                messageLayout.setVisibility(View.VISIBLE);
+                recordLayout.setVisibility(View.GONE);
+                if (TextUtils.isEmpty(messageEdit.getText().toString())) {
+                    moreFunctionImg.setVisibility(View.VISIBLE);
+                } else {
+                    messageSendText.setVisibility(View.VISIBLE);
+                }
+                extendMenu.hideExtendMenu();
+
             }
         }
     };

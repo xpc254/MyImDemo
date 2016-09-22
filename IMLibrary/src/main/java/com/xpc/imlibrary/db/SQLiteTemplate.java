@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.xpc.imlibrary.config.ContextManger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,12 @@ public class SQLiteTemplate {
 			boolean isTransaction) {
 		return new SQLiteTemplate(context,dBManager, isTransaction);
 	}
+
+	public static SQLiteTemplate getInstance(DBManager dBManager,
+											 boolean isTransaction) {
+		return new SQLiteTemplate(ContextManger.getInstance().getContext(),dBManager, isTransaction);
+	}
+
 
 	/**
 	 * 执行一条sql语句

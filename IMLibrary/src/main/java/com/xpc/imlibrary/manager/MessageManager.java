@@ -27,16 +27,17 @@ public class MessageManager {
 
 	private static DBManager manager = null;
 
+	private static Context mContext;
+
 	private MessageManager(Context context) {
 		manager = DBManager.getInstance(context);
 	}
 
 	public static MessageManager getInstance(Context context) {
-
+		 mContext = context;
 		if (messageManager == null) {
 			messageManager = new MessageManager(context);
 		}
-
 		return messageManager;
 	}
 
@@ -46,7 +47,7 @@ public class MessageManager {
 	 * @param msg
 	 */
 	public long saveIMMessage(RecMessageItem msg) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager, false);
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("msg_id", msg.getMsgId());
 		contentValues.put("msg_scene", msg.getMsgScene());
@@ -68,7 +69,7 @@ public class MessageManager {
 	 * @return
 	 */
 	public boolean isExistMsg(String msgId) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager, false);
 		if (st.isExistsByField("im_msg_his", "msg_id", msgId) != null
 				&& st.isExistsByField("im_msg_his", "msg_id", msgId)) {
 			return true;
@@ -82,7 +83,7 @@ public class MessageManager {
 	 * @return
 	 */
 	public boolean isExistMsgForSendId(String sendId) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager, false);
 		if (st.isExistsByField("im_msg_his", "send_id", sendId) != null
 				&& st.isExistsByField("im_msg_his", "send_id", sendId)) {
 			return true;
@@ -96,7 +97,7 @@ public class MessageManager {
 	 * @param status
 	 */
 	public void updateStatus(String id, Integer status) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("status", status);
 		st.updateById("im_msg_his", id, contentValues);
@@ -109,7 +110,7 @@ public class MessageManager {
 	 * @param status
 	 */
 	public void updateStatusByMsgId(String msgId, Integer status) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("status", status);
 		st.update("im_msg_his", contentValues, "msg_id=?",
@@ -120,7 +121,7 @@ public class MessageManager {
 	 * 根据消息id更新消息内容
 	 */
 	public void updateContentByMsgId(String msgId, String content) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("content", content);
 		st.update("im_msg_his", contentValues, "msg_id=?",
@@ -131,7 +132,7 @@ public class MessageManager {
 	 * 根据消息id更新param
 	 */
 	public void updateFileIdByMsgId(String msgId, String param) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("param", param);
 		st.update("im_msg_his", contentValues, "msg_id=?",
@@ -142,7 +143,7 @@ public class MessageManager {
 	 * 根据消息id更新消息发送时间及状态
 	 */
 	public int updateStatusAndDataByMsgId(RecMessageItem recItem) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("status", recItem.getStatus());
 		contentValues.put("send_time", recItem.getSendTime());
@@ -154,7 +155,7 @@ public class MessageManager {
 	 * 设置所有发送中的消息为失败状态
 	 */
 	public void updateAllSendingMsgToFail() {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("status", SendMessageItem.STATUS_FAIL);
 		st.update("im_msg_his", contentValues, "status=?", new String[] { ""
@@ -165,7 +166,7 @@ public class MessageManager {
 	 * 修改和某人发送中的消息为失败消息
 	 */
 	public int updateFailStatusBySendId(String sendId) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("status", SendMessageItem.STATUS_FAIL);
 		return st.update("im_msg_his", contentValues, "send_id=? and status=?",
@@ -191,7 +192,7 @@ public class MessageManager {
 			return null;
 		}
 		int fromIndex = (pageNum - 1) * pageSize;
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		List<RecMessageItem> list = null;
 		if (msgScene == SendMessageItem.CHAT_GROUP) {// 群聊
 			list = st.queryForList(
@@ -280,7 +281,7 @@ public class MessageManager {
 		if (msgScene < 0) {
 			return 0;
 		}
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		return st
 				.getCount(
 						"select msg_id from im_msg_his where msg_scene=? and receive_id=?",
@@ -295,7 +296,7 @@ public class MessageManager {
 		if (StringUtil.isEmpty(sendId)) {
 			return 0;
 		}
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		return st.deleteByCondition("im_msg_his", "send_id=?",
 				new String[] { "" + sendId });
 	}
@@ -305,12 +306,12 @@ public class MessageManager {
 	 * 
 	 * @return
 	 */
-	public int delChatHisWithMe(Context context) {
-		String receiveId = UserPrefs.getInstance(context).getUserId();
+	public int delChatHisWithMe() {
+		String receiveId = UserPrefs.getUserId();
 		if (StringUtil.isEmpty(receiveId)) {
 			return 0;
 		}
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		return st.deleteByCondition("im_msg_his", "receive_id=?",
 				new String[] { "" + receiveId });
 	}
@@ -322,7 +323,7 @@ public class MessageManager {
 	 * @return 返回值大于0表示删除成功
 	 */
 	public int delChatMsg(String msgid) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		if (st.isExistsByField("im_msg_his", "msg_id", msgid) != null
 				&& st.isExistsByField("im_msg_his", "msg_id", msgid)) {
 			return st.deleteByField("im_msg_his", "msg_id", msgid);
@@ -337,7 +338,7 @@ public class MessageManager {
 	 */
 	public List<MessageHistoryItem> getChatRecentContactsWithLastMsg(
 			String receiveId, Context context) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		List<MessageHistoryItem> list = st
 				.queryForList(
 						new SQLiteTemplate.RowMapper<MessageHistoryItem>() {
@@ -405,7 +406,7 @@ public class MessageManager {
 	 */
 	public List<MessageHistoryItem> getWorkMsgAndIsRead(Context context,
 			String receiveId, int msgScene) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		List<MessageHistoryItem> list = st
 				.queryForList(
 						new SQLiteTemplate.RowMapper<MessageHistoryItem>() {
@@ -453,7 +454,7 @@ public class MessageManager {
 	 */
 	public List<MessageHistoryItem> getOperateNewWithLastMsg(Context context,
 			String toId, int msgScene) {
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(mContext,manager,false);
 		List<MessageHistoryItem> list = st
 				.queryForList(
 						new SQLiteTemplate.RowMapper<MessageHistoryItem>() {

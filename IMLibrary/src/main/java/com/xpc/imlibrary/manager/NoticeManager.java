@@ -22,7 +22,7 @@ import java.util.List;
 public class NoticeManager {
 	private static NoticeManager noticeManager = null;
 	private static DBManager manager = null;
-
+	private Context context;
 	private NoticeManager(Context context) {
 		manager = DBManager.getInstance(context);
 	}
@@ -248,11 +248,11 @@ public class NoticeManager {
 	 * @return
 	 */
 	public int delNoticeHisWithMe(Context context) {
-		String receiveId = UserPrefs.getInstance(context).getUserId();
+		String receiveId = UserPrefs.getUserId();
 		if (StringUtil.isEmpty(receiveId)) {
 			return 0;
 		}
-		SQLiteTemplate st = SQLiteTemplate.getInstance(manager, false);
+		SQLiteTemplate st = SQLiteTemplate.getInstance(context,manager, false);
 		return st.deleteByCondition("im_notice", "receive_id=?",
 				new String[] { "" + receiveId });
 	}

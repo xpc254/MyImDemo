@@ -14,16 +14,23 @@
     <color name="gray_default_bg">#eceef1</color>
     <!-- 深灰色(聊天时间颜色) -->
     <color name="gray_dark">#B0B3B9</color>
+    <!-- 浅灰 -->
+    <color name="gray_light">#acacac</color>
     <!-- 白背景色 -->
     <color name="white_f0f1f1">#f0f1f1</color>
     <color name="blue_009be0">#009be0</color>
     <color name="blue_main_title">#3abcfa</color>
     <color name="blue_shallow">#52d0ef</color>
     <color name="red_fa6e51">#fa6e51</color>
+    <!-- 浅红 -->
+    <color name="red_light">#ff5569</color>
 
     <!--常用字体颜色-->
     <!-- 灰色色值 -->
     <color name="gray_888888">#888888</color>
+    <!-- 灰色色值 -->
+    <color name="gray_939598">#939598</color>
     <!-- 淡黑-->
     <color name="black_333333">#333333</color>
+
 </resources>

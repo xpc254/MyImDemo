@@ -1,9 +1,9 @@
 package com.xpc.myimdemo.view;
 
+import com.xpc.imlibrary.data.UserPrefs;
 import com.xpc.myimdemo.base.HttpPresenter;
 import com.xpc.myimdemo.base.IHttpView;
 import com.xpc.myimdemo.config.ActionConfigs;
-import com.xpc.myimdemo.data.UserPrefs;
 import com.xpc.myimdemo.http.KeyValuePair;
 import com.xpc.myimdemo.model.PersonItem;
 import com.xpc.myimdemo.util.JsonUtils;

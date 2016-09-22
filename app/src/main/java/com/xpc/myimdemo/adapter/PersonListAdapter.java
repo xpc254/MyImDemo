@@ -8,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.xpc.imlibrary.util.StringUtil;
 import com.xpc.myimdemo.R;
 import com.xpc.myimdemo.model.PersonItem;
-import com.xpc.myimdemo.util.StringUtil;
 
 import java.util.List;
 

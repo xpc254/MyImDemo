@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/chat_item_relativelayout_style" >
+
+    <TextView
+        android:id="@+id/dateText"
+        style="@style/chat_date_style" />
+
+    <com.hhxh.make.view.custom.RoundImageView
+        android:id="@+id/avatarImg"
+        style="@style/chat_avatar_style"
+        android:layout_below="@id/dateText" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/avatarImg"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="60dp"
+        android:layout_toRightOf="@+id/avatarImg"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/userNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textColor="@color/gray_888888"
+                android:textSize="@dimen/font14"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <RelativeLayout
+                    android:id="@+id/contentLayout"
+                    style="@style/chat_content_relativelayout_style"
+                    android:background="@drawable/selector_balloon_l" >
+
+                    <TextView
+                        android:id="@+id/msgText"
+                        style="@style/chat_content_style" />
+
+                    <ImageView
+                        android:id="@+id/msgRecord"
+                        style="@style/chat_record_style"
+                        android:background="@drawable/ic_chat_voice_left3" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/recordTimeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:textColor="@color/gray_light"
+                    android:visibility="gone" />
+                
+                <ImageView
+                    android:id="@+id/voiceStateImg"
+                    style="@style/chat_record_voice_state_style"
+                    android:layout_marginRight="5dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/workLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_balloon_l"
+                android:orientation="vertical"
+                android:padding="12dp" >
+
+                <TextView
+                    android:id="@+id/workType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_333333"
+                    android:textSize="@dimen/font16" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="14dp"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:id="@+id/workIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY" />
+
+                    <TextView
+                        android:id="@+id/workContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/gray_888888"
+                        android:textSize="@dimen/font14" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/imageLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <com.hhxh.make.view.custom.RoundCornerLeftImageView
+                    android:id="@+id/msgImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:longClickable="false"
+                    android:maxHeight="100dp"
+                    android:scaleType="centerInside" />
+
+                <ImageView
+                    android:id="@+id/progressImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/msgImage"
+                    android:layout_alignLeft="@id/msgImage"
+                    android:layout_alignRight="@id/msgImage"
+                    android:layout_alignTop="@id/msgImage"
+                    android:background="@drawable/load_pic_progress_bg"
+                    android:paddingLeft="3dp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/sendMsgFailImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="5dp"
+            android:src="@drawable/ic_sendmsg_fail"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/sendProgressImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/custom_progress_gray_round"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</RelativeLayout>

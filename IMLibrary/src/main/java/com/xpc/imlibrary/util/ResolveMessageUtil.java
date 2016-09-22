@@ -55,7 +55,7 @@ public class ResolveMessageUtil {
 
 			if (recMsg.getMsgType() == SendMessageItem.TYPE_UNIQUE_EXISTENCE) {// 该帐号在其他设备登录
 				SocketConnectionManager.getInstance().disconnect();
-				UserPrefs.getInstance(context).setIsAutoLogin(false);
+				UserPrefs.setIsAutoLogin(false);
 				Intent zenitIntent = new Intent();
 				zenitIntent
 						.setAction(IMConstant.OTHER_EQUIPMENT_ACCOUNT_LOGIN_ACTIVITY);
@@ -108,7 +108,7 @@ public class ResolveMessageUtil {
 					break;
 				}
 
-				recMsg.setReceiveId(UserPrefs.getInstance(context).getUserId());
+				recMsg.setReceiveId(UserPrefs.getUserId());
 				recMsg.setStatus(SendMessageItem.STATUS_READ);
 				recMsg.setDirection(SendMessageItem.RECEIVE_MSG);
 

@@ -298,8 +298,8 @@ public class SendMessageItem {
 		try {
 			obj.put("iD", StringUtil.getMsgId());
 			obj.put("mT", TYPE_CONNECT);
-			obj.put("sD", UserPrefs.getInstance(context).getUserId());
-			obj.put("tK", UserPrefs.getInstance(context).getToken());
+			obj.put("sD", UserPrefs.getUserId());
+			obj.put("tK", UserPrefs.getToken());
 			obj.put("dC", StringUtil.getDeviceId(context));
 			obj.put("cT", "");
 			obj.put("mC", "");

@@ -33,4 +33,23 @@
     <string name="chat_single">单聊</string>
     <string name="chat_group">群聊</string>
     <string name="new_message">收到新消息</string>
+
+    <string name="util_date_user">#和@模式字符不能同时使用.</string>
+    <string name="util_date_no_operate">暂时还不支持的操作</string>
+    <string name="util_date_one_second">1秒前</string>
+    <string name="util_date_second">秒前</string>
+    <string name="util_date_minute">分钟前</string>
+    <string name="util_date_hour">小时前</string>
+    <string name="util_date_today">今天</string>
+    <string name="util_date_yestoday">昨天</string>
+    <string name="util_date_qiantian">前天</string>
+    <!-- 我的消息 -->
+    <string name="check_sys_msg">查看系统消息</string>
+    <string name="delete_user_confim">删除用户会将该用户所有聊天记录一并删除，是否继续</string>
+    <string name="type_photo">[图片]</string>
+    <string name="type_voice">[语音]</string>
+    <string name="type_location">[位置]</string>
+    <string name="message_date_type">yyyy年MM月dd日 HH:mm</string>
+    <string name="upcoming_date_type">MM-dd HH:mm</string>
+    <string name="message_date_typetwo">yyyy年MM月dd日HH点mm分</string>
 </resources>

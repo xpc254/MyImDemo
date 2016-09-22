@@ -60,7 +60,7 @@ public class DBManager {
 	 * @return
 	 */
 	public DataBaseHelper getDatabaseHelper(Context context) {
-		return new DataBaseHelper(mContext, UserPrefs.getInstance(context).getUserId(), null, -1);
+		return new DataBaseHelper(mContext, UserPrefs.getUserId(), null, -1);
 	}
 
 }

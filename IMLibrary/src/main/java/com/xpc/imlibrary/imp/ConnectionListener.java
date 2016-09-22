@@ -1,41 +1,38 @@
-package com.xpc.myimdemo.im;
+package com.xpc.imlibrary.imp;
 
 import android.content.Context;
 
 import com.xpc.imlibrary.manager.SocketConnectionManager;
 import com.xpc.imlibrary.model.SendMessageItem;
-import com.xpc.imlibrary.service.ReconnectionSocketTask;
+import com.xpc.imlibrary.service.SocketConnectTask;
 import com.xpc.imlibrary.util.MyLog;
-import com.xpc.myimdemo.app.MyApplication;
 
 /**
- * Created by xiepc on  2016-09-21 23:47
+ * Created by xiepc on 2016-09-22  下午 2:19
  */
 
-public class ImpReconnectListener implements ReconnectionSocketTask.ReconnectListener {
+public class ConnectionListener implements SocketConnectTask.ConnectionListener{
     private Context context;
-
-    public ImpReconnectListener(Context context) {
+    public ConnectionListener(Context context){
         this.context = context;
+    }
+    @Override
+    public void onConnectFailed() {
+           //连接失败
     }
 
     @Override
-    public void onReconnectSuccess() {
+    public void onConnectSuccess() {
         MyLog.i(SendMessageItem.verifyTokenObj(context).toString());
         try {
-            MyApplication.getInstance().startService();
+            // MyApplication.getInstance().startService();
             SocketConnectionManager.getIoSession().write(SendMessageItem.verifyTokenObj(context).toString());
         } catch (Exception e) {
             e.printStackTrace();
             MyLog.e("Error:" + e.getMessage());
         }
         // 获取离线消息
-//			GetOfflineMessageTask msgTask = new GetOfflineMessageTask(mContext);
-//			msgTask.execute();
-    }
-
-    @Override
-    public void onReconnectFailed() {
-        //doNothing
+//            GetOfflineMessageTask msgTask = new GetOfflineMessageTask(mContext);
+//            msgTask.execute();
     }
 }

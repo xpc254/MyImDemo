@@ -1,6 +1,9 @@
 package com.xpc.imlibrary.manager;
 
 
+import android.content.Context;
+
+import com.xpc.imlibrary.config.ContextManger;
 import com.xpc.imlibrary.config.IMConstant;
 import com.xpc.imlibrary.service.ReceiverMessageHandler;
 import com.xpc.imlibrary.util.MyLog;
@@ -23,7 +26,7 @@ import java.nio.charset.Charset;
  * @time 2015-11-12上午11:42:25
  */
 public class SocketConnectionManager {
-	private static SocketConnectionManager xmppConnectionManager;
+	private static SocketConnectionManager socketConnectionManager;
 
 	private static NioSocketConnector connector;
 
@@ -33,6 +36,8 @@ public class SocketConnectionManager {
 	private static final int IDELTIMEOUT = 30;
 	/** 15秒发送一次心跳包 */
 	private static final int HEARTBEATRATE = 15;
+
+	private static Context mContext;
 
 	public static NioSocketConnector getConnector() {
 		if (null == connector) {
@@ -47,14 +52,18 @@ public class SocketConnectionManager {
 	}
 
 	private SocketConnectionManager() {
-
+	}
+	public static SocketConnectionManager getInstance() {
+		if (socketConnectionManager == null) {
+			socketConnectionManager = new SocketConnectionManager();
+		}
+		return socketConnectionManager;
 	}
 
-	public static SocketConnectionManager getInstance() {
-		if (xmppConnectionManager == null) {
-			xmppConnectionManager = new SocketConnectionManager();
-		}
-		return xmppConnectionManager;
+	public static void initialize(Context context){
+		 mContext  = context;
+	 	 ContextManger.getInstance().setContext(context);
+		//做一些初始化工作
 	}
 
 	/**
@@ -85,7 +94,7 @@ public class SocketConnectionManager {
 //				connector.getFilterChain().addLast("heartbeat", heartBeat);
 			}
 
-			connector.setHandler(new ReceiverMessageHandler());// 业务处理
+			connector.setHandler(new ReceiverMessageHandler(mContext));// 业务处理
 			ConnectFuture cf = connector.connect(new InetSocketAddress(IP, port));
 			cf.awaitUninterruptibly();// 等待连接创建完成
 			try {

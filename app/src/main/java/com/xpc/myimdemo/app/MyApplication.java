@@ -2,10 +2,8 @@ package com.xpc.myimdemo.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 
-import com.xpc.myimdemo.im.service.ReConnectService;
-import com.xpc.myimdemo.util.MyLog;
+import com.xpc.imlibrary.manager.SocketConnectionManager;
 import com.yolanda.nohttp.NoHttp;
 
 /**
@@ -17,6 +15,7 @@ public class MyApplication extends Application{
     public void onCreate() {
         super.onCreate();
         NoHttp.initialize(this);
+        SocketConnectionManager.initialize(this);
         instance = this;
     }
 
@@ -27,23 +26,23 @@ public class MyApplication extends Application{
         return instance;
     }
 
-    /**
-     * 启动服务
-     */
-    public void startService() {
-        MyLog.i("________________________startService_____________________");
-        // 网络监听服务
-        Intent reConnectService = new Intent(getApplicationContext(),ReConnectService.class);
-        startService(reConnectService);
-    }
-
-    /**
-     * 停止服务
-     */
-    public void stopService() {
-        MyLog.i("________________________stopService_____________________");
-        Intent reConnectService = new Intent(MyApplication.getInstance(), ReConnectService.class);
-        stopService(reConnectService);
-    }
+//    /**
+//     * 启动服务
+//     */
+//    public void startService() {
+//        MyLog.i("________________________startService_____________________");
+//        // 网络监听服务
+//        Intent reConnectService = new Intent(getApplicationContext(),ReConnectService.class);
+//        startService(reConnectService);
+//    }
+//
+//    /**
+//     * 停止服务
+//     */
+//    public void stopService() {
+//        MyLog.i("________________________stopService_____________________");
+//        Intent reConnectService = new Intent(MyApplication.getInstance(), ReConnectService.class);
+//        stopService(reConnectService);
+//    }
 
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false" >
+
+    <item
+        android:drawable="@drawable/ic_common_loading1_0"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/ic_common_loading1_1"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/ic_common_loading1_2"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/ic_common_loading1_3"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/ic_common_loading1_4"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/ic_common_loading1_5"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/ic_common_loading1_6"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/ic_common_loading1_7"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/ic_common_loading1_8"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/ic_common_loading1_9"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/ic_common_loading1_10"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/ic_common_loading1_11"
+        android:duration="200"/>
+
+</animation-list>

@@ -1,17 +1,22 @@
 package com.xpc.myimdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.xpc.imlibrary.data.UserPrefs;
+import com.xpc.imlibrary.manager.SocketConnectionManager;
+import com.xpc.imlibrary.model.SendMessageItem;
+import com.xpc.imlibrary.model.User;
+import com.xpc.imlibrary.service.SocketConnectTask;
+import com.xpc.imlibrary.util.StatusBarCompat;
 import com.xpc.myimdemo.base.BaseHttpActivity;
 import com.xpc.myimdemo.config.ActionConfigs;
 import com.xpc.myimdemo.http.KeyValuePair;
 import com.xpc.myimdemo.http.OnHttpListener;
-import com.xpc.myimdemo.model.User;
 import com.xpc.myimdemo.util.JsonUtils;
 import com.xpc.myimdemo.util.MyLog;
-import com.xpc.myimdemo.util.StatusBarCompat;
 import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONException;
@@ -86,11 +91,11 @@ public class MainActivity extends BaseHttpActivity {
                                 loginFail();
                             }
                         } else {
-                           UserPrefs.setUserAccount(userAccount);
-                           UserPrefs.setUserPwd(userPwd);
-                           UserPrefs.setUser(new User(loginObject));
-                           LoginSocketTask connectSocketTask = new LoginSocketTask( mContext);
-                           connectSocketTask.execute();
+                            UserPrefs.setUserAccount(userAccount);
+                            UserPrefs.setUserPwd(userPwd);
+                            UserPrefs.setUser(new User(loginObject));
+                            SocketConnectTask socketConnectTask = new SocketConnectTask(listener );
+                            socketConnectTask.execute();
                         }
                     } else {
                         showToast(mContext, loginObject.optString("reason"));
@@ -116,4 +121,28 @@ public class MainActivity extends BaseHttpActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    /***
+     * 连接状态监听
+     */
+    private SocketConnectTask.ConnectionListener listener = new SocketConnectTask.ConnectionListener() {
+        @Override
+        public void onConnectFailed() {
+            MyLog.i("---连接失败---");
+             loginFail();
+        }
+
+        @Override
+        public void onConnectSuccess() {
+            //   	addCustomerService();
+            MyLog.i(SendMessageItem.verifyTokenObj(mContext).toString());
+            SocketConnectionManager.getIoSession().write(SendMessageItem.verifyTokenObj(mContext).toString());
+            //		ConnectServiceManager.getInstance(context).startService();  //启动网络变化重连服务
+            //		UserPrefs.setIsAutoLogin(true);
+            //		ContactsMainFragment.isUpdate = true; //是否重获取联系人
+            Intent intent = new Intent();
+            intent.setClass(mContext, FriendsActivity.class);
+            mContext.startActivity(intent);
+        }
+    };
 }

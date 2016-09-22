@@ -10,8 +10,6 @@ import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 
-import static android.R.id.message;
-
 
 /**
  * 客户端消息接收处理
@@ -20,13 +18,16 @@ import static android.R.id.message;
  * @time 2015-12-3下午4:47:27
  */
 public class ReceiverMessageHandler implements IoHandler {
-
+	private Context context;
+	 public ReceiverMessageHandler(Context context){
+		 this.context = context;
+	}
 	/**
 	 * 当接收到客户端的请求信息后触发此方法
 	 */
 	@Override
-	public void messageReceived(IoSession ioSession, Object o) throws Exception {
-		 ResolveMessageUtil.resolveMessage(context,message.toString(), false);
+	public void messageReceived(IoSession ioSession, Object msg) throws Exception {
+		   ResolveMessageUtil.resolveMessage(context,msg.toString(), false);
 	}
 
 	/**
@@ -72,4 +73,6 @@ public class ReceiverMessageHandler implements IoHandler {
 	public void sessionOpened(IoSession arg0) throws Exception {
 		MyLog.i("----sessionOpened---连接打开--");
 	}
+
+
 }

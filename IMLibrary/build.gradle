@@ -31,4 +31,5 @@ dependencies {
     compile files('libs/slf4j-api-1.6.6.jar')
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile files('libs/pinyin4j-2.5.0.jar')
 }

@@ -1,8 +1,7 @@
 package com.xpc.imlibrary.data;
 
 
-import android.content.Context;
-
+import com.xpc.imlibrary.config.ContextManger;
 import com.xpc.imlibrary.model.User;
 import com.xpc.imlibrary.util.SPHelper;
 
@@ -109,28 +108,34 @@ public class UserPrefs {
     /**本类实例*/
     private static UserPrefs instance;
     private UserPrefs(){}; //私有化方法
-    public static UserPrefs getInstance(Context context) {
-        if (instance == null) {
-             instance = new UserPrefs();
-             mUserPrefs = new SPHelper(context,USER_PREFS_NAME);
+//    public static UserPrefs getInstance() {
+//        if (instance == null) {
+//             instance = new UserPrefs();
+//             mUserPrefs = new SPHelper(ContextManger.getInstance().getContext(),USER_PREFS_NAME);
+//        }
+//        return instance;
+//    }
+    private static SPHelper getInstance() {
+        if (mUserPrefs == null) {
+            mUserPrefs = new SPHelper(ContextManger.getInstance().getContext(),USER_PREFS_NAME);
         }
-        return instance;
+        return mUserPrefs;
     }
     /**
      * 获取用户帐号
      *
      * @return
      */
-    public String getUserAccount(Context context) {
-        return mUserPrefs.getStringValue(USER_ACCOUNT, "");
+    public static String getUserAccount() {
+        return getInstance() .getStringValue(USER_ACCOUNT, "");
     }
     /**
      * 保存用户帐号
      *
      * @return
      */
-    public void setUserAccount(String userAccount) {
-        mUserPrefs.getEditor().putString(USER_ACCOUNT, userAccount).commit();
+    public static void setUserAccount(String userAccount) {
+        getInstance() .getEditor().putString(USER_ACCOUNT, userAccount).commit();
     }
 
     /**
@@ -138,16 +143,16 @@ public class UserPrefs {
      *
      * @return
      */
-    public String getUserPwd() {
-        return mUserPrefs.getStringValue(USER_PWD, "");
+    public static String getUserPwd() {
+        return getInstance() .getStringValue(USER_PWD, "");
     }
     /**
      * 保存用户密码
      *
      * @return
      */
-    public  void setUserPwd(String userPwd) {
-        mUserPrefs.getEditor().putString(USER_PWD, userPwd).commit();
+    public static  void setUserPwd(String userPwd) {
+        getInstance() .getEditor().putString(USER_PWD, userPwd).commit();
     }
 
     /**
@@ -155,8 +160,8 @@ public class UserPrefs {
      *
      * @param user
      */
-    public  void setUser(User user) {
-        mUserPrefs.getEditor().putString(USERNAME, user.getUserName())
+    public static  void setUser(User user) {
+        getInstance() .getEditor().putString(USERNAME, user.getUserName())
                 .putString(FID, user.getFid())
                 .putString(USERID, user.getUserId())
                 .putString(USER_TOKEN, user.getToken())
@@ -191,14 +196,14 @@ public class UserPrefs {
      *
      * @return
      */
-    public  User getUser() {
+    public static  User getUser() {
         User user = new User();
-        user.setFid(mUserPrefs.getStringValue("fId"));
-        user.setUserId(mUserPrefs.getStringValue("userId"));
-        user.setUserName(mUserPrefs.getStringValue("userName"));
-        user.setHeadImage(mUserPrefs.getStringValue("headImage"));
-        user.setUserType(mUserPrefs.getStringValue("userType"));
-        user.setSex(mUserPrefs.getIntValue(USER_SEX));
+        user.setFid(getInstance() .getStringValue("fId"));
+        user.setUserId(getInstance() .getStringValue("userId"));
+        user.setUserName(getInstance() .getStringValue("userName"));
+        user.setHeadImage(getInstance() .getStringValue("headImage"));
+        user.setUserType(getInstance() .getStringValue("userType"));
+        user.setSex(getInstance() .getIntValue(USER_SEX));
         return user;
     }
     /**
@@ -206,8 +211,8 @@ public class UserPrefs {
      *
      * @return
      */
-    public  String getUserId() {
-        return mUserPrefs.getStringValue(USERID, "");
+    public static  String getUserId() {
+        return getInstance() .getStringValue(USERID, "");
     }
 
     /**
@@ -215,16 +220,16 @@ public class UserPrefs {
      *
      * @return
      */
-    public  void setUserId(String userId) {
-        mUserPrefs.getEditor().putString(USERID, userId).commit();
+    public static  void setUserId(String userId) {
+        getInstance() .getEditor().putString(USERID, userId).commit();
     }
     /**
      * 获取用户名字
      *
      * @return
      */
-    public  String getUserName() {
-        return mUserPrefs.getStringValue(USERNAME, "");
+    public static  String getUserName() {
+        return getInstance() .getStringValue(USERNAME, "");
     }
 
     /**
@@ -232,16 +237,16 @@ public class UserPrefs {
      *
      * @return
      */
-    public  void setUserName(String userName) {
-        mUserPrefs.getEditor().putString(USERNAME, userName).commit();
+    public static  void setUserName(String userName) {
+        getInstance() .getEditor().putString(USERNAME, userName).commit();
     }
     /**
      * 获取用户头像
      *
      * @return
      */
-    public  String getHeadImage() {
-        return mUserPrefs.getStringValue(HEAD_IMAGE, "");
+    public static  String getHeadImage() {
+        return getInstance() .getStringValue(HEAD_IMAGE, "");
     }
 
     /**
@@ -249,8 +254,8 @@ public class UserPrefs {
      *
      * @return
      */
-    public  void setHeadImage(String headImage) {
-        mUserPrefs.getEditor().putString(HEAD_IMAGE, headImage).commit();
+    public static  void setHeadImage(String headImage) {
+        getInstance() .getEditor().putString(HEAD_IMAGE, headImage).commit();
     }
 
     /**
@@ -258,8 +263,8 @@ public class UserPrefs {
      *
      * @return
      */
-    public  int getUserSex() {
-        return mUserPrefs.getIntValue(USER_SEX);
+    public static  int getUserSex() {
+        return getInstance() .getIntValue(USER_SEX);
     }
 
     /**
@@ -267,31 +272,31 @@ public class UserPrefs {
      *
      * @return
      */
-    public  void setUserSex(int userSex) {
-        mUserPrefs.getEditor().putInt(USER_SEX, userSex).commit();
+    public static  void setUserSex(int userSex) {
+        getInstance() .getEditor().putInt(USER_SEX, userSex).commit();
     }
     /**
      * 获取用户手机号
      * @return
      */
-    public  String getMobile() {
-        return mUserPrefs.getStringValue(USER_MOBILE, "");
+    public static  String getMobile() {
+        return getInstance() .getStringValue(USER_MOBILE, "");
     }
 
     /**
      * 保存用户手机号
      * @return
      */
-    public void setMobile(String mobile) {
-        mUserPrefs.getEditor().putString(USER_MOBILE, mobile).commit();
+    public static void setMobile(String mobile) {
+        getInstance() .getEditor().putString(USER_MOBILE, mobile).commit();
     }
     /**
      * 获取是否自动登录
      *
      * @return
      */
-    public  boolean getIsAutoLogin() {
-        return mUserPrefs.getBooleanValue(IS_AUTOLOGIN, true);
+    public static  boolean getIsAutoLogin() {
+        return getInstance() .getBooleanValue(IS_AUTOLOGIN, true);
     }
 
     /**
@@ -299,8 +304,8 @@ public class UserPrefs {
      *
      * @return
      */
-    public  void setIsAutoLogin(boolean isAutoLogin) {
-        mUserPrefs.getEditor().putBoolean(IS_AUTOLOGIN, isAutoLogin)
+    public static  void setIsAutoLogin(boolean isAutoLogin) {
+        getInstance() .getEditor().putBoolean(IS_AUTOLOGIN, isAutoLogin)
                 .commit();
     }
     /**
@@ -308,24 +313,24 @@ public class UserPrefs {
      *
      * @return
      */
-    public  String getToken() {
-        return mUserPrefs.getStringValue(USER_TOKEN, "");
+    public static  String getToken() {
+        return getInstance() .getStringValue(USER_TOKEN, "");
     }
     /**
      * 保存token
      *
      * @return
      */
-    public  void setToken(String token) {
-        mUserPrefs.getEditor().putString(USER_TOKEN, token).commit();
+    public static  void setToken(String token) {
+        getInstance() .getEditor().putString(USER_TOKEN, token).commit();
     }
     /**
      * 获取客服人员userid
      *
      * @return
      */
-    public  String getMsgUserID() {
-        return mUserPrefs.getStringValue(MSG_USERID, "");
+    public static  String getMsgUserID() {
+        return getInstance() .getStringValue(MSG_USERID, "");
     }
 
     /**
@@ -333,8 +338,8 @@ public class UserPrefs {
      *
      * @return
      */
-    public  void setMsgUserID(String msgUserID) {
-        mUserPrefs.getEditor().putString(MSG_USERID, msgUserID).commit();
+    public static  void setMsgUserID(String msgUserID) {
+        getInstance() .getEditor().putString(MSG_USERID, msgUserID).commit();
     }
 
     /**
@@ -342,8 +347,8 @@ public class UserPrefs {
      *
      * @return
      */
-    public  String getMsgContent() {
-        return mUserPrefs.getStringValue(MSG_CONTENT, "");
+    public static  String getMsgContent() {
+        return getInstance() .getStringValue(MSG_CONTENT, "");
     }
 
     /**
@@ -351,16 +356,16 @@ public class UserPrefs {
      *
      * @return
      */
-    public void setMsgContent(String msgContent) {
-        mUserPrefs.getEditor().putString(MSG_CONTENT, msgContent).commit();
+    public static void setMsgContent(String msgContent) {
+        getInstance() .getEditor().putString(MSG_CONTENT, msgContent).commit();
     }
     /**
      * 获取欢迎消息内容
      *
      * @return
      */
-    public String getMsgName() {
-        return mUserPrefs.getStringValue(MSG_USERNAME, "");
+    public static String getMsgName() {
+        return getInstance() .getStringValue(MSG_USERNAME, "");
     }
 
     /**
@@ -368,16 +373,16 @@ public class UserPrefs {
      *
      * @return
      */
-    public void setMsgName(String msgName) {
-        mUserPrefs.getEditor().putString(MSG_USERNAME, msgName).commit();
+    public static void setMsgName(String msgName) {
+        getInstance() .getEditor().putString(MSG_USERNAME, msgName).commit();
     }
     /**
      * 获取客服人员头像地址
      *
      * @return
      */
-    public  String getMsgHeadImage() {
-        return mUserPrefs.getStringValue(MSG_HEADIMAGE, "");
+    public static  String getMsgHeadImage() {
+        return getInstance() .getStringValue(MSG_HEADIMAGE, "");
     }
 
     /**
@@ -385,8 +390,8 @@ public class UserPrefs {
      *
      * @return
      */
-    public  void setMsgHeadImage(String msgHeadImage) {
-        mUserPrefs.getEditor().putString(MSG_HEADIMAGE, msgHeadImage)
+    public static  void setMsgHeadImage(String msgHeadImage) {
+        getInstance() .getEditor().putString(MSG_HEADIMAGE, msgHeadImage)
                 .commit();
     }
 }

@@ -3,12 +3,13 @@ package com.xpc.imlibrary;
 import android.os.Bundle;
 
 import com.xpc.imlibrary.data.UserPrefs;
+import com.xpc.imlibrary.imp.ConnectionListener;
 import com.xpc.imlibrary.manager.MessageManager;
 import com.xpc.imlibrary.manager.PersonInfoManager;
 import com.xpc.imlibrary.manager.SocketConnectionManager;
 import com.xpc.imlibrary.model.RecMessageItem;
 import com.xpc.imlibrary.model.SendMessageItem;
-import com.xpc.imlibrary.service.ReconnectionSocketTask;
+import com.xpc.imlibrary.service.SocketConnectTask;
 import com.xpc.imlibrary.util.DateTimeUtil;
 import com.xpc.imlibrary.util.MyLog;
 import com.xpc.imlibrary.util.StringUtil;
@@ -20,30 +21,43 @@ import java.util.List;
 /**
  * Created by xiepc on 2016/8/19 0019 下午 3:20
  */
-public abstract class AChatActivity extends BaseActivity{
-    /** 消息 */
+public abstract class AChatActivity extends BaseActivity {
+    /**
+     * 消息
+     */
     private List<RecMessageItem> messageList = null;
-    /** 好友id */
+    /**
+     * 好友id
+     */
     protected String sendId;
-    /** 好友名称 */
+    /**
+     * 好友名称
+     */
     protected String sendName = "";
-    /** 好友头像url */
+    /**
+     * 好友头像url
+     */
     protected String sendUrl = "";
     private int pageSize = 10;
     protected int page = 1;
-    /** 当前用户id */
+    /**
+     * 当前用户id
+     */
     private String receiveId = "";
-    /** 聊天场景 */
+    /**
+     * 聊天场景
+     */
     protected int msgScene;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        receiveId = UserPrefs.getInstance(this).getUserId();
+        receiveId = UserPrefs.getUserId();
         sendId = getIntent().getStringExtra("sendId");
         sendName = getIntent().getStringExtra("sendName");
         sendUrl = getIntent().getStringExtra("sendUrl");
         msgScene = getIntent().getIntExtra("msgScene", 0);
-        MyLog.i("sendId:" + sendId + ",receiveId:" + receiveId + ",msgScene:" + msgScene+",sendName:"+sendName);
+        MyLog.i("sendId:" + sendId + ",receiveId:" + receiveId + ",msgScene:" + msgScene + ",sendName:" + sendName);
     }
 
     protected void sendMessage(String msgContent, int msgType, int voiceLen, String param) {
@@ -75,8 +89,8 @@ public abstract class AChatActivity extends BaseActivity{
             sendItem.setSendNickName(sendName);
             sendItem.setSendUserAvatar(sendUrl);
             sendItem.setReceiveId(receiveId);
-            sendItem.setReceiveNickName(UserPrefs.getInstance(this).getUserName());
-            sendItem.setReceiveUserAvatar(UserPrefs.getInstance(this).getHeadImage());
+            sendItem.setReceiveNickName(UserPrefs.getUserName());
+            sendItem.setReceiveUserAvatar(UserPrefs.getHeadImage());
             if (sendItem.getMsgScene() == SendMessageItem.CHAT_GROUP) {// 群聊
                 sendItem.setGroupId(sendId);
                 sendItem.setGroupName(sendName);
@@ -88,23 +102,19 @@ public abstract class AChatActivity extends BaseActivity{
 
             MyLog.i("发送信息：" + sendItem.changetoObj(sendItem).toString());
             MyLog.i("------------：" + SocketConnectionManager.getIoSession());
-            if (SocketConnectionManager.getIoSession() == null
-                    || SocketConnectionManager.getIoSession().isClosing()) {// 连接断开时则消息为发送失败状态
+            if (SocketConnectionManager.getIoSession() == null || SocketConnectionManager.getIoSession().isClosing()) {// 连接断开时则消息为发送失败状态
                 // 连接即时通讯
-                ReconnectionSocketTask connectTask = new ReconnectionSocketTask(mContext);
+                SocketConnectTask connectTask = new SocketConnectTask(new ConnectionListener(mContext));
                 connectTask.execute();
                 // 修改该条消息状态为发送失败
                 recMsg.setStatus(SendMessageItem.STATUS_FAIL);
-                MessageManager.getInstance(mContext).updateStatusByMsgId(
-                        recMsg.getMsgId(), recMsg.getStatus());
+                MessageManager.getInstance(mContext).updateStatusByMsgId(recMsg.getMsgId(), recMsg.getStatus());
                 // 刷新视图
                 refreshMessageAfterResend(recMsg);
             } else {
                 // 发送消息到服务器端
-                SocketConnectionManager.getIoSession().write(
-                        sendItem.changetoObj(sendItem).toString());
+                SocketConnectionManager.getIoSession().write(sendItem.changetoObj(sendItem).toString());
             }
-
         } catch (Exception e) {
             MyLog.i("发送失败：" + e.getMessage());
         }
@@ -130,12 +140,17 @@ public abstract class AChatActivity extends BaseActivity{
 
     /**
      * 更新消息并刷新界面
+     *
      * @param recMsg
      */
     protected abstract void refreshMessageAfterResend(RecMessageItem recMsg);
+
     /**
      * 接收新消息并刷新界面
+     *
      * @param message
      */
     protected abstract void receiveNewMessage(RecMessageItem message);
+
+
 }

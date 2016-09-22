@@ -1,15 +1,18 @@
 package com.xpc.myimdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.xpc.imlibrary.ChatActivity;
+import com.xpc.imlibrary.manager.SocketConnectionManager;
+import com.xpc.imlibrary.util.StatusBarCompat;
 import com.xpc.myimdemo.adapter.PersonListAdapter;
-import com.xpc.myimdemo.app.MyApplication;
-import com.xpc.myimdemo.im.manager.SocketConnectionManager;
 import com.xpc.myimdemo.model.PersonItem;
 import com.xpc.myimdemo.util.MyLog;
-import com.xpc.myimdemo.util.StatusBarCompat;
 import com.xpc.myimdemo.view.FriendsActivityView;
 import com.xpc.myimdemo.view.FriendsPresenter;
 
@@ -57,12 +60,23 @@ public class FriendsActivity extends FriendsActivityView {
                 getListData();
             }
         });
+        personListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PersonItem person = personItemList.get(position);
+                Intent chatIntent = new Intent(mContext,ChatActivity.class);
+                chatIntent.putExtra("sendId", person.getUserID());
+                chatIntent.putExtra("sendName", person.getName());
+                chatIntent.putExtra("sendUrl", person.getHeadImage());
+                startActivity(chatIntent);
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MyApplication.getInstance().stopService(); //把重连服务关掉
+        //MyApplication.getInstance().stopService(); //把重连服务关掉
         SocketConnectionManager.getInstance().disconnect(); //关掉socket连接
         MyLog.i("---断开消息连接---");
     }

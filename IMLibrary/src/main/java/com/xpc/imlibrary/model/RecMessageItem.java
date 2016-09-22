@@ -751,9 +751,9 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 			obj.put("cT", item.getContent());
 			obj.put("sT", item.getSendTime());
 			obj.put("mL", item.getMsgLen());
-			obj.put("sD", UserPrefs.getInstance(context).getUserId());
-			obj.put("sN", UserPrefs.getInstance(context).getUserName());
-			obj.put("sU", UserPrefs.getInstance(context).getHeadImage());
+			obj.put("sD", UserPrefs.getUserId());
+			obj.put("sN", UserPrefs.getUserName());
+			obj.put("sU", UserPrefs.getHeadImage());
 			obj.put("rD", item.getSendId());
 			if (item.msgScene == SendMessageItem.CHAT_GROUP) {// 群聊时需把群名称和群头像传过去
 				obj.put("rN", item.getSendNickName());
