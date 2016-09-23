@@ -1,8 +1,11 @@
-package com.xpc.myimdemo.base;
+package com.xpc.imlibrary;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
-import com.xpc.myimdemo.custom.WaitDialog;
+import com.xpc.imlibrary.imp.HttpPresenter;
+import com.xpc.imlibrary.imp.IHttpView;
+import com.xpc.imlibrary.widget.WaitDialog;
 
 /**
  * Created by xiepc on 2016-09-19  下午 4:19
@@ -26,7 +29,7 @@ public abstract class ABaseActivityView<P extends HttpPresenter> extends BaseAct
 
     @Override
     public void onHttpFail(int what, Object obj) {
-        showToast(this,"网络请求失败");
+        Toast.makeText(this, "网络请求失败",Toast.LENGTH_SHORT).show();
     }
 
     @Override

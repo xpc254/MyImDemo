@@ -12,6 +12,7 @@ import com.xpc.imlibrary.config.IMConstant;
 import com.xpc.imlibrary.imp.MenuOperateListener;
 import com.xpc.imlibrary.model.RecMessageItem;
 import com.xpc.imlibrary.model.SendMessageItem;
+import com.xpc.imlibrary.presenter.MessagePresenter;
 import com.xpc.imlibrary.util.MyLog;
 import com.xpc.imlibrary.util.StatusBarCompat;
 import com.xpc.imlibrary.util.ViewUtil;
@@ -63,20 +64,21 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
     }
 
     @Override
-    protected void refreshMessageAfterResend(RecMessageItem recMsg) {
+    public void refreshMessageAfterResend(RecMessageItem recMsg) {
         messageListView.refreshAfterResend(recMsg);
     }
 
     @Override
-    protected void receiveNewMessage(RecMessageItem message) {
+    public void receiveNewMessage(RecMessageItem message) {
         messageListView.appendNewMsg(message);
     }
 
     @Override
-    public void sendMessage(View view,String content) {
+    //点击发送按钮响应
+    public void onSendMessage(View view,String content) {
     //    try {
             MyLog.i("发送消息："+content);
-            sendMessage(content, SendMessageItem.TYPE_TEXT, -1, null);
+        ((MessagePresenter)presenter).sendMessage(content, SendMessageItem.TYPE_TEXT, -1, null);
             ((EditText)view).setText("");
 //        } catch (Exception e) {
 //            e.printStackTrace();
@@ -94,5 +96,10 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
         chatIntent.putExtra("sendName", name);
         chatIntent.putExtra("sendUrl", headUrl);
         context.startActivity(chatIntent);
+    }
+
+    @Override
+    public void onLoadData(int what, Object obj) {
+          //网络请求数据返回
     }
 }

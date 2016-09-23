@@ -2,8 +2,9 @@ package com.xpc.myimdemo.view;
 
 import android.os.Bundle;
 
-import com.xpc.myimdemo.base.ABaseActivityView;
-import com.xpc.myimdemo.base.HttpPresenter;
+import com.xpc.imlibrary.ABaseActivityView;
+import com.xpc.imlibrary.imp.HttpPresenter;
+
 
 /**
  * Created by xiepc on 2016-09-19  下午 5:50

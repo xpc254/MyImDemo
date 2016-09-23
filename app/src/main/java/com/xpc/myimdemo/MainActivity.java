@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.xpc.imlibrary.data.UserPrefs;
+import com.xpc.imlibrary.http.KeyValuePair;
+import com.xpc.imlibrary.http.OnHttpListener;
 import com.xpc.imlibrary.manager.SocketConnectionManager;
 import com.xpc.imlibrary.model.SendMessageItem;
 import com.xpc.imlibrary.model.User;
@@ -13,8 +15,6 @@ import com.xpc.imlibrary.service.SocketConnectTask;
 import com.xpc.imlibrary.util.StatusBarCompat;
 import com.xpc.myimdemo.base.BaseHttpActivity;
 import com.xpc.myimdemo.config.ActionConfigs;
-import com.xpc.myimdemo.http.KeyValuePair;
-import com.xpc.myimdemo.http.OnHttpListener;
 import com.xpc.myimdemo.util.JsonUtils;
 import com.xpc.myimdemo.util.MyLog;
 import com.yolanda.nohttp.rest.Response;

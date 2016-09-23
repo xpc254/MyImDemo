@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.xpc.imlibrary.http.CallServer;
+import com.xpc.imlibrary.http.KeyValuePair;
+import com.xpc.imlibrary.http.OnHttpListener;
 import com.xpc.myimdemo.config.Constant;
-import com.xpc.myimdemo.http.CallServer;
-import com.xpc.myimdemo.http.KeyValuePair;
-import com.xpc.myimdemo.http.OnHttpListener;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;

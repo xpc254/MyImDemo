@@ -1,11 +1,11 @@
-package com.xpc.myimdemo.http;
+package com.xpc.imlibrary.http;
 
 import android.app.Activity;
 import android.util.Log;
 
-import com.xpc.myimdemo.config.Constant;
-import com.xpc.myimdemo.custom.WaitDialog;
-import com.xpc.myimdemo.util.MyLog;
+import com.xpc.imlibrary.config.IMConstant;
+import com.xpc.imlibrary.util.MyLog;
+import com.xpc.imlibrary.widget.WaitDialog;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Response;
 
@@ -69,9 +69,9 @@ public class OnHttpResponseListener<T> implements OnResponseListener<T> {
         if (responseCode == 200) {
             Object obj = response.get();
             if (obj instanceof String) {
-                Log.i(Constant.TAG, "httpDataStr-----" + (String) (obj));
+                Log.i(IMConstant.TAG, "httpDataStr-----" + (String) (obj));
             } else {
-                Log.i(Constant.TAG, "httpDataObj-----" + obj.toString());
+                Log.i(IMConstant.TAG, "httpDataObj-----" + obj.toString());
             }
             if (callback != null) {
                 callback.onSucceed(what, response);

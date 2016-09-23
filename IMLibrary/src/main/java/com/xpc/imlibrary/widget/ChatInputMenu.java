@@ -152,7 +152,7 @@ public class ChatInputMenu extends LinearLayout {
             }else if(i == R.id.messageSendText){ //发送消息
                  String content = messageEdit.getText().toString().trim();
                 if(!StringUtil.isEmpty(content)){
-                     operateListener.sendMessage(messageEdit,content);
+                     operateListener.onSendMessage(messageEdit,content);
                 }
             }
         }

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.xpc.imlibrary.util.ImageLoader;
 import com.xpc.imlibrary.util.StringUtil;
 import com.xpc.myimdemo.R;
 import com.xpc.myimdemo.model.PersonItem;
@@ -58,9 +58,7 @@ public class PersonListAdapter extends BaseAdapter{
          }
         holder.nameText.setText(item.getName());
         if(!StringUtil.isEmpty(item.getHeadImage())){
-          // Picasso.with(context).load(item.getHeadImage()).error(R.drawable.ic_phone_contacts).into(holder.headImg);
-           Picasso.with(context).load(item.getHeadImage()).placeholder(R.drawable.ic_phone_contacts)
-                   .error(R.drawable.ic_phone_contacts).into(holder.headImg);
+            ImageLoader.loadImg(context,item.getHeadImage(),holder.headImg,R.drawable.ic_phone_contacts);
         }else{
             holder.headImg.setImageResource(R.drawable.ic_phone_contacts);
         }

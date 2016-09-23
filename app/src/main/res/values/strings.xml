@@ -2,5 +2,4 @@
     <string name="app_name">MyImDemo</string>
     <string name="input_error">输入错误</string>
 
-    <string name="wait_dialog_title">给力加载中...</string>
 </resources>

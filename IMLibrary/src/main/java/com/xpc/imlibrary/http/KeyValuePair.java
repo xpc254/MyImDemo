@@ -1,4 +1,4 @@
-package com.xpc.myimdemo.http;
+package com.xpc.imlibrary.http;
 
 /**
  * Created by xiepc on 2016/8/14 0014 23:50

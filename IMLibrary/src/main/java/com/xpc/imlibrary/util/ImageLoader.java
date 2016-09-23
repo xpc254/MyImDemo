@@ -57,7 +57,7 @@ public class ImageLoader {
             callBack.onError();
             return;
         }
-        Picasso.with(context).load(url).fetch(new Callback() {
+        Picasso.with(context).load(url).into(imageView,new Callback() {
             @Override
             public void onSuccess() {
                 callBack.onSuccess();

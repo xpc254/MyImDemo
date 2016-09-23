@@ -1,11 +1,11 @@
-package com.xpc.myimdemo.base;
+package com.xpc.imlibrary.imp;
 
 import android.util.Log;
 
-import com.xpc.myimdemo.config.Constant;
-import com.xpc.myimdemo.http.CallServer;
-import com.xpc.myimdemo.http.KeyValuePair;
-import com.xpc.myimdemo.util.MyLog;
+import com.xpc.imlibrary.config.IMConstant;
+import com.xpc.imlibrary.http.CallServer;
+import com.xpc.imlibrary.http.KeyValuePair;
+import com.xpc.imlibrary.util.MyLog;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -32,10 +32,10 @@ public abstract class HttpPresenter<V extends IHttpView,T> implements IPresenter
         // String 请求对象
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.setCancelSign(this);
-        Log.i(Constant.TAG, "url-----" + url);
+        Log.i(IMConstant.TAG, "url-----" + url);
         if (parmaValues != null && parmaValues.size() > 0) {
             for (KeyValuePair keyValue : parmaValues) {
-                Log.i(Constant.TAG, keyValue.getKey() + "-----" + keyValue.getValue());
+                Log.i(IMConstant.TAG, keyValue.getKey() + "-----" + keyValue.getValue());
                 request.add(keyValue.getKey(), keyValue.getValue());
             }
         }
@@ -54,9 +54,9 @@ public abstract class HttpPresenter<V extends IHttpView,T> implements IPresenter
             if (responseCode == 200) {
                 Object obj = response.get();
                 if (obj instanceof String) {
-                    Log.i(Constant.TAG, "httpDataStr-----" + (String) (obj));
+                    Log.i(IMConstant.TAG, "httpDataStr-----" + (String) (obj));
                 } else {
-                    Log.i(Constant.TAG, "httpDataObj-----" + obj.toString());
+                    Log.i(IMConstant.TAG, "httpDataObj-----" + obj.toString());
                 }
                 //处理数据
                 parseHttpData(what,response);

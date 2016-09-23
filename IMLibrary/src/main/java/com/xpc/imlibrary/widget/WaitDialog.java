@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xpc.myimdemo.custom;
+package com.xpc.imlibrary.widget;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.Window;
 
-import com.xpc.myimdemo.R;
+import com.xpc.imlibrary.R;
+
 
 /**
  * xiepc 2016-8-19

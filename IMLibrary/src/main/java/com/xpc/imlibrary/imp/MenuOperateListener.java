@@ -8,5 +8,5 @@ import android.view.View;
 
 public interface MenuOperateListener {
 
-    public void sendMessage(View view,String content);
+    public void onSendMessage(View view,String content);
 }

@@ -1,4 +1,4 @@
-package com.xpc.myimdemo.http;
+package com.xpc.imlibrary.http;
 
 import com.yolanda.nohttp.rest.Response;
 
