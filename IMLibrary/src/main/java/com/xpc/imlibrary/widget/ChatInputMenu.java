@@ -84,6 +84,7 @@ public class ChatInputMenu extends LinearLayout {
                 return false;
             }
         });
+        extendMenu.bindView(messageEdit);
     }
 
     private TextWatcher watcher = new TextWatcher() {

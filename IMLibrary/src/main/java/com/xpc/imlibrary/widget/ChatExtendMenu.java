@@ -1,14 +1,22 @@
 package com.xpc.imlibrary.widget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 
@@ -16,6 +24,7 @@ import com.xpc.imlibrary.R;
 import com.xpc.imlibrary.adapter.FaceAdapter;
 import com.xpc.imlibrary.adapter.FacePageAdeapter;
 import com.xpc.imlibrary.util.FaceData;
+import com.xpc.imlibrary.util.SharedMothed;
 import com.xpc.imlibrary.widget.face.CirclePageIndicator;
 
 import java.util.ArrayList;
@@ -43,6 +52,8 @@ public class ChatExtendMenu extends LinearLayout {
     private boolean isFaceLayoutShow = false;
     //文件，位置，照片布局是否显示了
     private boolean isFileLayoutShow = false;
+    //消息输入框
+    private EditText messageEdit;
 
     public ChatExtendMenu(Context context) {
         super(context);
@@ -95,6 +106,7 @@ public class ChatExtendMenu extends LinearLayout {
         faceLayout.setVisibility(View.GONE);
         moreFunctionLayout.setVisibility(View.GONE);
     }
+
     // 添加图片表情
     private void initData() {
         // 获取聊天对象的id
@@ -107,7 +119,7 @@ public class ChatExtendMenu extends LinearLayout {
     //初始化表情
     private void initFacePage() {
         List<View> lv = new ArrayList<View>();
-        for (int i = 0; i < FaceData.NUM_PAGE; i++){
+        for (int i = 0; i < FaceData.NUM_PAGE; i++) {
             lv.add(getGridView(i));
         }
         FacePageAdeapter adapter = new FacePageAdeapter(lv);
@@ -152,58 +164,62 @@ public class ChatExtendMenu extends LinearLayout {
         gv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         gv.setGravity(Gravity.CENTER);
         gv.setAdapter(new FaceAdapter(context, i));
-      //  gv.setOnTouchListener(forbidenScroll());
-//        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-//                if (arg2 == FaceData.NUM) {// 删除键的位置
-//                    int selection = messageEdit.getSelectionStart();
-//                    String text = messageEdit.getText().toString();
-//                    if (selection > 0) {
-//                        String text2 = text.substring(selection - 1);
-//                        if ("]".equals(text2)) {
-//                            int start = text.lastIndexOf("[");
-//                            int end = selection;
-//                            messageEdit.getText().delete(start, end);
-//                            return;
-//                        }
-//                        messageEdit.getText().delete(selection - 1, selection);
-//                    }
-//                } else {
-//                    int count = mCurrentFacePage * FaceData.NUM + arg2;
-//                    // 下面这部分，在EditText中显示表情
-//                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), (Integer) FaceData.getMFaceData().getFaceMap().values().toArray()[count]);
-//                    if (bitmap != null) {
-//                        int rawHeigh = bitmap.getHeight();
-//                        int rawWidth = bitmap.getWidth();
-//                        float textSize = messageEdit.getTextSize();
-//                        float fontHeight = SharedMothed.getFontHeightByTextSize(textSize);
-//                        float dest = fontHeight * 1.2f;
-//                        float heightScale = dest / rawHeigh;
-//                        float widthScale = dest / rawWidth;
-//                        Matrix matrix = new Matrix();
-//                        matrix.postScale(widthScale, heightScale);
-//                        Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, rawWidth, rawHeigh, matrix, true);
-//                        bitmap.recycle();
-//                        bitmap = null;
-//                        ImageSpan imageSpan = new ImageSpan(mActivity, newBitmap);
-//                        String emojiStr = mFaceMapKeys.get(count);
-//                        SpannableString spannableString = new SpannableString(emojiStr);
-//                        spannableString.setSpan(imageSpan, emojiStr.indexOf('['), emojiStr.indexOf(']') + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                        messageEdit.append(spannableString);
-//                    } else {
-//                        String ori = messageEdit.getText().toString();
-//                        int index = messageEdit.getSelectionStart();
-//                        StringBuilder stringBuilder = new StringBuilder(ori);
-//                        stringBuilder.insert(index, mFaceMapKeys.get(count));
-//                        messageEdit.setText(stringBuilder.toString());
-//                        messageEdit.setSelection(index + mFaceMapKeys.get(count).length());
-//                    }
-//                }
-//            }
-//        });
+        // gv.setOnTouchListener(forbidenScroll()); //防止表情乱滑动
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                if (arg2 == FaceData.NUM) {// 删除键的位置
+                    int selection = messageEdit.getSelectionStart();
+                    String text = messageEdit.getText().toString();
+                    if (selection > 0) {
+                        String text2 = text.substring(selection - 1);
+                        if ("]".equals(text2)) {
+                            int start = text.lastIndexOf("[");
+                            int end = selection;
+                            messageEdit.getText().delete(start, end);
+                            return;
+                        }
+                        messageEdit.getText().delete(selection - 1, selection);
+                    }
+                } else {
+                    int count = mCurrentFacePage * FaceData.NUM + arg2;
+                    // 下面这部分，在EditText中显示表情
+                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), (Integer) FaceData.getMFaceData().getFaceMap().values().toArray()[count]);
+                    if (bitmap != null) {
+                        int rawHeigh = bitmap.getHeight();
+                        int rawWidth = bitmap.getWidth();
+                        float textSize = messageEdit.getTextSize();
+                        float fontHeight = SharedMothed.getFontHeightByTextSize(textSize);
+                        float dest = fontHeight * 1.2f;
+                        float heightScale = dest / rawHeigh;
+                        float widthScale = dest / rawWidth;
+                        Matrix matrix = new Matrix();
+                        matrix.postScale(widthScale, heightScale);
+                        Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, rawWidth, rawHeigh, matrix, true);
+                        bitmap.recycle();
+                        bitmap = null;
+                        ImageSpan imageSpan = new ImageSpan(context, newBitmap);
+                        String emojiStr = mFaceMapKeys.get(count);
+                        SpannableString spannableString = new SpannableString(emojiStr);
+                        spannableString.setSpan(imageSpan, emojiStr.indexOf('['), emojiStr.indexOf(']') + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        messageEdit.append(spannableString);
+                    } else {
+                        String ori = messageEdit.getText().toString();
+                        int index = messageEdit.getSelectionStart();
+                        StringBuilder stringBuilder = new StringBuilder(ori);
+                        stringBuilder.insert(index, mFaceMapKeys.get(count));
+                        messageEdit.setText(stringBuilder.toString());
+                        messageEdit.setSelection(index + mFaceMapKeys.get(count).length());
+                    }
+                }
+            }
+        });
         return gv;
+    }
+
+    public void bindView(EditText messageEdit) {
+        this.messageEdit = messageEdit;
     }
 
     public boolean isFaceLayoutShow() {
