@@ -7,6 +7,7 @@ import com.xpc.imlibrary.ABaseActivityView;
 import com.xpc.imlibrary.ChatActivity;
 import com.xpc.imlibrary.config.ActionConfigs;
 import com.xpc.imlibrary.data.UserPrefs;
+import com.xpc.imlibrary.hold.SavePicture;
 import com.xpc.imlibrary.http.KeyValuePair;
 import com.xpc.imlibrary.imp.ConnectionListener;
 import com.xpc.imlibrary.imp.HttpPresenter;
@@ -14,6 +15,7 @@ import com.xpc.imlibrary.imp.IHttpView;
 import com.xpc.imlibrary.manager.MessageManager;
 import com.xpc.imlibrary.manager.PersonInfoManager;
 import com.xpc.imlibrary.manager.SocketConnectionManager;
+import com.xpc.imlibrary.model.ImageItem;
 import com.xpc.imlibrary.model.RecMessageItem;
 import com.xpc.imlibrary.model.SendMessageItem;
 import com.xpc.imlibrary.service.SocketConnectTask;
@@ -49,12 +51,12 @@ public class MessagePresenter extends HttpPresenter {
     //聊天场景
     private int msgScene;
     private Context mContext;
-     //录音时间
+    //录音时间
     private int recordTime = 0;
+
     public MessagePresenter(Context context) {
         mContext = context;
         initData((Activity) context);
-
     }
 
     private void initData(Activity activity) {
@@ -68,33 +70,39 @@ public class MessagePresenter extends HttpPresenter {
 
     @Override
     protected void parseHttpData(int what, Response responseBody) {
-        //调用网络请求返回数据
-        switch (what){
-            case HTTP_WHAT_ONE: //语音上传处理
-                parseResultUploadVoice(responseBody);
-                break;
-        }
+        //调用网络请求返回数据解析
+        parseResultUploadData(what, responseBody);
     }
 
-  /**解析上传语音的返回结果，并发送语音聊天*/
-    private void parseResultUploadVoice(Response responseBody){
+    /**
+     * 解析上传语音、图片或者位置图片的返回结果，并以聊天消息发送出去
+     */
+    private void parseResultUploadData(int what, Response responseBody) {
         try {
             String body = (String) responseBody.get();
-            JSONObject    fileObj = new JSONObject(body);
+            JSONObject fileObj = new JSONObject(body);
             if (fileObj.getString("code").equals("1")) {
                 if (JsonUtils.isExistObj(fileObj, "rows")) {
                     JSONArray array = fileObj.optJSONArray("rows");
-                    String recordUrl = array.getJSONObject(0).optString("url");
-                    if (!StringUtil.isEmpty(recordUrl)) {
-                         //发送语音
-                         sendMessage(recordUrl, SendMessageItem.TYPE_VOICE, recordTime, null);
+                    String url = array.getJSONObject(0).optString("url");
+                    if (!StringUtil.isEmpty(url)) {
+                        switch (what) {
+                            case HTTP_WHAT_ONE: //发送语音
+                                sendMessage(url, SendMessageItem.TYPE_VOICE, recordTime, null);
+                                break;
+                            case HTTP_WHAT_TWO: //发送图片
+                                sendMessage(url, SendMessageItem.TYPE_IMAGE, -1, null);
+                                break;
+                            case HTTP_WHAT_THREE: //发送地理位置
+                                //sendMessage(photoUrl,SendMessageItem.TYPE_LOCATION,-1, locationObj.toString());
+                                break;
+                        }
                     }
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     public void sendMessage(String msgContent, int msgType, int voiceLen, String param) {
@@ -146,7 +154,7 @@ public class MessagePresenter extends HttpPresenter {
                 recMsg.setStatus(SendMessageItem.STATUS_FAIL);
                 MessageManager.getInstance(mContext).updateStatusByMsgId(recMsg.getMsgId(), recMsg.getStatus());
                 // 刷新视图
-                ((ChatActivity)mContext).refreshMessageAfterResend(recMsg);
+                ((ChatActivity) mContext).refreshMessageAfterResend(recMsg);
             } else {
                 // 发送消息到服务器端
                 SocketConnectionManager.getIoSession().write(sendItem.changetoObj(sendItem).toString());
@@ -171,10 +179,10 @@ public class MessagePresenter extends HttpPresenter {
         Integer primaryId = (int) MessageManager.getInstance(mContext).saveIMMessage(recMsg);
         recMsg.setPrimaryId(primaryId);
         // 刷新视图
-        ((ChatActivity)mContext).receiveNewMessage(recMsg);
+        ((ChatActivity) mContext).receiveNewMessage(recMsg);
     }
 
-    public void processRecordVoice(String audioPath, int time){
+    public void processRecordVoice(String audioPath, int time) {
         try {
             if (audioPath != null && time > 0) {
                 recordTime = time;
@@ -183,25 +191,49 @@ public class MessagePresenter extends HttpPresenter {
                     uploadFile(recordFile);
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /**
      * 上传语音文件
-     *
      * @param file 语音文件
      */
     private void uploadFile(File file) {
-         ((ABaseActivityView)mContext).initProgressbar("语音处理中...");
+        ((ABaseActivityView) mContext).initProgressbar("语音处理中...");
         try {
             List<KeyValuePair> params = new ArrayList<KeyValuePair>();
             JSONObject paramObject = new JSONObject();
             paramObject.put("operateType", "fileUpload");
             paramObject.put("token", UserPrefs.getToken());
             params.add(new KeyValuePair("data", StringUtil.getEncryptedData(paramObject.toString())));
-            httpPostAsyncFile(HTTP_WHAT_ONE, ActionConfigs.FILE_UPLOAD_URL,params,file);
+            httpPostAsyncFile(HTTP_WHAT_ONE, ActionConfigs.FILE_UPLOAD_URL, params, file);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 上传图片
+     *
+     * @param imgItem 图片item
+     */
+    public void uploadPhoto(ImageItem imgItem) {
+        if (SavePicture.imgList == null) {
+            SavePicture.imgList = new ArrayList<ImageItem>();
+        }
+        if (SavePicture.imgList.size() > 0) {
+            SavePicture.imgList.clear();
+        }
+        SavePicture.imgList.add(imgItem);
+        try {
+            List<KeyValuePair> params = new ArrayList<KeyValuePair>();
+            JSONObject paramObject = new JSONObject();
+            paramObject.put("operateType", "fileUploadImageSize");
+            paramObject.put("token", UserPrefs.getToken());
+            params.add(new KeyValuePair("data", StringUtil.getEncryptedData(paramObject.toString())));
+            httpPostAsync(HTTP_WHAT_TWO, ActionConfigs.FILE_UPLOAD_URL, params, true);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -214,6 +246,9 @@ public class MessagePresenter extends HttpPresenter {
 
     @Override
     public void detachView() {
-
+        if (SavePicture.imgList != null && SavePicture.imgList.size() > 0) {
+            SavePicture.imgList.clear();
+            SavePicture.imgList = null;
+        }
     }
 }

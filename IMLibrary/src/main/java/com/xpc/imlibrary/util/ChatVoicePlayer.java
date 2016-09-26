@@ -68,19 +68,18 @@ public class ChatVoicePlayer {
 	 * 播放语音，管理音频焦点
 	 * **/
 	public static class OtherPlayerManagerImpl implements OtherPlayerManagerI {
-		public static Context otcontext = null;
+	//	public  Context otcontext = null;
 		public static AudioManager am = null;
 		public static OtherPlayerManagerImpl playerManagerImpl = null;
 
 		// 单例返回
 		public static OtherPlayerManagerImpl getInstance(Context context) {
-			OtherPlayerManagerImpl.otcontext = context;
+		//	OtherPlayerManagerImpl.otcontext = context;
 			if (playerManagerImpl == null) {
 				playerManagerImpl = new OtherPlayerManagerImpl();
 			}
 			if (am == null) {
-				am = (AudioManager) otcontext
-						.getSystemService(Context.AUDIO_SERVICE);
+				am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 			}
 			return playerManagerImpl;
 		}
@@ -98,13 +97,12 @@ public class ChatVoicePlayer {
 
 		@Override
 		public void releaseResource() {
-			context = null;
 			am = null;
 			playerManagerImpl = null;
 		}
 	}
 
-	public static Context context;
+//	public  Context context;
 	public static MediaPlayer player;
 	public static RecMessageItem curPlayMessage;
 	public static OnPlayListener curOnPlayListener;
@@ -267,8 +265,8 @@ public class ChatVoicePlayer {
 	}
 
 	public static void play(final RecMessageItem item,
-			final OnPlayListener onPlayListener, Context context) {
-		ChatVoicePlayer.context = context;
+			final OnPlayListener onPlayListener) {
+
 		if (item == null)
 			return;
 		if (doPlay(item, onPlayListener)) {

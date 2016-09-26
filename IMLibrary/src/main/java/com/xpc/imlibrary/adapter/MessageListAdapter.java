@@ -1017,7 +1017,7 @@ public class MessageListAdapter extends BaseAdapter {
             item.setPlayStatus(SendMessageItem.STATUS_UNPLAYED);
             // 暂停播放其他音乐
             ChatVoicePlayer.OtherPlayerManagerImpl.getInstance(context).pauseOtherPlayer();
-            ChatVoicePlayer.play(item, this, context);
+            ChatVoicePlayer.play(item, this);
         }
 
         @Override

@@ -3,10 +3,14 @@ package com.xpc.imlibrary.imp;
 import android.util.Log;
 
 import com.xpc.imlibrary.config.IMConstant;
+import com.xpc.imlibrary.hold.SavePicture;
 import com.xpc.imlibrary.http.CallServer;
 import com.xpc.imlibrary.http.KeyValuePair;
+import com.xpc.imlibrary.model.ImageItem;
+import com.xpc.imlibrary.util.ImageUtil;
 import com.xpc.imlibrary.util.MyLog;
 import com.yolanda.nohttp.FileBinary;
+import com.yolanda.nohttp.InputStreamBinary;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -14,6 +18,7 @@ import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.Response;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -24,13 +29,24 @@ public abstract class HttpPresenter<V extends IHttpView,T> implements IPresenter
     protected static final int HTTP_WHAT_ONE = 101;
     protected static final int HTTP_WHAT_TWO = 102;
     protected static final int HTTP_WHAT_THREE = 103;
+
     /**
      * 网络请求
      * @param what  请求标签
      * @param url   地址
      * @param parmaValues 请求参数
-     */
+     * */
     protected void httpPostAsync(int what, String url, List<KeyValuePair> parmaValues){
+         httpPostAsync(what,url,parmaValues,false);
+    }
+    /**
+     * 网络请求
+     * @param what  请求标签
+     * @param url   地址
+     * @param parmaValues 请求参数
+     * @param isUploadPicture 是否上传图片
+     */
+    protected void httpPostAsync(int what, String url, List<KeyValuePair> parmaValues,boolean isUploadPicture){
         // String 请求对象
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.setCancelSign(this);
@@ -41,8 +57,22 @@ public abstract class HttpPresenter<V extends IHttpView,T> implements IPresenter
                 request.add(keyValue.getKey(), keyValue.getValue());
             }
         }
+        if (isUploadPicture) {
+            if (SavePicture.imgList != null && SavePicture.imgList.size() > 0) {
+                for (int j = 0; j < SavePicture.imgList.size(); j++) {
+                    ImageItem imgItem = SavePicture.imgList.get(j);
+                    InputStream inStream = ImageUtil  .bitmapToInputStream(imgItem.getBitmap());
+                    if (inStream != null) {
+                        MyLog.i("photoName:" + imgItem.getPhotoName());
+//                        params.put(imgItem.getPhotoName(), inStream, imgItem.getPhotoName());
+                        request.add(imgItem.getPhotoName(), new InputStreamBinary(inStream,imgItem.getPhotoName()));
+                    }
+                }
+            }
+        }
         CallServer.getRequestInstance().add(what,request,responseListener);
-    }   /**
+    }
+    /**
      * 网络请求
      * @param what  请求标签
      * @param url   地址

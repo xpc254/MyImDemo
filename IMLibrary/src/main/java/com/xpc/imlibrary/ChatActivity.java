@@ -2,6 +2,8 @@ package com.xpc.imlibrary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,9 +13,12 @@ import android.widget.LinearLayout;
 
 import com.xpc.imlibrary.config.IMConstant;
 import com.xpc.imlibrary.imp.MenuOperateListener;
+import com.xpc.imlibrary.model.ImageItem;
 import com.xpc.imlibrary.model.RecMessageItem;
 import com.xpc.imlibrary.model.SendMessageItem;
 import com.xpc.imlibrary.presenter.MessagePresenter;
+import com.xpc.imlibrary.util.FileUtil;
+import com.xpc.imlibrary.util.ImageUtil;
 import com.xpc.imlibrary.util.MyLog;
 import com.xpc.imlibrary.util.StatusBarCompat;
 import com.xpc.imlibrary.util.ViewUtil;
@@ -23,6 +28,12 @@ import com.xpc.imlibrary.widget.ChatMessageListView;
 public class ChatActivity extends AChatActivity implements MenuOperateListener {
     //录音保存地址
     public static String RECORD_ROOT_PATH = Environment.getExternalStorageDirectory().getPath() + IMConstant.HHXH_RECORD;
+    //相册
+    private static final int FUNCTION_ALBUM = 0;
+    //拍照
+    private static final int FUNCTION_PHOTOGRAPH = 1;
+    //位置
+    public static final int FUNCTION_LOCATION = 2;
     private LinearLayout rootLayout;
     public static String currentFriendJid;
     //显示消息的listView布局
@@ -66,7 +77,7 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
                         //加载更多消息,操作
                         messageListView.getSwipeRefreshLayout().setRefreshing(false);
                     }
-                },3000);
+                }, 3000);
             }
         });
     }
@@ -77,7 +88,6 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
         //在父类读取消息记录，在此更新界面
         messageListView.refreshOldMsgDisplay(messageList);
     }
-
 
 
     @Override
@@ -92,11 +102,11 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
 
     @Override
     //点击发送按钮响应
-    public void onSendMessage(View view,String content) {
-    //    try {
-            MyLog.i("发送消息："+content);
-        ((MessagePresenter)presenter).sendMessage(content, SendMessageItem.TYPE_TEXT, -1, null);
-            ((EditText)view).setText("");
+    public void onSendMessage(View view, String content) {
+        //    try {
+        MyLog.i("发送消息：" + content);
+        ((MessagePresenter) presenter).sendMessage(content, SendMessageItem.TYPE_TEXT, -1, null);
+        ((EditText) view).setText("");
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //           // showToast(ChatActivity.this, getResources().getString(R.string.chat_infos_send_fail));
@@ -106,22 +116,32 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
 
     @Override //录音结果返回
     public void onResultRecordVoice(String audioPath, int time) {
-        ((MessagePresenter)presenter).processRecordVoice(audioPath,time);
+        ((MessagePresenter) presenter).processRecordVoice(audioPath, time);
     }
 
     @Override
     public void onSendAlbum() {
         MyLog.i("--发送相册图片--");
+        ImageUtil.choosePhoto(this, FUNCTION_ALBUM);
     }
 
     @Override
     public void onSendPhotoGraph() {
         MyLog.i("--发送拍照--");
+        ImageUtil.takePhoto(this, ImageUtil.DIR_PATH, ImageUtil.tempPhoto, FUNCTION_PHOTOGRAPH);
     }
 
     @Override
     public void onSendLocation() {
         MyLog.i("--发送位置-");
+//        Intent functionIntent = new Intent();
+//        functionIntent.putExtra("isChat", true);
+//        if (friendPmId != null) {
+//            functionIntent.putExtra("friendPmId", friendPmId);
+//            functionIntent.putExtra("friendName", currentFriendName);
+//        }
+//        functionIntent.setClass(mContext, SelectLocationMapActivity.class);
+//        startActivityForResult(functionIntent, FUNCTION_LOCATION);
     }
 
     /**
@@ -137,6 +157,55 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
 
     @Override
     public void onLoadData(int what, Object obj) {
-          //网络请求数据返回
+        //网络请求数据返回
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case FUNCTION_ALBUM:// 相册
+                // uploadPhotoType = FUNCTION_ALBUM;
+                if (resultCode == RESULT_OK) {
+                    if (data != null) {
+                        Uri uri = data.getData();
+                        if (uri != null) {
+                            String photoUrl = uri.toString();
+                            Bitmap bitmap = ImageUtil.getAlbumsSuitableBigBitmap(mContext, uri);
+                            ImageItem albumItem = new ImageItem();
+                            albumItem.setBitmap(bitmap);
+                            albumItem.setPhotoName(ImageUtil.getPhotoName());
+                            albumItem.setImgURL(photoUrl);
+                            ((MessagePresenter) presenter).uploadPhoto(albumItem);
+                            try {
+                                bitmap.recycle();
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case FUNCTION_PHOTOGRAPH:// 拍照
+                //  uploadPhotoType = FUNCTION_PHOTOGRAPH;
+                if (resultCode == RESULT_OK) {
+                    String photoUrl = FileUtil.getSDCardPath() + IMConstant.HHXH_IMGDIR + ImageUtil.tempPhoto;
+                    Bitmap bitmap = ImageUtil.getSuitableBigBitmap(mContext, photoUrl);
+                    ImageItem photoGraphItem = new ImageItem();
+                    photoGraphItem.setBitmap(bitmap);
+                    photoGraphItem.setPhotoName(ImageUtil.getPhotoName());
+                    photoGraphItem.setImgURL(photoUrl);
+                    // uploadPhoto(photoGraphItem);
+                    ((MessagePresenter) presenter).uploadPhoto(photoGraphItem);
+                    try {
+                        bitmap.recycle();
+                    } catch (Exception e) {
+                    }
+                }
+                break;
+
+            case FUNCTION_LOCATION:// 位置
+                break;
+        }
     }
 }

@@ -24,6 +24,7 @@ public abstract class ABaseActivityView<P extends HttpPresenter> extends BaseAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        presenter.detachView();
         presenter.cancelHttp();
     }
     protected abstract P createPresenter();

@@ -21,8 +21,6 @@ import com.xpc.imlibrary.model.SendMessageItem;
 
 import org.json.JSONObject;
 
-import static com.xpc.imlibrary.util.ChatVoicePlayer.context;
-
 
 /**
  * 解析消息
@@ -57,7 +55,8 @@ public class ResolveMessageUtil {
 
             // 该帐号在其他设备登录，顶号的消息。
             if (recMsg.getMsgType() == SendMessageItem.TYPE_UNIQUE_EXISTENCE) {
-                doOtherDeviceLoginType();
+                MyLog.i("---顶号消息处理---");
+                doOtherDeviceLoginType(context);
                 return;
             }
             if (!StringUtil.isEmpty(recMsg.getSendId()) && !StringUtil.isEmpty(String.valueOf(recMsg.getMsgScene())) && !StringUtil.isEmpty(String.valueOf(recMsg.getMsgType())) && !StringUtil.isEmpty(recMsg.getMsgId())) {// 必要消息参数不可为空
@@ -140,7 +139,7 @@ public class ResolveMessageUtil {
 
                 if (noticeId != -1) {
                     // 接收到新消息发送广播通知
-                    sendNewMessageBroadcast(recMsg, noticeId);
+                    sendNewMessageBroadcast(context,recMsg, noticeId);
                     if (!isOffline) {
                         setNotiType(context, R.mipmap.ic_launcher, context.getResources().getString(R.string.new_message), notice.getContent(), recMsg);
                     }
@@ -154,7 +153,7 @@ public class ResolveMessageUtil {
     /**
      * 其它设备登录，顶号处理
      */
-    private static void doOtherDeviceLoginType() {
+    private static void doOtherDeviceLoginType(Context context) {
         SocketConnectionManager.getInstance().disconnect();
         UserPrefs.setIsAutoLogin(false);
         Intent zenitIntent = new Intent();
@@ -162,7 +161,7 @@ public class ResolveMessageUtil {
         context.sendBroadcast(zenitIntent);
     }
 
-    private static void sendNewMessageBroadcast(RecMessageItem recMsg, long notice) {
+    private static void sendNewMessageBroadcast(Context context,RecMessageItem recMsg, long notice) {
         Intent intent = new Intent();
         intent.setAction(IMConstant.NEW_MESSAGE_ACTION);
         if (recMsg.getMsgScene() == SendMessageItem.CHAT_UPCOMING) { //待办
