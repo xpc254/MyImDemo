@@ -1,10 +1,10 @@
 package com.xpc.myimdemo.view;
 
+import com.xpc.imlibrary.config.ActionConfigs;
 import com.xpc.imlibrary.data.UserPrefs;
 import com.xpc.imlibrary.http.KeyValuePair;
 import com.xpc.imlibrary.imp.HttpPresenter;
 import com.xpc.imlibrary.imp.IHttpView;
-import com.xpc.myimdemo.config.ActionConfigs;
 import com.xpc.myimdemo.model.PersonItem;
 import com.xpc.myimdemo.util.JsonUtils;
 import com.yolanda.nohttp.rest.Response;
@@ -21,9 +21,6 @@ import java.util.List;
 public class FriendsPresenter <V extends IHttpView>extends HttpPresenter {
     private String parentId = "7b43f905-5c67-11e5-b9b4-00163e00172b";
     List<PersonItem> personItemList = new ArrayList<>();
-    public FriendsPresenter(V view){
-        impView = view;
-    }
 
      public void getFriends(){
          List<KeyValuePair> params = new ArrayList<KeyValuePair>();
@@ -62,4 +59,13 @@ public class FriendsPresenter <V extends IHttpView>extends HttpPresenter {
         }
     }
 
+    @Override
+    public void attachView(Object view) {
+         impView = (V)view;
+    }
+
+    @Override
+    public void detachView() {
+
+    }
 }

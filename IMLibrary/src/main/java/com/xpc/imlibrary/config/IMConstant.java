@@ -8,6 +8,10 @@ public class IMConstant {
     public static final String TAG = "xiepc";
     /**是否为调试状态，打印日志*/
     public static final boolean DEBUG = true;
+    /** 云接口测试库 */
+    public final static String BASE_URL = "http://www.szhhxh.com";
+    /** 接口库 */
+    public final static String URL = BASE_URL+"/weixunapp";
     /** 本地缓存根文件夹 */
     public static final String HHXH_BASE = "/Hhxh";
     /** 文件 */

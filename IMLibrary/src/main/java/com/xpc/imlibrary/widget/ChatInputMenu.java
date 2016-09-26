@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.xpc.imlibrary.R;
 import com.xpc.imlibrary.imp.MenuOperateListener;
+import com.xpc.imlibrary.util.MyLog;
 import com.xpc.imlibrary.util.StringUtil;
 
 /**
@@ -33,6 +34,7 @@ public class ChatInputMenu extends LinearLayout {
     private LinearLayout messageLayout;
     private LinearLayout recordLayout;
     private TextView messageSendText;
+    private NewRecordButton recordBtn;
     //输入法
     private InputMethodManager mInputMethodManager;
     private MenuOperateListener operateListener;
@@ -54,6 +56,7 @@ public class ChatInputMenu extends LinearLayout {
 
     public void setMenuOperateListener(MenuOperateListener operateListener) {
         this.operateListener = operateListener;
+        extendMenu.setMenuOperateListener(operateListener);
     }
 
     private void initView(Context context) {
@@ -69,6 +72,7 @@ public class ChatInputMenu extends LinearLayout {
         messageSendText = (TextView) findViewById(R.id.messageSendText);
         messageLayout = (LinearLayout) findViewById(R.id.messageLayout);
         recordLayout = (LinearLayout) findViewById(R.id.recordLayout);
+        recordBtn = (NewRecordButton) findViewById(R.id.recordBtn);
         faceSwitchImg.setOnClickListener(listener);
         moreFunctionImg.setOnClickListener(listener);
         recordSwitchImg.setOnClickListener(listener);
@@ -85,7 +89,23 @@ public class ChatInputMenu extends LinearLayout {
             }
         });
         extendMenu.bindView(messageEdit);
+        recordBtn.setFinishedListener(recordListener);
     }
+
+    private NewRecordButton.OnFinishedRecordListener recordListener = new NewRecordButton.OnFinishedRecordListener() {
+
+        @Override
+        public void onFinishedRecord(String audioPath, int time) {
+            MyLog.i("RECORD!!!finished!!!!!!!!!! save to " + audioPath);
+          //  stopProgressDialog(mContext);
+             operateListener.onResultRecordVoice(audioPath,time);
+        }
+
+        @Override
+        public void onStartConvert() {
+           //  startProgressDialog(mContext, getResources().getString(R.string.converting));
+        }
+    };
 
     private TextWatcher watcher = new TextWatcher() {
         @Override
@@ -150,10 +170,10 @@ public class ChatInputMenu extends LinearLayout {
                     messageSendText.setVisibility(View.VISIBLE);
                 }
                 extendMenu.hideExtendMenu();
-            }else if(i == R.id.messageSendText){ //发送消息
-                 String content = messageEdit.getText().toString().trim();
-                if(!StringUtil.isEmpty(content)){
-                     operateListener.onSendMessage(messageEdit,content);
+            } else if (i == R.id.messageSendText) { //发送消息
+                String content = messageEdit.getText().toString().trim();
+                if (!StringUtil.isEmpty(content)) {
+                    operateListener.onSendMessage(messageEdit, content);
                 }
             }
         }

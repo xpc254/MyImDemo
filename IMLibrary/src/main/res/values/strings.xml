@@ -31,6 +31,7 @@
     <string name="years">年份</string>
     <string name="picture">图片</string>
     <string name="voice">语音</string>
+    <string name="take_photo">拍照</string>
     <string name="mine">我</string>
     <string name="chat_location">位置</string>
     <string name="my_location">选择位置</string>

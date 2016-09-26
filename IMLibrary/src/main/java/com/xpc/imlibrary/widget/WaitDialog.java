@@ -34,5 +34,4 @@ public class WaitDialog extends ProgressDialog {
         setProgressStyle(STYLE_SPINNER);
         setMessage(context.getText(R.string.wait_dialog_title));
     }
-
 }

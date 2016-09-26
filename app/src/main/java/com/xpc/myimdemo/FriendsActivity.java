@@ -51,7 +51,7 @@ public class FriendsActivity extends FriendsActivityView {
         initTitle("好友列表");
         adapter = new PersonListAdapter(this,personItemList);
         personListView.setAdapter(adapter);
-        swipeLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
+        swipeLayout.setColorSchemeResources(R.color.colorAccent, R.color.blue_main_title, R.color.colorPrimaryDark);
         swipeLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.white));
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

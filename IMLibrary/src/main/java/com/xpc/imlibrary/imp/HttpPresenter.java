@@ -6,12 +6,14 @@ import com.xpc.imlibrary.config.IMConstant;
 import com.xpc.imlibrary.http.CallServer;
 import com.xpc.imlibrary.http.KeyValuePair;
 import com.xpc.imlibrary.util.MyLog;
+import com.yolanda.nohttp.FileBinary;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.Response;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -40,13 +42,35 @@ public abstract class HttpPresenter<V extends IHttpView,T> implements IPresenter
             }
         }
         CallServer.getRequestInstance().add(what,request,responseListener);
+    }   /**
+     * 网络请求
+     * @param what  请求标签
+     * @param url   地址
+     * @param parmaValues 请求参数
+     */
+    protected void httpPostAsyncFile(int what, String url, List<KeyValuePair> parmaValues,File file){
+        // String 请求对象
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
+        request.setCancelSign(this);
+        Log.i(IMConstant.TAG, "url-----" + url);
+        if (parmaValues != null && parmaValues.size() > 0) {
+            for (KeyValuePair keyValue : parmaValues) {
+                Log.i(IMConstant.TAG, keyValue.getKey() + "-----" + keyValue.getValue());
+                request.add(keyValue.getKey(), keyValue.getValue());
+            }
+        }
+        if(file != null){
+                Log.i(IMConstant.TAG, "file.getAbsolutePath "+ "-----" + file.getAbsolutePath());
+                request.add("fileBody", new FileBinary(file));
+            }
+         CallServer.getRequestInstance().add(what,request,responseListener);
     }
 
 
     private OnResponseListener responseListener = new OnResponseListener<T>() {
         @Override
         public void onStart(int what) {
-            impView.onHttpStart(what);
+             impView.onHttpStart(what);
         }
         @Override
         public void onSucceed(int what, Response<T> response) {
@@ -81,12 +105,4 @@ public abstract class HttpPresenter<V extends IHttpView,T> implements IPresenter
         CallServer.getRequestInstance().cancelBySign(this);
     }
 
-//    @Override
-//    public void attachView(V view) {
-//        impView = view;
-//    }
-//    @Override
-//    public void detachView() {
-//
-//    }
 }

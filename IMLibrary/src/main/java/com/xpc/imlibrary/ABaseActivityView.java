@@ -12,12 +12,13 @@ import com.xpc.imlibrary.widget.WaitDialog;
  */
 public abstract class ABaseActivityView<P extends HttpPresenter> extends BaseActivity implements IHttpView {
      protected  P presenter;
-     private WaitDialog mWaitDialog;
+     protected WaitDialog mWaitDialog;
      protected boolean enShowProgressBar = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = createPresenter();
+        presenter.attachView(this);
     }
 
     @Override
@@ -44,13 +45,20 @@ public abstract class ABaseActivityView<P extends HttpPresenter> extends BaseAct
         }
     }
 
+    public void initProgressbar(String message){
+        if(mWaitDialog == null){
+            mWaitDialog = new WaitDialog(this);
+            mWaitDialog.setCancelable(false);
+        }
+         mWaitDialog.setMessage(message);
+    }
     private void showProgressBar(){
         if(mWaitDialog == null){
             mWaitDialog = new WaitDialog(this);
             mWaitDialog.setCancelable(false);
         }
         if(!mWaitDialog.isShowing()){
-            mWaitDialog.show();
+             mWaitDialog.show();
         }
     }
 

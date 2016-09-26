@@ -165,7 +165,7 @@ public class ResolveMessageUtil {
     private static void sendNewMessageBroadcast(RecMessageItem recMsg, long notice) {
         Intent intent = new Intent();
         intent.setAction(IMConstant.NEW_MESSAGE_ACTION);
-        if (recMsg.getMsgScene() == SendMessageItem.CHAT_UPCOMING) {
+        if (recMsg.getMsgScene() == SendMessageItem.CHAT_UPCOMING) { //待办
             intent.setAction(IMConstant.IM_UPCOMING_NEW_MESSAGE_ACTION);
         }
         intent.putExtra(RecMessageItem.IMMESSAGE_KEY, recMsg);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -24,7 +25,9 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
     public static String RECORD_ROOT_PATH = Environment.getExternalStorageDirectory().getPath() + IMConstant.HHXH_RECORD;
     private LinearLayout rootLayout;
     public static String currentFriendJid;
+    //显示消息的listView布局
     private ChatMessageListView messageListView;
+    //输入栏按钮布局
     private ChatInputMenu chatInputMenu;
     private String sendId;
     private String sendName;
@@ -54,14 +57,28 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
         chatInputMenu.setMenuOperateListener(this);
         messageListView = (ChatMessageListView) findViewById(R.id.messageListView);
         messageListView.initWidget(sendName);
+        messageListView.getSwipeRefreshLayout().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                messageListView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //加载更多消息,操作
+                        messageListView.getSwipeRefreshLayout().setRefreshing(false);
+                    }
+                },3000);
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        boolean f = ChatMessageListView.getListView().getLastVisiblePosition() > adapter.getCount() - 2;
-//        adapter.appendAll(getMessages());
+        //在父类读取消息记录，在此更新界面
+        messageListView.refreshOldMsgDisplay(messageList);
     }
+
+
 
     @Override
     public void refreshMessageAfterResend(RecMessageItem recMsg) {
@@ -85,6 +102,26 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
 //           // showToast(ChatActivity.this, getResources().getString(R.string.chat_infos_send_fail));
 //            messageEdit.setText(message);
 //        }
+    }
+
+    @Override //录音结果返回
+    public void onResultRecordVoice(String audioPath, int time) {
+        ((MessagePresenter)presenter).processRecordVoice(audioPath,time);
+    }
+
+    @Override
+    public void onSendAlbum() {
+        MyLog.i("--发送相册图片--");
+    }
+
+    @Override
+    public void onSendPhotoGraph() {
+        MyLog.i("--发送拍照--");
+    }
+
+    @Override
+    public void onSendLocation() {
+        MyLog.i("--发送位置-");
     }
 
     /**

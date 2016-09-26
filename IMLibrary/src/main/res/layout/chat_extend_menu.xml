@@ -42,7 +42,7 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/functionViewPager"
             android:layout_width="fill_parent"
-            android:layout_height="170dp"
+            android:layout_height="80dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:flipInterval="30"

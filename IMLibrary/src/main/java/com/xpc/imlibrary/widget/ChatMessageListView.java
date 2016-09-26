@@ -12,6 +12,8 @@ import com.xpc.imlibrary.adapter.MessageListAdapter;
 import com.xpc.imlibrary.imp.MenuOperateListener;
 import com.xpc.imlibrary.model.RecMessageItem;
 
+import java.util.List;
+
 /**
  * 消息显示列表布局
  * Created by xiepc on 2016-09-20  下午 3:19
@@ -42,6 +44,8 @@ public class ChatMessageListView extends RelativeLayout {
         this.context = context;
         LayoutInflater.from(context).inflate(R.layout.chat_message_list, this);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.chat_swipe_layout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.blue_main_title, R.color.colorPrimaryDark);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.white));
         listView = (ListView) findViewById(R.id.listView);
     }
 
@@ -84,5 +88,22 @@ public class ChatMessageListView extends RelativeLayout {
     public void refreshAfterResend(RecMessageItem recMsg){
         messageAdapter.updateItem(recMsg);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+    }
+
+    /**更新数据库读取的历史数据显示*/
+    public void refreshOldMsgDisplay(List<RecMessageItem> messageList){
+        messageAdapter.appendAll(messageList);
+        boolean f = listView.getLastVisiblePosition() <  messageAdapter.getCount() - 1;
+        if (f) {
+            listView.post(new Runnable() {
+                @Override
+                public void run() {
+                    listView .setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+                    // chatList.setSelection(chatList.getBottom());
+                    listView.setSelection(10000);  //滑动到最底部
+                    listView.clearFocus();
+                }
+            });
+        }
     }
 }

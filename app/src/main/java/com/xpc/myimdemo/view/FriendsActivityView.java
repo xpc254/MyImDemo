@@ -18,6 +18,6 @@ public abstract class FriendsActivityView extends ABaseActivityView {
     }
     @Override
     protected HttpPresenter createPresenter() {
-        return new FriendsPresenter<>(this);
+        return new FriendsPresenter<>();
     }
 }

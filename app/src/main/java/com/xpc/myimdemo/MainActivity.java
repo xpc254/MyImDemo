@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.xpc.imlibrary.config.ActionConfigs;
 import com.xpc.imlibrary.data.UserPrefs;
 import com.xpc.imlibrary.http.KeyValuePair;
 import com.xpc.imlibrary.http.OnHttpListener;
@@ -14,7 +15,6 @@ import com.xpc.imlibrary.model.User;
 import com.xpc.imlibrary.service.SocketConnectTask;
 import com.xpc.imlibrary.util.StatusBarCompat;
 import com.xpc.myimdemo.base.BaseHttpActivity;
-import com.xpc.myimdemo.config.ActionConfigs;
 import com.xpc.myimdemo.util.JsonUtils;
 import com.xpc.myimdemo.util.MyLog;
 import com.yolanda.nohttp.rest.Response;
@@ -74,7 +74,7 @@ public class MainActivity extends BaseHttpActivity {
         params.add(new KeyValuePair("operatetype", "simpleInfo"));
         params.add(new KeyValuePair("mobile", userAccount));
         params.add(new KeyValuePair("password", userPwd));
-        httpPostAsync(0,ActionConfigs.GET_MY_INFO, params, onResponseListener);
+        httpPostAsync(0, ActionConfigs.GET_MY_INFO, params, onResponseListener);
     }
     OnHttpListener onResponseListener = new OnHttpListener<String>() {
         @Override

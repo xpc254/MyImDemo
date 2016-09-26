@@ -3,10 +3,14 @@ package com.xpc.imlibrary.presenter;
 import android.app.Activity;
 import android.content.Context;
 
+import com.xpc.imlibrary.ABaseActivityView;
 import com.xpc.imlibrary.ChatActivity;
+import com.xpc.imlibrary.config.ActionConfigs;
 import com.xpc.imlibrary.data.UserPrefs;
+import com.xpc.imlibrary.http.KeyValuePair;
 import com.xpc.imlibrary.imp.ConnectionListener;
 import com.xpc.imlibrary.imp.HttpPresenter;
+import com.xpc.imlibrary.imp.IHttpView;
 import com.xpc.imlibrary.manager.MessageManager;
 import com.xpc.imlibrary.manager.PersonInfoManager;
 import com.xpc.imlibrary.manager.SocketConnectionManager;
@@ -14,11 +18,19 @@ import com.xpc.imlibrary.model.RecMessageItem;
 import com.xpc.imlibrary.model.SendMessageItem;
 import com.xpc.imlibrary.service.SocketConnectTask;
 import com.xpc.imlibrary.util.DateTimeUtil;
+import com.xpc.imlibrary.util.JsonUtils;
 import com.xpc.imlibrary.util.MyLog;
 import com.xpc.imlibrary.util.StringUtil;
 import com.yolanda.nohttp.rest.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * 发送消息，保存消息逻辑处理类
@@ -37,6 +49,8 @@ public class MessagePresenter extends HttpPresenter {
     //聊天场景
     private int msgScene;
     private Context mContext;
+     //录音时间
+    private int recordTime = 0;
     public MessagePresenter(Context context) {
         mContext = context;
         initData((Activity) context);
@@ -55,8 +69,33 @@ public class MessagePresenter extends HttpPresenter {
     @Override
     protected void parseHttpData(int what, Response responseBody) {
         //调用网络请求返回数据
+        switch (what){
+            case HTTP_WHAT_ONE: //语音上传处理
+                parseResultUploadVoice(responseBody);
+                break;
+        }
     }
 
+  /**解析上传语音的返回结果，并发送语音聊天*/
+    private void parseResultUploadVoice(Response responseBody){
+        try {
+            String body = (String) responseBody.get();
+            JSONObject    fileObj = new JSONObject(body);
+            if (fileObj.getString("code").equals("1")) {
+                if (JsonUtils.isExistObj(fileObj, "rows")) {
+                    JSONArray array = fileObj.optJSONArray("rows");
+                    String recordUrl = array.getJSONObject(0).optString("url");
+                    if (!StringUtil.isEmpty(recordUrl)) {
+                         //发送语音
+                         sendMessage(recordUrl, SendMessageItem.TYPE_VOICE, recordTime, null);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void sendMessage(String msgContent, int msgType, int voiceLen, String param) {
         SendMessageItem sendItem = null;
@@ -133,5 +172,48 @@ public class MessagePresenter extends HttpPresenter {
         recMsg.setPrimaryId(primaryId);
         // 刷新视图
         ((ChatActivity)mContext).receiveNewMessage(recMsg);
+    }
+
+    public void processRecordVoice(String audioPath, int time){
+        try {
+            if (audioPath != null && time > 0) {
+                recordTime = time;
+                File recordFile = new File(audioPath);
+                if (recordFile.exists()) {
+                    uploadFile(recordFile);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 上传语音文件
+     *
+     * @param file 语音文件
+     */
+    private void uploadFile(File file) {
+         ((ABaseActivityView)mContext).initProgressbar("语音处理中...");
+        try {
+            List<KeyValuePair> params = new ArrayList<KeyValuePair>();
+            JSONObject paramObject = new JSONObject();
+            paramObject.put("operateType", "fileUpload");
+            paramObject.put("token", UserPrefs.getToken());
+            params.add(new KeyValuePair("data", StringUtil.getEncryptedData(paramObject.toString())));
+            httpPostAsyncFile(HTTP_WHAT_ONE, ActionConfigs.FILE_UPLOAD_URL,params,file);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void attachView(Object view) {
+        impView = (IHttpView) view;
+    }
+
+    @Override
+    public void detachView() {
+
     }
 }

@@ -11,6 +11,8 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.xpc.imlibrary.data.UserPrefs;
+import com.xpc.imlibrary.util.decryption.base64.ASEConstant;
+import com.xpc.imlibrary.util.decryption.base64.BackAES;
 
 import java.util.List;
 import java.util.Random;
@@ -150,22 +152,21 @@ public class StringUtil {
 		}
 	}
 
-//	/**
-//	 * 获取加密数据
-//	 *
-//	 * @param data
-//	 * @return
-//	 */
-//	public static String getEncryptedData(String data) {
-//		String encodeToken = "";
-//		try {
-//			encodeToken = new String(BackAES.encrypt(data, ASEConstant.ASE_KEY,
-//					0));
-//		} catch (Exception e) {
-//			MyLog.i("Error:" + e.getMessage());
-//		}
-//		return encodeToken;
-//	}
+	/**
+	 * 获取加密数据
+	 *
+	 * @param data
+	 * @return
+	 */
+	public static String getEncryptedData(String data) {
+		String encodeToken = "";
+		try {
+			encodeToken = new String(BackAES.encrypt(data, ASEConstant.ASE_KEY,0));
+		} catch (Exception e) {
+			MyLog.i("Error:" + e.getMessage());
+		}
+		return encodeToken;
+	}
 
 	/**
 	 * 获取不同尺寸的图片

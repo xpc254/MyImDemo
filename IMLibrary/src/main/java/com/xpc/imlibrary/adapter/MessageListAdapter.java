@@ -599,12 +599,12 @@ public class MessageListAdapter extends BaseAdapter {
         Iterator<RecMessageItem> iterator = newMsgList.iterator();
         while (iterator.hasNext()) {
             RecMessageItem item = iterator.next();
-            if (messageIdSet.add(item.getMsgId())) {
+            if (messageIdSet.add(item.getMsgId())) {  //如果里面已经存在此消息，则不添加
                 this.msgList.add(item);
                 flag = true;
             }
         }
-        if (flag) {
+        if (flag) { //有新消息加入需要更新
             this.notifyDataSetChanged();
         }
     }

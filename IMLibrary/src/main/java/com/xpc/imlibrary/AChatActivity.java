@@ -27,7 +27,7 @@ public abstract class AChatActivity extends ABaseActivityView {
     /**
      * 消息
      */
-    private List<RecMessageItem> messageList = null;
+    protected List<RecMessageItem> messageList = null;
     //好友id
     private String sendId;
     //当前用户id
@@ -61,7 +61,7 @@ public abstract class AChatActivity extends ABaseActivityView {
         //从本地数据库读取历史消息
         messageList = MessageManager.getInstance(mContext).getMessageListByFrom(sendId, receiveId, msgScene, page, pageSize);
         if (null != messageList && messageList.size() > 0) {
-            Collections.sort(messageList);
+             Collections.sort(messageList);
         }
         // 更新与某人消息状态(改为已读)
         NoticeManager.getInstance(mContext).updateStatusByFrom(sendId, NoticeItem.READ);
