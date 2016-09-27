@@ -3,7 +3,7 @@ package com.xpc.imlibrary.imp;
 import android.util.Log;
 
 import com.xpc.imlibrary.config.IMConstant;
-import com.xpc.imlibrary.hold.SavePicture;
+import com.xpc.imlibrary.data.SavePicture;
 import com.xpc.imlibrary.http.CallServer;
 import com.xpc.imlibrary.http.KeyValuePair;
 import com.xpc.imlibrary.model.ImageItem;

@@ -4,6 +4,7 @@
     <string name="confirm">确定</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
+    <string name="back">返回</string>
     <string name="wait_dialog_title">给力加载中...</string>
     <string name="press_and_hold_the_talk">按住说话</string>
     <string name="new_loose_send">松开发送</string>

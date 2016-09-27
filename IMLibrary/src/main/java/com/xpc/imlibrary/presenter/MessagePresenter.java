@@ -7,7 +7,7 @@ import com.xpc.imlibrary.ABaseActivityView;
 import com.xpc.imlibrary.ChatActivity;
 import com.xpc.imlibrary.config.ActionConfigs;
 import com.xpc.imlibrary.data.UserPrefs;
-import com.xpc.imlibrary.hold.SavePicture;
+import com.xpc.imlibrary.data.SavePicture;
 import com.xpc.imlibrary.http.KeyValuePair;
 import com.xpc.imlibrary.imp.ConnectionListener;
 import com.xpc.imlibrary.imp.HttpPresenter;

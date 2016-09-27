@@ -1,4 +1,4 @@
-package com.xpc.myimdemo;
+package com.xpc.myimdemo.function.friend;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,11 +9,10 @@ import android.widget.ListView;
 import com.xpc.imlibrary.ChatActivity;
 import com.xpc.imlibrary.manager.SocketConnectionManager;
 import com.xpc.imlibrary.util.StatusBarCompat;
+import com.xpc.myimdemo.R;
 import com.xpc.myimdemo.adapter.PersonListAdapter;
 import com.xpc.myimdemo.model.PersonItem;
 import com.xpc.myimdemo.util.MyLog;
-import com.xpc.myimdemo.view.FriendsActivityView;
-import com.xpc.myimdemo.view.FriendsPresenter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +37,7 @@ public class FriendsActivity extends FriendsActivityView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
-        StatusBarCompat.compat(this,getResources().getColor(R.color.blue_main_title)); //设置状态栏颜色
+        StatusBarCompat.compat(this,getResources().getColor(R.color.white)); //设置状态栏颜色
         ButterKnife.bind(this);
         initView();
         enShowProgressBar = false; //设置网络不弹出进度框

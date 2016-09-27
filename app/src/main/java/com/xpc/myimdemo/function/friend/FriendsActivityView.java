@@ -1,4 +1,4 @@
-package com.xpc.myimdemo.view;
+package com.xpc.myimdemo.function.friend;
 
 import android.os.Bundle;
 

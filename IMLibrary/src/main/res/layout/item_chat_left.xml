@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/chat_item_relativelayout_style" >
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                style="@style/chat_item_relativelayout_style">
 
     <TextView
         android:id="@+id/dateText"
-        style="@style/chat_date_style" />
+        style="@style/chat_date_style"
+        android:text="2016"/>
 
     <com.xpc.imlibrary.widget.RoundImageView
         android:id="@+id/avatarImg"
@@ -39,20 +41,47 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <RelativeLayout
-                    android:id="@+id/contentLayout"
-                    style="@style/chat_content_relativelayout_style"
-                    android:background="@drawable/selector_balloon_l" >
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/contentLayout"-->
+                    <!--style="@style/chat_content_relativelayout_style"-->
+                    <!--android:background="@drawable/selector_balloon_l" >-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/msgText"-->
+                        <!--style="@style/chat_content_style" />-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/msgRecord"-->
+                        <!--style="@style/chat_record_style"-->
+                        <!--android:background="@drawable/ic_chat_voice_left3" />-->
+                <!--</RelativeLayout>-->
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/contentCardView"
+                    android:layout_width="wrap_content"
+                    android:fitsSystemWindows="true"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp"
+                    app:cardBackgroundColor="#e7e5b9"
+                    app:cardCornerRadius="10dp"
+                    app:contentPadding="10dp">
 
                     <TextView
                         android:id="@+id/msgText"
-                        style="@style/chat_content_style" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/font16"
+                        android:maxEms="15"
+                        />
 
                     <ImageView
                         android:id="@+id/msgRecord"
                         style="@style/chat_record_style"
-                        android:background="@drawable/ic_chat_voice_left3" />
-                </RelativeLayout>
+                        android:background="@drawable/ic_chat_voice_left3"/>
+                </android.support.v7.widget.CardView>
 
                 <TextView
                     android:id="@+id/recordTimeText"

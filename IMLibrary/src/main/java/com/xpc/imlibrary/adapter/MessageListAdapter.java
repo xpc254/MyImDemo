@@ -12,6 +12,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,7 +143,7 @@ public class MessageListAdapter extends BaseAdapter {
         /**
          * 消息内容layout
          */
-        private RelativeLayout contentLayout;
+        private CardView contentCardView;
         /**
          * 聊天人头像
          */
@@ -227,7 +228,7 @@ public class MessageListAdapter extends BaseAdapter {
                 convertView = this.inflater.inflate(R.layout.item_chat_left, null);
             }
             holder = new ViewHolder();
-            holder.contentLayout = (RelativeLayout) convertView.findViewById(R.id.contentLayout);
+            holder.contentCardView = (CardView) convertView.findViewById(R.id.contentCardView);
             holder.avatarImg = (ImageView) convertView.findViewById(R.id.avatarImg);
             holder.userNameText = (TextView) convertView.findViewById(R.id.userNameText);
             holder.dateText = (TextView) convertView.findViewById(R.id.dateText);
@@ -272,13 +273,13 @@ public class MessageListAdapter extends BaseAdapter {
             holder.userNameText.setVisibility(View.GONE);
         }
 
-        holder.contentLayout.setOnClickListener(null);
-        holder.contentLayout.setOnLongClickListener(contentLongClickListener);
-        holder.contentLayout.setTag(msgItem.getMsgId());
+        holder.contentCardView.setOnClickListener(null);
+        holder.contentCardView.setOnLongClickListener(contentLongClickListener);
+        holder.contentCardView.setTag(msgItem.getMsgId());
 
         switch (msgItem.getMsgType()) {
             case SendMessageItem.TYPE_TEXT:// 文字
-                holder.contentLayout.setVisibility(View.VISIBLE);
+                holder.contentCardView.setVisibility(View.VISIBLE);
                 holder.msgText.setVisibility(View.VISIBLE);
                 holder.msgImg.setVisibility(View.GONE);
                 holder.imageLayout.setVisibility(View.GONE);
@@ -296,7 +297,7 @@ public class MessageListAdapter extends BaseAdapter {
             case SendMessageItem.TYPE_IMAGE:// 图片
                 holder.msgImg.setVisibility(View.VISIBLE);
                 holder.imageLayout.setVisibility(View.VISIBLE);
-                holder.contentLayout.setVisibility(View.GONE);
+                holder.contentCardView.setVisibility(View.GONE);
                 holder.msgRecordImg.setVisibility(View.GONE);
                 holder.voiceStateImg.setVisibility(View.GONE);
                 holder.msgRecordLenText.setVisibility(View.GONE);
@@ -345,7 +346,7 @@ public class MessageListAdapter extends BaseAdapter {
                 break;
 
             case SendMessageItem.TYPE_VOICE:// 语音
-                holder.contentLayout.setVisibility(View.VISIBLE);
+                holder.contentCardView.setVisibility(View.VISIBLE);
                 holder.msgText.setVisibility(View.GONE);
                 holder.msgImg.setVisibility(View.GONE);
                 holder.imageLayout.setVisibility(View.GONE);
@@ -466,7 +467,7 @@ public class MessageListAdapter extends BaseAdapter {
         }
 
         if (msgItem.getMsgType() == SendMessageItem.TYPE_VOICE) {// 语音
-            holder.contentLayout.setOnClickListener(voiceOnClickListener);
+            holder.contentCardView.setOnClickListener(voiceOnClickListener);
             if (msgItem.getPlayStatus() == SendMessageItem.STATUS_PLAYING) {
                 if (msgItem.getDirection() == 1) {
                     holder.msgRecordImg.setBackgroundResource(R.drawable.anim_chat_voice_left);
@@ -544,7 +545,7 @@ public class MessageListAdapter extends BaseAdapter {
      * 根据消息类型来显示工作界面
      */
     private void setWorkView(ViewHolder holder, RecMessageItem recItem) {
-        holder.contentLayout.setVisibility(View.GONE);
+        holder.contentCardView.setVisibility(View.GONE);
         holder.msgText.setVisibility(View.GONE);
         holder.msgImg.setVisibility(View.GONE);
         holder.imageLayout.setVisibility(View.GONE);

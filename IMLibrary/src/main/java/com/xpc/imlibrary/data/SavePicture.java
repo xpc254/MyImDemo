@@ -1,4 +1,4 @@
-package com.xpc.imlibrary.hold;
+package com.xpc.imlibrary.data;
 
 import android.graphics.Bitmap;
 

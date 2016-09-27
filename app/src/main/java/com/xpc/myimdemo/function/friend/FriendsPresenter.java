@@ -1,4 +1,4 @@
-package com.xpc.myimdemo.view;
+package com.xpc.myimdemo.function.friend;
 
 import com.xpc.imlibrary.config.ActionConfigs;
 import com.xpc.imlibrary.data.UserPrefs;

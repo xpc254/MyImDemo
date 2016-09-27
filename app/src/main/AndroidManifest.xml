@@ -11,15 +11,18 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme">
+        <activity android:name=".function.sign.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FriendsActivity"></activity>
+        <activity android:name=".function.friend.FriendsActivity"></activity>
+        <activity android:name="com.xpc.myimdemo.function.sign.RegisterActivity"></activity>
+        <activity android:name="com.xpc.myimdemo.function.sign.InfoActivity"></activity>
+        <activity android:name="com.xpc.myimdemo.function.sign.ForgotActivity"></activity>
     </application>
 
 </manifest>

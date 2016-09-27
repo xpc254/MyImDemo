@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="6dp">
+
         <LinearLayout
             android:id="@+id/chatLeftLayout"
             android:layout_width="wrap_content"
@@ -20,13 +21,13 @@
             <ImageView
                 android:id="@+id/recordSwitchImg"
                 style="@style/chat_function_imageview_style"
-                android:src="@drawable/ic_chat_voice" />
+                android:src="@drawable/ic_chat_voice"/>
 
             <ImageView
                 android:id="@+id/keyboardSwitchImg"
                 style="@style/chat_function_imageview_style"
                 android:src="@drawable/ic_chat_keyboard"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -56,11 +57,13 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/faceSwitchImg"
-                        android:background="@drawable/bg_chat_inputbox"
+                        android:background="@drawable/shape_input_et"
                         android:gravity="center_vertical"
                         android:maxLength="@dimen/multiline_edittext_maxlength"
                         android:maxLines="4"
-                        android:minHeight="35dp" />
+                        android:minHeight="35dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"/>
 
                     <ImageView
                         android:id="@+id/faceSwitchImg"
@@ -68,7 +71,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
-                        android:src="@drawable/selector_face_drawable" />
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/selector_face_drawable"/>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -83,10 +87,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_weight="1.0"
-                    android:background="@drawable/selector_voice_bg"
+                    android:background="@drawable/shape_record_button"
                     android:text="@string/press_and_hold_the_talk"
+                    android:layout_marginRight="5dp"
                     android:textColor="@color/gray_dark"
-                    android:textSize="@dimen/font16" />
+                    android:textSize="@dimen/font16"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -96,27 +101,29 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp">
 
-            <TextView
-                android:id="@+id/messageSendText"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:gravity="center_vertical"
-                android:background="@drawable/selector_send_msg"
+            <Button
+                android:id="@+id/messageSendBtn"
+                android:layout_width="56dp"
+                android:layout_height="32dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/shape_send_button"
+                android:gravity="center"
                 android:text="@string/send"
-                android:textColor="@color/gray"
+                android:textColor="@color/white"
                 android:textSize="@dimen/font15"
-                android:visibility="gone" />
+                android:visibility="gone"/>
+
             <ImageView
                 android:id="@+id/moreFunctionImg"
                 style="@style/chat_function_imageview_style"
-                android:src="@drawable/selector_more_drawable" />
+                android:layout_marginRight="3dp"
+                android:src="@drawable/selector_more_drawable"/>
         </LinearLayout>
     </RelativeLayout>
+
     <com.xpc.imlibrary.widget.ChatExtendMenu
         android:id="@+id/extendMunu"
         android:layout_width="wrap_content"

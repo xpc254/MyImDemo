@@ -12,7 +12,7 @@
         android:layout_marginTop="5dp"
         android:src="@drawable/ic_phone_contacts"
         app:civ_border_width="1dp"
-        app:civ_border_color="@color/gray_divide_line"/>
+        app:civ_border_color="@color/white"/>
     <TextView
         android:id="@+id/nameText"
         android:layout_width="wrap_content"

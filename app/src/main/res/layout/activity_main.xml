@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="com.xpc.myimdemo.MainActivity">
+    tools:context="com.xpc.myimdemo.function.sign.LoginActivity">
 
     <TextView
         android:layout_width="wrap_content"

@@ -1,8 +1,9 @@
-package com.xpc.myimdemo;
+package com.xpc.myimdemo.function.sign;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 import android.widget.EditText;
 
 import com.xpc.imlibrary.config.ActionConfigs;
@@ -14,7 +15,9 @@ import com.xpc.imlibrary.model.SendMessageItem;
 import com.xpc.imlibrary.model.User;
 import com.xpc.imlibrary.service.SocketConnectTask;
 import com.xpc.imlibrary.util.StatusBarCompat;
+import com.xpc.myimdemo.R;
 import com.xpc.myimdemo.base.BaseHttpActivity;
+import com.xpc.myimdemo.function.friend.FriendsActivity;
 import com.xpc.myimdemo.util.JsonUtils;
 import com.xpc.myimdemo.util.MyLog;
 import com.yolanda.nohttp.rest.Response;
@@ -32,7 +35,7 @@ import butterknife.OnClick;
  * 主界面，登录界面
  * Create by xiepc on 2016/9/17  00:27
  */
-public class MainActivity extends BaseHttpActivity {
+public class LoginActivity extends BaseHttpActivity {
     @BindView(R.id.accountsEdit)
     EditText accountsEdit;
     @BindView(R.id.passwordEdit)
@@ -44,22 +47,39 @@ public class MainActivity extends BaseHttpActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         StatusBarCompat.compat(this,getResources().getColor(R.color.white)); //设置状态栏颜色
-        accountsEdit.setText("13246737513");
+        accountsEdit.setText(UserPrefs.getUserAccount());
+        passwordEdit.setText(UserPrefs.getUserPwd());
     }
 
-    @OnClick(R.id.loginBtn)
-    public void onClickBtn(Button button) {
-        login();
+    @OnClick({R.id.loginBtn,R.id.forgotText,R.id.registerText})
+    public void onClickBtn(View view) {
+        switch (view.getId()) {
+            case R.id.loginBtn:
+                login();
+                break;
+            case R.id.forgotText:
+                Intent it =  new Intent(this,ForgotActivity.class);
+                startActivity(it);
+                break;
+            case R.id.registerText:
+                Intent intent =  new Intent(this,RegisterActivity.class);
+                startActivity(intent);
+                break;
+        }
+
+    }
+    private void showSnackBar(String content) {
+        Snackbar.make(accountsEdit, content, Snackbar.LENGTH_SHORT).show();//用新控件Snackbar来做提示
     }
 
     private void login(){
         userAccount = accountsEdit.getText().toString().trim();
         userPwd = passwordEdit.getText().toString().trim();
         if (userAccount.equals("") || userPwd.equals("")) {
-            showToast(this,getResources().getString(R.string.input_error));
+            showSnackBar(getResources().getString(R.string.input_error));
             return;
         }
         MyLog.i("用户名："+ userAccount+",密码："+ userPwd);
@@ -87,7 +107,7 @@ public class MainActivity extends BaseHttpActivity {
                         if (JsonUtils.isExistObj(loginObject, "msg")) {
                             if (loginObject.optString("msg").equals( "success")) {// 登录成功
                             } else {
-                                showToast(mContext,loginObject.optString("reason"));
+                                showSnackBar(loginObject.optString("reason"));
                                 loginFail();
                             }
                         } else {
@@ -98,7 +118,7 @@ public class MainActivity extends BaseHttpActivity {
                             socketConnectTask.execute();
                         }
                     } else {
-                        showToast(mContext, loginObject.optString("reason"));
+                        showSnackBar(loginObject.optString("reason"));
                         loginFail();
                     }
                 } else {
@@ -115,7 +135,7 @@ public class MainActivity extends BaseHttpActivity {
     };
 
     private void  loginFail(){
-        showToast(MainActivity.this,"登录失败");
+        showSnackBar("登录失败");
     }
     @Override
     protected void onDestroy() {

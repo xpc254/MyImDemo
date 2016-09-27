@@ -49,7 +49,7 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        StatusBarCompat.compat(this, getResources().getColor(R.color.blue_main_title));
+        StatusBarCompat.compat(this, getResources().getColor(R.color.white));
         initData();
         initView();
     }

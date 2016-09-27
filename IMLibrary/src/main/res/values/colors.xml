@@ -11,7 +11,7 @@
     <color name="transparent">#00000000</color>
     <color name="gray_divide_line">#d6d6d6</color>
     <color name="gray">#808080</color>
-    <color name="gray_default_bg">#eceef1</color>
+    <color name="gray_default_bg">#ededed</color>
     <color name="gray_cccccc">#cccccc</color>
     <color name="gray_tint_cccccc">#cccccc</color>
     <!-- 深灰色(聊天时间颜色) -->

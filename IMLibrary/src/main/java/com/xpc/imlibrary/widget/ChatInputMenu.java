@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.xpc.imlibrary.R;
 import com.xpc.imlibrary.imp.MenuOperateListener;
@@ -33,7 +33,7 @@ public class ChatInputMenu extends LinearLayout {
     private EditText messageEdit;
     private LinearLayout messageLayout;
     private LinearLayout recordLayout;
-    private TextView messageSendText;
+    private Button messageSendBtn;
     private NewRecordButton recordBtn;
     //输入法
     private InputMethodManager mInputMethodManager;
@@ -69,7 +69,7 @@ public class ChatInputMenu extends LinearLayout {
         recordSwitchImg = (ImageView) findViewById(R.id.recordSwitchImg);
         keyboardSwitchImg = (ImageView) findViewById(R.id.keyboardSwitchImg);
         messageEdit = (EditText) findViewById(R.id.messageEdit);
-        messageSendText = (TextView) findViewById(R.id.messageSendText);
+        messageSendBtn = (Button) findViewById(R.id.messageSendBtn);
         messageLayout = (LinearLayout) findViewById(R.id.messageLayout);
         recordLayout = (LinearLayout) findViewById(R.id.recordLayout);
         recordBtn = (NewRecordButton) findViewById(R.id.recordBtn);
@@ -77,7 +77,7 @@ public class ChatInputMenu extends LinearLayout {
         moreFunctionImg.setOnClickListener(listener);
         recordSwitchImg.setOnClickListener(listener);
         keyboardSwitchImg.setOnClickListener(listener);
-        messageSendText.setOnClickListener(listener);
+        messageSendBtn.setOnClickListener(listener);
         messageEdit.addTextChangedListener(watcher);
         messageEdit.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -119,10 +119,10 @@ public class ChatInputMenu extends LinearLayout {
         @Override
         public void afterTextChanged(Editable s) {
             if (s.length() > 0) {// 有输入
-                messageSendText.setVisibility(View.VISIBLE);
+                messageSendBtn.setVisibility(View.VISIBLE);
                 moreFunctionImg.setVisibility(View.GONE);
             } else {// 没输入
-                messageSendText.setVisibility(View.GONE);
+                messageSendBtn.setVisibility(View.GONE);
                 moreFunctionImg.setVisibility(View.VISIBLE);
             }
         }
@@ -167,10 +167,10 @@ public class ChatInputMenu extends LinearLayout {
                 if (TextUtils.isEmpty(messageEdit.getText().toString())) {
                     moreFunctionImg.setVisibility(View.VISIBLE);
                 } else {
-                    messageSendText.setVisibility(View.VISIBLE);
+                    messageSendBtn.setVisibility(View.VISIBLE);
                 }
                 extendMenu.hideExtendMenu();
-            } else if (i == R.id.messageSendText) { //发送消息
+            } else if (i == R.id.messageSendBtn) { //发送消息
                 String content = messageEdit.getText().toString().trim();
                 if (!StringUtil.isEmpty(content)) {
                     operateListener.onSendMessage(messageEdit, content);

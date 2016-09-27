@@ -1,5 +1,16 @@
 <resources>
-    <string name="app_name">MyImDemo</string>
+    <string name="app_name">聊天Demo</string>
     <string name="input_error">输入错误</string>
+
+    <string name="sign_in">欢迎加入</string>
+    <string name="phone">手机</string>
+    <string name="hint_username">帐号</string>
+    <string name="hint_password">密码</string>
+    <string name="sign_in_button">登录</string>
+    <string name="forgot_text">忘记密码?</string>
+    <string name="register">注册</string>
+    <string name="help_info">通过手机号码可以帮您找回密码</string>
+    <string name="next">下一步</string>
+
 
 </resources>

@@ -29,8 +29,6 @@
             android:visibility="invisible"/>
     </RelativeLayout>
 
-    <View style="@style/line_dividing_gray_horizontal_style"/>
-
     <com.xpc.imlibrary.widget.ChatInputMenu
         android:id="@+id/chatInputMenu"
         android:layout_width="wrap_content"
