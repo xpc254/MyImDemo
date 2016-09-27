@@ -53,6 +53,8 @@ public class MessagePresenter extends HttpPresenter {
     private Context mContext;
     //录音时间
     private int recordTime = 0;
+    //位置信息
+    private JSONObject locationObj;
 
     public MessagePresenter(Context context) {
         mContext = context;
@@ -94,7 +96,7 @@ public class MessagePresenter extends HttpPresenter {
                                 sendMessage(url, SendMessageItem.TYPE_IMAGE, -1, null);
                                 break;
                             case HTTP_WHAT_THREE: //发送地理位置
-                                //sendMessage(photoUrl,SendMessageItem.TYPE_LOCATION,-1, locationObj.toString());
+                                 sendMessage(url,SendMessageItem.TYPE_LOCATION,-1, locationObj.toString());
                                 break;
                         }
                     }
@@ -238,7 +240,9 @@ public class MessagePresenter extends HttpPresenter {
             e.printStackTrace();
         }
     }
-
+     public void setLocationObj(JSONObject locationObj){
+          this.locationObj = locationObj;
+     }
     @Override
     public void attachView(Object view) {
         impView = (IHttpView) view;

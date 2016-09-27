@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_default_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/title_layout" />
+
+    <View style="@style/line_dividing_gray_horizontal_style" />
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/locationMap"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:clickable="true" />
+
+    <ListView
+        android:id="@+id/addressList"
+        android:divider="@color/gray_divide_line"
+        android:dividerHeight="0.5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@color/transparent"
+        android:listSelector="@color/transparent" />
+
+</LinearLayout>

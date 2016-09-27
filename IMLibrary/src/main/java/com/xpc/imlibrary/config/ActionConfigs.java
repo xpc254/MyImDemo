@@ -24,4 +24,7 @@ public class ActionConfigs {
     public static final String GET_ORGANIZATIONAL_STRUCTURE_GROUP = IMConstant.URL   + "/orgAdmin/queryOrgAdmin";
     /** 获取组织架构 */
     public static final String GET_COLLEAGUELIST_DATA = IMConstant.URL+ "/user/queryUser";
+    /** 获取考勤记录 */
+    public static final String getATTENDANCEUrl = IMConstant.URL
+            + "/attendance/doAttendance";
 }

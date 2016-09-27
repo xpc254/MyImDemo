@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.xpc.imlibrary.config.IMConstant;
+import com.xpc.imlibrary.data.SavePicture;
 import com.xpc.imlibrary.imp.MenuOperateListener;
 import com.xpc.imlibrary.model.ImageItem;
 import com.xpc.imlibrary.model.RecMessageItem;
@@ -24,6 +25,11 @@ import com.xpc.imlibrary.util.StatusBarCompat;
 import com.xpc.imlibrary.util.ViewUtil;
 import com.xpc.imlibrary.widget.ChatInputMenu;
 import com.xpc.imlibrary.widget.ChatMessageListView;
+
+import org.json.JSONObject;
+
+import cn.baidu.location.SelectLocationMapActivity;
+import cn.baidu.model.LocationMapItem;
 
 public class ChatActivity extends AChatActivity implements MenuOperateListener {
     //录音保存地址
@@ -43,6 +49,7 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
     private String sendId;
     private String sendName;
     private String headUrl;
+
 
 
     @Override
@@ -134,14 +141,14 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
     @Override
     public void onSendLocation() {
         MyLog.i("--发送位置-");
-//        Intent functionIntent = new Intent();
+        Intent functionIntent = new Intent();
 //        functionIntent.putExtra("isChat", true);
 //        if (friendPmId != null) {
 //            functionIntent.putExtra("friendPmId", friendPmId);
 //            functionIntent.putExtra("friendName", currentFriendName);
 //        }
-//        functionIntent.setClass(mContext, SelectLocationMapActivity.class);
-//        startActivityForResult(functionIntent, FUNCTION_LOCATION);
+        functionIntent.setClass(mContext, SelectLocationMapActivity.class);
+        startActivityForResult(functionIntent, FUNCTION_LOCATION);
     }
 
     /**
@@ -205,6 +212,22 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
                 break;
 
             case FUNCTION_LOCATION:// 位置
+                try {
+                    if (data != null) {
+                        LocationMapItem locationItem = (LocationMapItem) data.getSerializableExtra("mapItem");
+                       JSONObject locationObj = new JSONObject();
+
+                        locationObj.put("lon", locationItem.getLongitude());
+                        locationObj.put("lat", locationItem.getLatitude());
+                        ((MessagePresenter) presenter).setLocationObj(locationObj); //传给中间者，发送消息过去
+                        ImageItem photoGraphItem = new ImageItem();
+                        photoGraphItem.setBitmap(SavePicture.mBitmap);
+                        photoGraphItem.setPhotoName(ImageUtil.getPhotoName());
+                        ((MessagePresenter) presenter).uploadPhoto(photoGraphItem);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }

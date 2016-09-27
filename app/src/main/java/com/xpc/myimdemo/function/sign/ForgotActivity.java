@@ -61,11 +61,4 @@ public class ForgotActivity extends AppCompatActivity {
     private void showSnackBar(String content) {
         Snackbar.make(cancle, content, Snackbar.LENGTH_SHORT).show();//用新控件Snackbar来做提示
     }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(ForgotActivity.this,LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
 }

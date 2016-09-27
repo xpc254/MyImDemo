@@ -3,6 +3,7 @@ package com.xpc.myimdemo.app;
 import android.app.Application;
 import android.content.Context;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.xpc.imlibrary.manager.SocketConnectionManager;
 import com.yolanda.nohttp.NoHttp;
 
@@ -17,6 +18,8 @@ public class MyApplication extends Application{
         NoHttp.initialize(this);
         SocketConnectionManager.initialize(this);
         instance = this;
+        // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
+        SDKInitializer.initialize(this);
     }
 
     public static Context getContext(){
