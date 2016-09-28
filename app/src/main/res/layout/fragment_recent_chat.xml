@@ -1,13 +1,15 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@color/gray_default_bg"
              tools:context="com.xpc.myimdemo.function.RecentChatFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    <include layout="@layout/title_layout"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:gravity="center"
+        android:text="最近联系人"/>
 
-</FrameLayout>
+</LinearLayout>

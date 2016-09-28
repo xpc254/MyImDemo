@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyIM</string>
+    <string name="app_name">简聊</string>
     <string name="send">发送</string>
     <string name="confirm">确定</string>
     <string name="ok">确定</string>

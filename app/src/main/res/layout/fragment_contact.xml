@@ -1,14 +1,26 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.xpc.myimdemo.function.ContactFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray_default_bg"
+              android:orientation="vertical"
+              tools:context="com.xpc.myimdemo.function.friend.FriendsActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <include layout="@layout/title_layout"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textColor="@color/colorAccent"
-        android:text="这里是通讯录"/>
+        android:orientation="vertical">
 
-</FrameLayout>
+        <ListView
+            android:id="@+id/personListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="0dp"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

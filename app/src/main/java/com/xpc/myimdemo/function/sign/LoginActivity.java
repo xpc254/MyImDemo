@@ -17,7 +17,7 @@ import com.xpc.imlibrary.service.SocketConnectTask;
 import com.xpc.imlibrary.util.StatusBarCompat;
 import com.xpc.myimdemo.R;
 import com.xpc.myimdemo.base.BaseHttpActivity;
-import com.xpc.myimdemo.function.friend.FriendsActivity;
+import com.xpc.myimdemo.function.MainActivity;
 import com.xpc.myimdemo.util.JsonUtils;
 import com.xpc.myimdemo.util.MyLog;
 import com.yolanda.nohttp.rest.Response;
@@ -161,7 +161,7 @@ public class LoginActivity extends BaseHttpActivity {
             //		UserPrefs.setIsAutoLogin(true);
             //		ContactsMainFragment.isUpdate = true; //是否重获取联系人
             Intent intent = new Intent();
-            intent.setClass(mContext, FriendsActivity.class);
+            intent.setClass(mContext, MainActivity.class);
             mContext.startActivity(intent);
         }
     };

@@ -8,22 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xpc.myimdemo.R;
+import com.xpc.myimdemo.base.BaseFragment;
+
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecentChatFragment extends Fragment {
-
-
-    public RecentChatFragment() {
-        // Required empty public constructor
-    }
+public class RecentChatFragment extends BaseFragment {
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank, container, false);
+        View view = inflater.inflate(R.layout.fragment_recent_chat, container, false);
+        ButterKnife.bind(this,view);
+        initView(view);
+        return view;
     }
-
+    private void initView(View view){
+        initTitle(view,"最近联系");
+    }
 }

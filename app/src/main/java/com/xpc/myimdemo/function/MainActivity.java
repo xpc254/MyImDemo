@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 
+import com.xpc.imlibrary.util.StatusBarCompat;
 import com.xpc.myimdemo.R;
 
 import java.util.ArrayList;
@@ -26,8 +27,6 @@ public class MainActivity extends FragmentActivity {
     Button chatBtn;
     @BindView(R.id.contactBtn)
     Button contactBtn;
-    @BindView(R.id.containerLayout)
-    Fragment containerLayout;
     private List<Fragment> fragmentList = new ArrayList<>();
     private List<View> tabViewList = new ArrayList<>();
 
@@ -36,6 +35,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StatusBarCompat.compat(this,getResources().getColor(R.color.white)); //设置状态栏颜色
         ButterKnife.bind(this);
         initView();
     }
@@ -45,6 +45,7 @@ public class MainActivity extends FragmentActivity {
          fragmentList.add(new ContactFragment());
          tabViewList.add(chatBtn);
          tabViewList.add(contactBtn);
+         changeFragment(0);
      }
 
     @OnClick({R.id.chatBtn,R.id.contactBtn})
@@ -59,26 +60,21 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    private void setSelectedBar(int index){
+    private void changeFragment(int index){
+         if(currentIndex == index){
+             return;
+         }
         for (int i = 0; i < tabViewList.size(); i++) {
             if (i == index) {
-                currentIndex = i;
                 tabViewList.get(i).setSelected(true);
             } else {
                 tabViewList.get(i).setSelected(false);
             }
         }
-    }
-    private void changeFragment(int index){
-         if(currentIndex == index){
-             return;
-         }
-        setSelectedBar(index);
         FragmentTransaction transaction =   getSupportFragmentManager().beginTransaction();
         for (int i = 0; i < fragmentList.size(); i++) {
              if(fragmentList.get(i).isAdded()){
                     if(index == i){
-                        currentIndex = index;
                         transaction.show(fragmentList.get(i));
                     }else{
                         transaction.hide(fragmentList.get(i));
@@ -89,6 +85,7 @@ public class MainActivity extends FragmentActivity {
                  }
              }
          }
+        currentIndex = index;
         transaction.commit();
     }
 }

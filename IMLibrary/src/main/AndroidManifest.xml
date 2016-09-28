@@ -31,7 +31,7 @@
         <!-- 在百度推送开发者中心查询应用的API Key -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="f0Cqdsq4GQtl63iEAOjxIxfbjTtV85KE" />
+            android:value="GTltVMVrhhVElRH7cMpURs2xzl0i6jGq" />
 
     </application>
 
