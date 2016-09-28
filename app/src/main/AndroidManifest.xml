@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xpc.myimdemo">
-
-
+          package="com.xpc.myimdemo">
 
     <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> -->
     <application
@@ -14,15 +12,17 @@
         android:theme="@style/AppTheme">
         <activity android:name=".function.sign.LoginActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".function.friend.FriendsActivity"></activity>
-        <activity android:name="com.xpc.myimdemo.function.sign.RegisterActivity"></activity>
-        <activity android:name="com.xpc.myimdemo.function.sign.InfoActivity"></activity>
-        <activity android:name="com.xpc.myimdemo.function.sign.ForgotActivity"></activity>
+        <activity android:name=".function.friend.FriendsActivity"/>
+        <activity android:name=".function.sign.RegisterActivity"/>
+        <activity android:name=".function.sign.InfoActivity"/>
+        <activity android:name=".function.sign.ForgotActivity"/>
+        <activity android:name=".function.MainActivity">
+        </activity>
     </application>
 
 </manifest>

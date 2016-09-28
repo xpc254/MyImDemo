@@ -1,45 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context="com.xpc.myimdemo.function.sign.LoginActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="聊天Demo"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/titleText" />
-
-    <EditText
+    android:orientation="vertical"
+    tools:context="com.xpc.myimdemo.function.MainActivity">
+ <fragment
+     android:id="@+id/containerLayout"
+     android:layout_width="match_parent"
+     android:layout_height="0dp"
+     android:layout_weight="1"/>
+    <View style="@style/line_dividing_gray_horizontal_style"/>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/accountsEdit"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/titleText"
-        android:layout_alignParentLeft="true"
-        android:hint="请输入用户名"
-        />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/passwordEdit"
-        android:layout_margin="10dp"
-        android:inputType="textPassword"
-        android:layout_below="@+id/accountsEdit"
-        android:layout_alignParentLeft="true"
-        android:hint="请输入密码"
-        />
-    <Button
-        android:id="@+id/loginBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@+id/passwordEdit"
-        android:text="登录"/>
-</RelativeLayout>
+        android:layout_height="48dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/chatBtn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@drawable/selector_red_gray_color"
+            android:text="聊天"/>
+        <Button
+            android:id="@+id/contactBtn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:background="@color/white"
+            android:textColor="@drawable/selector_red_gray_color"
+            android:text="通讯录"/>
+    </LinearLayout>
+</LinearLayout>

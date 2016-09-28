@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.xpc.imlibrary.BaseActivity;
 import com.xpc.imlibrary.http.CallServer;
 import com.xpc.imlibrary.http.KeyValuePair;
 import com.xpc.imlibrary.http.OnHttpListener;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by xiepc on 2016/8/17 0017 上午 10:15
  */
-public class BaseHttpActivity extends BaseActivity{
+public class BaseHttpActivity extends BaseActivity {
     private Activity mActivity;
     protected static final int HTTP_WHAT_ONE = 1;
 

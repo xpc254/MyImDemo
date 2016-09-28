@@ -25,12 +25,12 @@
     <dimen name="font30">30sp</dimen>
 
     <!--多行文本输入框允许最大字符数-->
-    <item name="multiline_edittext_maxlength" type="dimen" format="integer">900</item>
+    <item name="multiline_edittext_maxlength" format="integer" type="dimen">900</item>
     <!--单行文本输入框允许最大字符数-->
-    <item name="singleline_edittext_maxlength" type="dimen" format="integer">30</item>
+    <item name="singleline_edittext_maxlength" format="integer" type="dimen">30</item>
     <!--单行数字输入框允许最大字符数-->
-    <item name="max_number_name_edittext" type="dimen" format="integer">12</item>
+    <item name="max_number_name_edittext" format="integer" type="dimen">12</item>
     <!--金额允许最大字符数-->
-    <item name="max_number_amount_edittext" type="dimen" format="integer">18</item>
+    <item name="max_number_amount_edittext" format="integer" type="dimen">18</item>
 
 </resources>
