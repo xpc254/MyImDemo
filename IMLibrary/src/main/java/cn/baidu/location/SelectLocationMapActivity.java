@@ -42,6 +42,7 @@ import com.xpc.imlibrary.http.KeyValuePair;
 import com.xpc.imlibrary.http.OnHttpListener;
 import com.xpc.imlibrary.util.JsonUtils;
 import com.xpc.imlibrary.util.MyLog;
+import com.xpc.imlibrary.util.StatusBarCompat;
 import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONException;
@@ -128,6 +129,7 @@ public class SelectLocationMapActivity extends BaseHttpActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_select);
+        StatusBarCompat.compat(this,getResources().getColor(R.color.title_bar));
         locationMapActivity = this;
         mContext = this;
         initTitle(getString(R.string.my_location));

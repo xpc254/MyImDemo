@@ -31,6 +31,7 @@ dependencies {
     compile files('libs/slf4j-api-1.6.6.jar')
     compile 'com.yanzhenjie.nohttp:nohttp-okhttp:1.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile files('libs/pinyin4j-2.5.0.jar')
     compile 'com.android.support:cardview-v7:24.2.1'

@@ -13,6 +13,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.xpc.imlibrary.BaseActivity;
 import com.xpc.imlibrary.R;
+import com.xpc.imlibrary.util.StatusBarCompat;
 
 /**
  * 显示地图
@@ -52,6 +53,7 @@ public class ShowMapActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_map);
+        StatusBarCompat.compat(this,getResources().getColor(R.color.title_bar));
         initView();
     }
 

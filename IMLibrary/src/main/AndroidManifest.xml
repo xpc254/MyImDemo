@@ -28,6 +28,7 @@
         <activity android:name=".ContactsInfoActivity"></activity>
         <activity android:name="cn.baidu.location.SelectLocationMapActivity"></activity>
         <activity android:name="cn.baidu.location.ShowMapActivity"></activity>
+        <activity android:name="com.xpc.imlibrary.photo.ShowPhotoActivity"></activity>
         <!-- 在百度推送开发者中心查询应用的API Key -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

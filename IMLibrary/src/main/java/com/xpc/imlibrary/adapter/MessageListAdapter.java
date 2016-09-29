@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xpc.imlibrary.ContactsInfoActivity;
 import com.xpc.imlibrary.R;
@@ -33,6 +32,7 @@ import com.xpc.imlibrary.model.BaseItem;
 import com.xpc.imlibrary.model.ImageItem;
 import com.xpc.imlibrary.model.RecMessageItem;
 import com.xpc.imlibrary.model.SendMessageItem;
+import com.xpc.imlibrary.photo.ShowPhotoActivity;
 import com.xpc.imlibrary.util.ChatVoicePlayer;
 import com.xpc.imlibrary.util.DateTimeUtil;
 import com.xpc.imlibrary.util.DialogFactory;
@@ -48,6 +48,7 @@ import com.xpc.imlibrary.util.StringUtil;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,6 +63,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import cn.baidu.location.ShowMapActivity;
 
 /**
  * 聊天信息adapter
@@ -307,7 +310,7 @@ public class MessageListAdapter extends BaseAdapter {
                     final AnimationDrawable rotateAnimator = (AnimationDrawable) temp.getBackground();
                     String url = ImageUtil.photoSizeUrl(StringUtil.getChatPhotoSizeUrl(msgItem.getContent()), ImageCompressionSize.PHOTO_THREE);
                     if (msgItem.getDirection() == SendMessageItem.SEND_MSG) { // 发送
-                        ImageLoader.loadImg(context, url, holder.msgImg, R.drawable.ic_loading_default, R.drawable.ic_loading_fail);
+                        ImageLoader.loadImg(url, holder.msgImg, R.drawable.ic_loading_default, R.drawable.ic_loading_fail);
                         if (msgItem.getStatus() == SendMessageItem.STATUS_SENDING) {
                             temp.setVisibility(View.VISIBLE);
                             rotateAnimator.start();
@@ -318,7 +321,7 @@ public class MessageListAdapter extends BaseAdapter {
 
                     } else { // 左边
                         holder.msgImg.setImageResource(R.drawable.ic_loading_default);
-                        ImageLoader.loadImg(context, url, holder.msgImg, new ImageLoader.ImageLoadCallBack() {
+                        ImageLoader.loadImg(url, holder.msgImg, new ImageLoader.ImageLoadCallBack() {
                             @Override
                             public void onStart() {
                                 temp.setVisibility(View.VISIBLE);
@@ -508,7 +511,7 @@ public class MessageListAdapter extends BaseAdapter {
             }
         });
         if (msgItem.getDirection() == 0) {
-            ImageLoader.loadImg(context,ImageUtil.photoSizeUrl(UserPrefs.getHeadImage(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_default_avatar);
+            ImageLoader.loadImg(ImageUtil.photoSizeUrl(UserPrefs.getHeadImage(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_default_avatar);
             AnimationDrawable animator = (AnimationDrawable) holder.sendProgressImg.getBackground();
             boolean isImage = msgItem.getMsgType() == SendMessageItem.TYPE_IMAGE;
             boolean isLocation = msgItem.getMsgType() == SendMessageItem.TYPE_LOCATION;
@@ -532,9 +535,9 @@ public class MessageListAdapter extends BaseAdapter {
 
         } else {
             if (msgItem.getMsgType() == SendMessageItem.TYPE_PROGRESS || msgItem.getMsgType() == SendMessageItem.TYPE_EARLYWARNING) {
-                ImageLoader.loadImg(context,ImageUtil.photoSizeUrl(msgItem.getSendUserAvatar(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_system_avatar);
+                ImageLoader.loadImg(ImageUtil.photoSizeUrl(msgItem.getSendUserAvatar(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_system_avatar);
             } else {
-                ImageLoader.loadImg(context,ImageUtil.photoSizeUrl(msgItem.getSendUserAvatar(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_default_avatar);
+                ImageLoader.loadImg(ImageUtil.photoSizeUrl(msgItem.getSendUserAvatar(), ImageCompressionSize.PHOTO_ONE), holder.avatarImg, R.drawable.ic_default_avatar);
             }
         }
 
@@ -868,25 +871,25 @@ public class MessageListAdapter extends BaseAdapter {
                     ditem.setImgURL(StringUtil.getChatPhotoSizeUrl(recItem.getContent()));
                 }
                 mList.add(ditem);
-                Toast.makeText(context,"查看大图",Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent();
-//                intent.setClass(context, ShowPhotoActivity.class);
-//                intent.putExtra("photoList", (Serializable) mList);
-//                intent.putExtra("returnName", titleName);
-//                intent.putExtra("currentItem", 0);
-//                context.startActivity(intent);
+           //     Toast.makeText(context,"查看大图",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(context, ShowPhotoActivity.class);
+                intent.putExtra("photoList", (Serializable) mList);
+                intent.putExtra("returnName", titleName);
+                intent.putExtra("currentItem", 0);
+                context.startActivity(intent);
             } else if (recItem.getMsgType() == SendMessageItem.TYPE_LOCATION) {
                 String param = recItem.getParam();
                 try {
                     JSONObject locationObj = new JSONObject(param);
                     if (locationObj != null) {
-//                        Intent mapIntent = new Intent();
-//                        mapIntent.setClass(context, ShowMapActivity.class);
-//                        mapIntent.putExtra("lon", locationObj.optDouble("lon"));
-//                        mapIntent.putExtra("lat", locationObj.optDouble("lat"));
-//                        mapIntent.putExtra("returnName", titleName);
-//                        context.startActivity(mapIntent);
-                        Toast.makeText(context,"查看大图",Toast.LENGTH_SHORT).show();
+                        Intent mapIntent = new Intent();
+                        mapIntent.setClass(context, ShowMapActivity.class);
+                        mapIntent.putExtra("lon", locationObj.optDouble("lon"));
+                        mapIntent.putExtra("lat", locationObj.optDouble("lat"));
+                        mapIntent.putExtra("returnName", titleName);
+                        context.startActivity(mapIntent);
+                     //   Toast.makeText(context,"查看大图",Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

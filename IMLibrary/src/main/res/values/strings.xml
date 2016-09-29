@@ -71,4 +71,10 @@
     <string name="resend_fail_msg">消息发送失败，重新发送该条消息?</string>
     <string name="title_alert">提示信息</string>
     <string name="select_operation">选择操作</string>
+
+    <!-- 图片操作 -->
+    <string-array name="pictrue_operation">
+        <item>保存</item>
+        <item>识别图中二维码</item>
+    </string-array>
 </resources>

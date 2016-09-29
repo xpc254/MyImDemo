@@ -58,7 +58,7 @@ public class PersonListAdapter extends BaseAdapter{
          }
         holder.nameText.setText(item.getName());
         if(!StringUtil.isEmpty(item.getHeadImage())){
-            ImageLoader.loadImg(context,item.getHeadImage(),holder.headImg,R.drawable.ic_phone_contacts);
+            ImageLoader.loadImg(item.getHeadImage(),holder.headImg,R.drawable.ic_phone_contacts);
         }else{
             holder.headImg.setImageResource(R.drawable.ic_phone_contacts);
         }

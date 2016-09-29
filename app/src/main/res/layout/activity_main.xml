@@ -21,16 +21,34 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/chatBtn"
+        <RelativeLayout
+            android:id="@+id/msgRtLayout"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:background="@color/white"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/chatText"
+            android:layout_width="wrap_content"
+            android:background="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:textSize="16sp"
             android:textColor="@drawable/selector_red_gray_color"
-            android:text="聊天"/>
+            android:text="消息"/>
+        <TextView
+            android:id="@+id/unReadText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font10"
+            android:layout_toRightOf="@+id/chatText"
+            android:layout_above="@+id/chatText"
+            android:layout_marginBottom="-10dp"
+            android:background="@drawable/bg_no_read_num"
+            />
+        </RelativeLayout>
         <Button
             android:id="@+id/contactBtn"
             android:layout_width="0dp"

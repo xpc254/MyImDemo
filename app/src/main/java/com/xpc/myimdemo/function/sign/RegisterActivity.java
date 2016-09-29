@@ -1,6 +1,5 @@
 package com.xpc.myimdemo.function.sign;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -86,15 +85,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 break;
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     private void showSnackBar(String content) {
