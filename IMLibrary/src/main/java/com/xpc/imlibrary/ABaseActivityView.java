@@ -65,6 +65,7 @@ public abstract class ABaseActivityView<P extends HttpPresenter> extends BaseAct
 
     private void hideProgressBar(){
         if(mWaitDialog != null && mWaitDialog.isShowing()){
+            mWaitDialog.setMessage(getResources().getString(R.string.wait_dialog_title));
             mWaitDialog.dismiss();
         }
     }

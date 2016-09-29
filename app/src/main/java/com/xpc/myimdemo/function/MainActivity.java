@@ -103,7 +103,7 @@ public class MainActivity extends FragmentActivity {
         currentIndex = index;
         transaction.commit();
     }
-
+ /**设置未读消息条数*/
    public void setUnReadMsgNum(int num){
        if (num > 0) {
            unReadText.setVisibility(View.VISIBLE);

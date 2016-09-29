@@ -49,6 +49,9 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
     private String sendId;
     private String sendName;
     private String headUrl;
+    protected static final int HTTP_WHAT_ONE = 101;
+    protected static final int HTTP_WHAT_TWO = 102;
+    protected static final int HTTP_WHAT_THREE = 103;
 
 
 
@@ -183,7 +186,7 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
                             albumItem.setBitmap(bitmap);
                             albumItem.setPhotoName(ImageUtil.getPhotoName());
                             albumItem.setImgURL(photoUrl);
-                            ((MessagePresenter) presenter).uploadPhoto(albumItem);
+                            ((MessagePresenter) presenter).uploadPhoto(HTTP_WHAT_TWO,albumItem);
                             try {
                                 bitmap.recycle();
                             } catch (Exception e) {
@@ -203,7 +206,7 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
                     photoGraphItem.setPhotoName(ImageUtil.getPhotoName());
                     photoGraphItem.setImgURL(photoUrl);
                     // uploadPhoto(photoGraphItem);
-                    ((MessagePresenter) presenter).uploadPhoto(photoGraphItem);
+                    ((MessagePresenter) presenter).uploadPhoto(HTTP_WHAT_TWO,photoGraphItem);
                     try {
                         bitmap.recycle();
                     } catch (Exception e) {
@@ -216,14 +219,13 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
                     if (data != null) {
                         LocationMapItem locationItem = (LocationMapItem) data.getSerializableExtra("mapItem");
                        JSONObject locationObj = new JSONObject();
-
                         locationObj.put("lon", locationItem.getLongitude());
                         locationObj.put("lat", locationItem.getLatitude());
                         ((MessagePresenter) presenter).setLocationObj(locationObj); //传给中间者，发送消息过去
                         ImageItem photoGraphItem = new ImageItem();
                         photoGraphItem.setBitmap(SavePicture.mBitmap);
                         photoGraphItem.setPhotoName(ImageUtil.getPhotoName());
-                        ((MessagePresenter) presenter).uploadPhoto(photoGraphItem);
+                        ((MessagePresenter) presenter).uploadPhoto(HTTP_WHAT_THREE,photoGraphItem);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

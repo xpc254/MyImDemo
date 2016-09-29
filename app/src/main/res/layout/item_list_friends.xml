@@ -7,9 +7,9 @@
         android:id="@+id/contentCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="3dp"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="3dp"
         app:contentPadding="5dp">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/headImg"

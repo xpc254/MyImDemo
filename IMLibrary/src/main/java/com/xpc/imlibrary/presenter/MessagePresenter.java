@@ -221,7 +221,12 @@ public class MessagePresenter extends HttpPresenter {
      *
      * @param imgItem 图片item
      */
-    public void uploadPhoto(ImageItem imgItem) {
+    public void uploadPhoto(int what,ImageItem imgItem) {
+        if(what == HTTP_WHAT_TWO){
+            ((ABaseActivityView) mContext).initProgressbar("图片处理中...");
+        }else{
+            ((ABaseActivityView) mContext).initProgressbar("位置处理中...");
+        }
         if (SavePicture.imgList == null) {
             SavePicture.imgList = new ArrayList<ImageItem>();
         }
@@ -235,7 +240,7 @@ public class MessagePresenter extends HttpPresenter {
             paramObject.put("operateType", "fileUploadImageSize");
             paramObject.put("token", UserPrefs.getToken());
             params.add(new KeyValuePair("data", StringUtil.getEncryptedData(paramObject.toString())));
-            httpPostAsync(HTTP_WHAT_TWO, ActionConfigs.FILE_UPLOAD_URL, params, true);
+            httpPostAsync(what, ActionConfigs.FILE_UPLOAD_URL, params, true);
         } catch (JSONException e) {
             e.printStackTrace();
         }
