@@ -742,7 +742,7 @@ public class RecMessageItem implements Parcelable, Comparable<RecMessageItem> {
 	 * @param item
 	 * @return
 	 */
-	public JSONObject changetoObj(Context context,RecMessageItem item) {
+	public JSONObject changetoObj(RecMessageItem item) {
 		JSONObject obj = new JSONObject();
 		try {
 			obj.put("iD", item.getMsgId());

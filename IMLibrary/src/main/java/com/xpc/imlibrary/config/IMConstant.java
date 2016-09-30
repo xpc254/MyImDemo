@@ -44,4 +44,6 @@ public class IMConstant {
     public static final String CONTACT_SELECT_PEOPLE = "contact_select_people";
     /** 帐号在其他设备登录 */
     public static final String OTHER_EQUIPMENT_ACCOUNT_LOGIN_ACTIVITY = "other_equipment_account_login_action";
+    /**新消息过的通知栏点击广播*/
+    public static final String ACTION_NEW_MSG_NOTIFICTION = "action_new_msg_notification";
 }

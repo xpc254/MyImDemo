@@ -23,6 +23,7 @@ import com.xpc.imlibrary.model.SendMessageItem;
 import com.xpc.myimdemo.R;
 import com.xpc.myimdemo.adapter.RecentChatAdatper;
 import com.xpc.myimdemo.base.BaseFragment;
+import com.xpc.myimdemo.util.MyLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,6 @@ public class RecentChatFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MessageHistoryItem bean = recentChats.get(position);
-            //    String param = bean.getParam();
                 switch (bean.getMsgScene()) {
                     case SendMessageItem.CHAT_SINGLE:// 单聊
                         ChatActivity.startChatActivity(mActivity, bean.getSendId(), bean.getSendNickName(), bean.getSendUserAvatar());
@@ -113,14 +113,7 @@ public class RecentChatFragment extends BaseFragment {
      * 获取最近消息
      */
     private void getRecentNews() {
-//        long temp = System.currentTimeMillis();
-//        long interval = temp - lastTimeGetData;
-//        if (interval < 400) {// 防止频繁获取数据
-//            inviteList.onRefreshComplete();
-//        } else {
-//            lastTimeGetData = temp;
-//
-//        }
+        MyLog.i("---getRecentNews()---");
         new getDataTask().execute();
     }
     /**
@@ -131,27 +124,12 @@ public class RecentChatFragment extends BaseFragment {
         @Override
         protected String doInBackground(Integer... params) {
             synchronized (mActivity) {
-                if (recentChats == null) {
-                    recentChats = new ArrayList<MessageHistoryItem>();
-                }
                 if (recentChats.size() > 0) {
                     recentChats.clear();
                 }
                 recentChats.addAll(MessageManager.getInstance(mActivity).getChatRecentContactsWithLastMsg(userId, mActivity));
-//                if (waitDoItem != null) {
-//                    recentChats.add(0, waitDoItem);
-//                }
-//                List<MessageHistoryItem> emergencyList = MessageManager.getInstance(mActivity).getOperateNewWithLastMsg(mActivity, userId, SendMessageItem.CHAT_URGENT_TASK);
-//                emergencyNums = 0;
-//                for (MessageHistoryItem item : emergencyList) {
-//                    Integer integer = item.getMsgUnReadSum();
-//                    if (integer != null && integer > 0) {
-//                        emergencyNums++;
-//                    }
-//                }
                 return null;
             }
-
         }
 
         @Override
@@ -161,9 +139,8 @@ public class RecentChatFragment extends BaseFragment {
                 sum = sum + temp.getMsgUnReadSum();
             }
             ((MainActivity) getActivity()).setUnReadMsgNum(sum);
-         //   setEmergencyTaskNums();
             adatper.setNoticeList(recentChats);
-           // inviteList.onRefreshComplete();
+            //adatper.notifyDataSetChanged();
         }
     }
 }

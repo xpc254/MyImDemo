@@ -820,7 +820,7 @@ public class MessageListAdapter extends BaseAdapter {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 if (mResendMsgIfc != null) {
-                    mResendMsgIfc.resendMsg(item, position);
+                    mResendMsgIfc.resendMsg(item);
                 }
             }
         }, context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -843,7 +843,7 @@ public class MessageListAdapter extends BaseAdapter {
          *
          * @param item
          */
-        void resendMsg(RecMessageItem item, int position);
+        void resendMsg(RecMessageItem item);
     }
 
     public interface SaveImageIfc {

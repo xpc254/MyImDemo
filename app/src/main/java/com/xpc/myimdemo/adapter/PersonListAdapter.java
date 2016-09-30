@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.xpc.imlibrary.util.ImageLoader;
-import com.xpc.imlibrary.util.StringUtil;
 import com.xpc.myimdemo.R;
 import com.xpc.myimdemo.model.PersonItem;
 
@@ -57,11 +56,7 @@ public class PersonListAdapter extends BaseAdapter{
             convertView.setTag(holder);
          }
         holder.nameText.setText(item.getName());
-        if(!StringUtil.isEmpty(item.getHeadImage())){
-            ImageLoader.loadImg(item.getHeadImage(),holder.headImg,R.drawable.ic_phone_contacts);
-        }else{
-            holder.headImg.setImageResource(R.drawable.ic_phone_contacts);
-        }
+        ImageLoader.loadImg(item.getHeadImage(),holder.headImg,R.drawable.ic_phone_contacts);
         return convertView;
     }
 

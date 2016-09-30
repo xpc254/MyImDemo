@@ -145,7 +145,7 @@ public class StringUtil {
 		ActivityManager mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 		List<RunningTaskInfo> rti = mActivityManager.getRunningTasks(1);
 		String className = rti.get(0).topActivity.getClassName();
-		if ("com.hhxh.make.im.chat.ui.ChatActivity".equals(className)) {
+		if ("com.xpc.imlibrary.ChatActivity".equals(className)) {
 			return true;
 		} else {
 			return false;

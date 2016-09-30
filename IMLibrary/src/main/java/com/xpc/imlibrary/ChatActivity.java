@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.xpc.imlibrary.adapter.MessageListAdapter;
 import com.xpc.imlibrary.config.IMConstant;
 import com.xpc.imlibrary.data.SavePicture;
 import com.xpc.imlibrary.imp.MenuOperateListener;
@@ -30,8 +31,12 @@ import org.json.JSONObject;
 
 import cn.baidu.location.SelectLocationMapActivity;
 import cn.baidu.model.LocationMapItem;
-
-public class ChatActivity extends AChatActivity implements MenuOperateListener {
+/**
+ *
+ * @author xiepc
+ * @date 2016/8/19 0030 下午 4:03
+ */
+public class ChatActivity extends AChatActivity implements MenuOperateListener,MessageListAdapter.ResendMsgIfc {
     //录音保存地址
     public static String RECORD_ROOT_PATH = Environment.getExternalStorageDirectory().getPath() + IMConstant.HHXH_RECORD;
     //相册
@@ -49,6 +54,7 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
     private String sendId;
     private String sendName;
     private String headUrl;
+    /**网络请求标志*/
     protected static final int HTTP_WHAT_ONE = 101;
     protected static final int HTTP_WHAT_TWO = 102;
     protected static final int HTTP_WHAT_THREE = 103;
@@ -90,6 +96,7 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
                 }, 3000);
             }
         });
+        messageListView.setResendMsgListener(this); //设置重发点击监听
     }
 
     @Override
@@ -124,6 +131,11 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
 //        }
     }
 
+    @Override  //重发消息
+    public void resendMsg(RecMessageItem item) {
+        ((MessagePresenter) presenter).resendMessage(item);
+    }
+
     @Override //录音结果返回
     public void onResultRecordVoice(String audioPath, int time) {
         ((MessagePresenter) presenter).processRecordVoice(audioPath, time);
@@ -154,6 +166,11 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
         startActivityForResult(functionIntent, FUNCTION_LOCATION);
     }
 
+    @Override
+    public void onLoadData(int what, Object obj) {
+        //网络请求数据返回
+    }
+
     /**
      * 供外部界面方便传值调用
      */
@@ -163,11 +180,6 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
         chatIntent.putExtra("sendName", name);
         chatIntent.putExtra("sendUrl", headUrl);
         context.startActivity(chatIntent);
-    }
-
-    @Override
-    public void onLoadData(int what, Object obj) {
-        //网络请求数据返回
     }
 
     @Override
@@ -233,4 +245,5 @@ public class ChatActivity extends AChatActivity implements MenuOperateListener {
                 break;
         }
     }
+
 }

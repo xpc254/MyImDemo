@@ -6,8 +6,8 @@ import android.content.Context;
 import com.xpc.imlibrary.ABaseActivityView;
 import com.xpc.imlibrary.ChatActivity;
 import com.xpc.imlibrary.config.ActionConfigs;
-import com.xpc.imlibrary.data.UserPrefs;
 import com.xpc.imlibrary.data.SavePicture;
+import com.xpc.imlibrary.data.UserPrefs;
 import com.xpc.imlibrary.http.KeyValuePair;
 import com.xpc.imlibrary.imp.ConnectionListener;
 import com.xpc.imlibrary.imp.HttpPresenter;
@@ -163,6 +163,25 @@ public class MessagePresenter extends HttpPresenter {
             }
         } catch (Exception e) {
             MyLog.i("发送失败：" + e.getMessage());
+        }
+    }
+    /**重发消息*/
+    public void resendMessage(final RecMessageItem recItem) {
+        try {
+            recItem.setSendNickName(sendName);
+            recItem.setSendUserAvatar(sendUrl);
+            MyLog.i("重发信息：" + recItem.changetoObj(recItem).toString());
+            MyLog.i("------------：" + SocketConnectionManager.getIoSession());
+            if (SocketConnectionManager.getIoSession() == null || SocketConnectionManager.getIoSession().isClosing()) {// 连接断开时则消息为发送失败状态
+                // 连接即时通讯
+                SocketConnectTask connectTask = new SocketConnectTask(new ConnectionListener(mContext));
+                connectTask.execute();
+            } else {
+                // 发送消息到服务器端
+                SocketConnectionManager.getIoSession().write( recItem.changetoObj(recItem).toString());
+            }
+        } catch (Exception e) {
+            MyLog.i("重发失败：" + e.getMessage());
         }
     }
 

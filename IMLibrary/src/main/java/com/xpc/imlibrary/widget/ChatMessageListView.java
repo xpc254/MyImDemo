@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 
 import com.xpc.imlibrary.R;
 import com.xpc.imlibrary.adapter.MessageListAdapter;
-import com.xpc.imlibrary.imp.MenuOperateListener;
 import com.xpc.imlibrary.model.RecMessageItem;
 
 import java.util.List;
@@ -24,7 +23,6 @@ public class ChatMessageListView extends RelativeLayout {
     private SwipeRefreshLayout swipeRefreshLayout;
     protected MessageListAdapter messageAdapter;
     private ListView listView;
-    private MenuOperateListener listener;
     public ChatMessageListView(Context context) {
         super(context);
         init(context);
@@ -50,7 +48,6 @@ public class ChatMessageListView extends RelativeLayout {
     }
 
     public void initWidget(String name){
-        this.listener = listener;
         messageAdapter = new MessageListAdapter(context,name);
         listView.setAdapter(messageAdapter);
     }
@@ -105,5 +102,9 @@ public class ChatMessageListView extends RelativeLayout {
                 }
             });
         }
+    }
+    /**设置重发消息点击回调*/
+    public void setResendMsgListener(MessageListAdapter.ResendMsgIfc mResendMsgIfc){
+        messageAdapter.setmResendMsgIfc(mResendMsgIfc);
     }
 }

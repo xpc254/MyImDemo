@@ -73,6 +73,7 @@ public abstract class AChatActivity extends ABaseActivityView {
         IntentFilter filter = new IntentFilter();
         filter.addAction(IMConstant.NEW_MESSAGE_ACTION);
         filter.addAction(IMConstant.IM_MESSAGE_SEND_SUCCESS_ACTION);
+        filter.addAction(IMConstant.ACTION_NEW_MSG_NOTIFICTION);
         registerReceiver(receiver, filter);
     }
 //    @Override
@@ -90,7 +91,7 @@ public abstract class AChatActivity extends ABaseActivityView {
     /**
      * 接收消息，刷新视图
      */
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
+    private  BroadcastReceiver receiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -111,7 +112,9 @@ public abstract class AChatActivity extends ABaseActivityView {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
+            }else if (IMConstant.ACTION_NEW_MSG_NOTIFICTION.equals(action)){
+                     MyLog.i("-------点击通知栏广播接收------");
+           }
         }
     };
 

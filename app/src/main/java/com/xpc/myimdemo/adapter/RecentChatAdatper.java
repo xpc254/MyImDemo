@@ -31,19 +31,20 @@ import butterknife.ButterKnife;
 
 public class RecentChatAdatper extends BaseAdapter {
     private LayoutInflater inflater;
-    private List<MessageHistoryItem> recentChats = new ArrayList<MessageHistoryItem>();
+    private List<MessageHistoryItem> recentChats = new ArrayList<>();
     private Context context;
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateTimeUtil.FORMAT, Locale.US);
-    private static PrettyDateFormat prettyDateFormat;
+   private  PrettyDateFormat prettyDateFormat;
 
     public RecentChatAdatper(Context context) {
         inflater = LayoutInflater.from(context);
+        prettyDateFormat = new PrettyDateFormat( "# HH:mm", context.getString(R.string.message_date_type),context);
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return recentChats == null ? 0 : recentChats.size();
+        return recentChats.size();
     }
 
     @Override
@@ -129,20 +130,17 @@ public class RecentChatAdatper extends BaseAdapter {
             holder.chatContentText.setText(PhizHelper.convertNormalStringToSpannableString(context, msgItem.getContent(), holder.chatContentText.getTextSize()));
         }
         ImageLoader.loadImg(msgItem.getSendUserAvatar(), holder.chatAvatarImage, R.drawable.ic_default_avatar);
+
     }
 
+    /**这里把前一个list添加到recentChats里面，是防止异步对同一个list操作产生的数据问题*/
     public void setNoticeList(List<MessageHistoryItem> inviteUsers) {
-        clearNoticeList();
+        if (recentChats != null) {
+            recentChats.clear();
+        }
         if (inviteUsers != null) {
             this.recentChats.addAll(inviteUsers);
             notifyDataSetChanged();
-        }
-    }
-
-    public void clearNoticeList() {
-        if (recentChats != null) {
-            recentChats.clear();
-            // notifyDataSetChanged();
         }
     }
 }

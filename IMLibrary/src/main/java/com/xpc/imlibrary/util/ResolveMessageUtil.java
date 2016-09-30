@@ -1,14 +1,19 @@
 package com.xpc.imlibrary.util;
 
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.support.v7.app.NotificationCompat;
 
 import com.xpc.imlibrary.ChatActivity;
 import com.xpc.imlibrary.R;
+import com.xpc.imlibrary.config.ContextManager;
 import com.xpc.imlibrary.config.IMConstant;
 import com.xpc.imlibrary.data.UserPrefs;
 import com.xpc.imlibrary.manager.MessageManager;
@@ -20,6 +25,8 @@ import com.xpc.imlibrary.model.RecMessageItem;
 import com.xpc.imlibrary.model.SendMessageItem;
 
 import org.json.JSONObject;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 
 /**
@@ -33,6 +40,7 @@ public class ResolveMessageUtil {
      * 接收消息通知
      */
     public static NotificationManager notificationManager;
+
 
     /**
      * 解析接收到的消息
@@ -180,7 +188,7 @@ public class ResolveMessageUtil {
      * @param contentText  你内容
      */
     private static void setNotiType(Context context, int iconId, String contentTitle, String contentText, RecMessageItem item) {
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         try {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(context, notification);
@@ -190,29 +198,66 @@ public class ResolveMessageUtil {
         }
         if (StringUtil.isActivityStatcTop(context)) {
         } else {
-            // Intent notifyIntent = null;
-            // notifyIntent = new Intent(MyApplication.getInstance(),
-            // MainActivity.class);
-            // // 创建PendingIntent作为设置递延运行的Activity
-            // PendingIntent appIntent = PendingIntent.getActivity(
-            // MyApplication.getInstance(), 0, notifyIntent, 0);
-            // /* 创建Notication，并设置相关参数 */
-            // Notification myNoti = new Notification();
-            // // 点击自动消失
-            // myNoti.flags = Notification.FLAG_AUTO_CANCEL;
-            // /* 设置statusbar显示的icon */
-            // myNoti.icon = iconId;
-            // /* 设置statusbar显示的文字信息 */
-            // myNoti.tickerText = contentTitle;
-            // /* 设置notification发生时同时发出默认声音 */
-            // myNoti.defaults = Notification.DEFAULT_SOUND;
-            // myNoti.number++;
-            // /* 设置Notification留言条的参数 */
-            // myNoti.setLatestEventInfo(MyApplication.getInstance(),
-            // contentTitle, contentText, appIntent);
-            // /* 送出Notification */
-            // notificationManager.notify(0, myNoti);
+            showTopNotification(iconId,contentTitle,contentText,item);
         }
     }
 
+
+    private static void showTopNotification(int iconId, String contentTitle, String contentText, RecMessageItem item){
+//        Intent notifyIntent = null;
+//        notifyIntent = new Intent(ContextManager.getInstance().getContext(),MainActivity.class);
+//        // 创建PendingIntent作为设置递延运行的Activity
+//        PendingIntent appIntent = PendingIntent.getActivity(ContextManager.getInstance().getContext(), 0, notifyIntent, 0);
+//             /* 创建Notication，并设置相关参数 */
+//        Notification myNoti = new Notification();
+//        // 点击自动消失
+//        myNoti.flags = Notification.FLAG_AUTO_CANCEL;
+//             /* 设置statusbar显示的icon */
+//        myNoti.icon = iconId;
+//             /* 设置statusbar显示的文字信息 */
+//        myNoti.tickerText = contentTitle;
+//             /* 设置notification发生时同时发出默认声音 */
+//        myNoti.defaults = Notification.DEFAULT_SOUND;
+//        myNoti.number++;
+//             /* 设置Notification留言条的参数 */
+////        myNoti.setLatestEventInfo(ContextManager.getInstance().getContext(),
+////                contentTitle, contentText, appIntent);
+//        //myNoti.
+//             /* 送出Notification */
+//        notificationManager.notify(0, myNoti);
+
+        Context context = ContextManager.getInstance().getContext();
+        NotificationManager manger = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        //为了版本兼容  选择V7包下的NotificationCompat进行构造
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        //Ticker是状态栏显示的提示
+        builder.setTicker("简单Notification");
+        //第一行内容  通常作为通知栏标题
+        builder.setContentTitle(contentTitle);
+        //第二行内容 通常是通知正文
+        builder.setContentText(contentText);
+        //第三行内容 通常是内容摘要什么的 在低版本机器上不一定显示
+        builder.setSubText("这里显示的是通知第三行内容！");
+        //ContentInfo 在通知的右侧 时间的下面 用来展示一些其他信息
+        //builder.setContentInfo("2");
+        //number设计用来显示同种通知的数量和ContentInfo的位置一样，如果设置了ContentInfo则number会被隐藏
+        builder.setNumber(2);
+        //可以点击通知栏的删除按钮删除
+        builder.setAutoCancel(true);
+        //系统状态栏显示的小图标
+        builder.setSmallIcon(iconId);
+        //下拉显示的大图标
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_launcher));
+//        Intent intent = new Intent(context,ContactsInfoActivity.class);
+//        PendingIntent pIntent = PendingIntent.getActivity(context,1,intent,0);
+        Intent intent = new Intent(IMConstant.ACTION_NEW_MSG_NOTIFICTION);
+        PendingIntent pIntent = PendingIntent.getBroadcast(context,0,intent,PendingIntent.FLAG_ONE_SHOT);
+        //点击跳转的intent
+        builder.setContentIntent(pIntent);
+
+//        //通知默认的声音 震动 呼吸灯
+//        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        Notification notification = builder.build();
+        manger.notify(1,notification);
+    }
 }

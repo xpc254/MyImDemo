@@ -32,11 +32,10 @@ public class ImageLoader {
      * @param defaultResourceId 默认图片资源id
      */
     public static void loadImg(String url, ImageView imageView, int defaultResourceId) {
-        if (!StringUtil.isEmpty(url)) {
-            Picasso.with(ContextManager.getInstance().getContext()).load(url).placeholder(defaultResourceId).error(defaultResourceId).into(imageView);
-        } else {
-            imageView.setImageResource(defaultResourceId);
+        if (StringUtil.isEmpty(url)) {
+            url = "url"; //picasso没有做非空判断，判断如果为空，就随便给它一字符串，它将会加载出错的图片。
         }
+        Picasso.with(ContextManager.getInstance().getContext()).load(url).placeholder(defaultResourceId).error(defaultResourceId).into(imageView);
     }
     /**
      * 加载图片类
@@ -47,11 +46,10 @@ public class ImageLoader {
      * @param errorResourceId   加载失败图片资源id
      */
     public static void loadImg(String url, ImageView imageView, int loadingResourceId, int errorResourceId) {
-        if (!StringUtil.isEmpty(url)) {
-            Picasso.with(ContextManager.getInstance().getContext()).load(url).placeholder(loadingResourceId).error(errorResourceId).into(imageView);
-        } else {
-            imageView.setImageResource(errorResourceId);
+        if (StringUtil.isEmpty(url)) {
+            url = "url";
         }
+        Picasso.with(ContextManager.getInstance().getContext()).load(url).placeholder(loadingResourceId).error(errorResourceId).into(imageView);
     }
 
     /**
@@ -62,8 +60,7 @@ public class ImageLoader {
     public static void loadImg(String url, ImageView imageView, final ImageLoadCallBack callBack) {
         callBack.onStart();
         if (StringUtil.isEmpty(url)) {
-            callBack.onError();
-            return;
+            url = "url";
         }
         Picasso.with(ContextManager.getInstance().getContext()).load(url).into(imageView, new Callback() {
             @Override
