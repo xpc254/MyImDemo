@@ -73,7 +73,6 @@ public abstract class AChatActivity extends ABaseActivityView {
         IntentFilter filter = new IntentFilter();
         filter.addAction(IMConstant.NEW_MESSAGE_ACTION);
         filter.addAction(IMConstant.IM_MESSAGE_SEND_SUCCESS_ACTION);
-        filter.addAction(IMConstant.ACTION_NEW_MSG_NOTIFICTION);
         registerReceiver(receiver, filter);
     }
 //    @Override

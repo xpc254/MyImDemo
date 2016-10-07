@@ -107,8 +107,7 @@ public class LoginActivity extends BaseHttpActivity {
                         if (JsonUtils.isExistObj(loginObject, "msg")) {
                             if (loginObject.optString("msg").equals( "success")) {// 登录成功
                             } else {
-                                showSnackBar(loginObject.optString("reason"));
-                                loginFail();
+                                loginFail(loginObject.optString("reason"));
                             }
                         } else {
                             UserPrefs.setUserAccount(userAccount);
@@ -119,10 +118,9 @@ public class LoginActivity extends BaseHttpActivity {
                         }
                     } else {
                         showSnackBar(loginObject.optString("reason"));
-                        loginFail();
                     }
                 } else {
-                    loginFail();
+                    loginFail(loginObject.optString("reason"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -134,8 +132,8 @@ public class LoginActivity extends BaseHttpActivity {
         }
     };
 
-    private void  loginFail(){
-        showSnackBar("登录失败");
+    private void  loginFail(String reason){
+        showSnackBar("登录失败:"+reason);
     }
     @Override
     protected void onDestroy() {
@@ -149,7 +147,7 @@ public class LoginActivity extends BaseHttpActivity {
         @Override
         public void onConnectFailed() {
             MyLog.i("---连接失败---");
-             loginFail();
+             loginFail("连接失败");
         }
 
         @Override
